@@ -69,4 +69,4 @@ It provides a platform where users can report corruption issues to the authoriti
 
 [Github Pages](https://lawrencechege.github.io/iReporter/)
 
-*"If you know, You know"*
+*"A beautiful shell of a woman is all that is left of her"*
