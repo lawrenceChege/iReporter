@@ -29,18 +29,14 @@
     </nav>
     <setion class="container">
         <div class="index-image">
-            <img srcset="corruption-320w.jpg 320w,
-                     corruption-480w.jpg 480w,
-                     corruption-768.jpg 800w,
-                     corruption-992.jpg 992w,
-                     corruption-1200.jpg 1200w"
-                sizes="(max-width: 320px) 280px,
-                    (max-width: 480px) 440px,
-                    (max-width: 992px) 992px,
-                    (max-width: 1200px) 1200px,
-                    800px" 
-                src="corruption.jpg"
-                alt="Elva dressed as a fairy">
+            <picture>
+                <source media="(max-width: 320px)" srcset="/UI/images/ending-corruption.jpg">
+                <source media="(max-width: 480px)" srcset="/UI/images/ending-corruption.jpg">
+                <source media="(max-width: 799px)" srcset="/UI/images/corruption-768.jpg">
+                <source media="(max-width: 992px)" srcset="/UI/images/corruption-992.jpg">
+                <source media="(max-width: 1200px)" srcset="/UI/images/corruption-1200.jpg">
+                <img src="/UI/images/corruption.jpg" alt="say no to corruption">
+              </picture>
         </div>
         <div class="index-text">
             <h1> Welcome To iReporter </h1>
