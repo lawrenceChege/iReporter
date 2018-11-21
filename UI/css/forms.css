@@ -1,7 +1,7 @@
 .auth-form {
     background-color: #FFFFFF;
     width: 400px;
-    height: 400px;
+    height: 420px;
     margin: 7em auto;
     border-radius: 1.5em;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
@@ -15,56 +15,22 @@
     font-size: 23px;
 }
 
-.username {
-    width: 76%;
-    color: rgb(38, 50, 56);
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 1px;
-    background: rgba(136, 126, 126, 0.04);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    outline: none;
-    box-sizing: border-box;
-    border: 2px solid rgba(0, 0, 0, 0.02);
-    margin-bottom: 50px;
-    margin-left: 46px;
-    text-align: center;
-    margin-bottom: 27px;
-    font-family: 'Ubuntu', sans-serif;
-}
-.email {
-    width: 76%;
-    color: rgb(38, 50, 56);
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 1px;
-    background: rgba(136, 126, 126, 0.04);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    outline: none;
-    box-sizing: border-box;
-    border: 2px solid rgba(0, 0, 0, 0.02);
-    margin-bottom: 50px;
-    margin-left: 46px;
-    text-align: center;
-    margin-bottom: 27px;
-    font-family: 'Ubuntu', sans-serif;
-}
-
 form.sign-form {
     padding-top: 40px;
 }
 
-.password {
+label.form-item {
+    width: 50%;
+    font-size: 14;
+    margin-left: 46px;
+    font-family: 'Ubuntu', sans-serif;
+
+}
+.password, .email,.username{
     width: 76%;
     color: rgb(38, 50, 56);
-    font-weight: 700;
     font-size: 14px;
-    letter-spacing: 1px;
-    background: rgba(136, 126, 126, 0.04);
+    background: rgba(114, 71, 71, 0.04);
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
@@ -101,7 +67,7 @@ form.sign-form {
 }
 
 .forgot {
-    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    text-shadow: 0px 0px 2px rgba(117, 117, 117, 0.12);
     color: #E1BEE7;
     padding-top: 15px;
 }
