@@ -13,13 +13,15 @@ body {
     padding-bottom: 10px;
 }
 .index-image {
-    filter: blur(4px);
-    -webkit-filter: blur(5px);
-    height: 100%;
-    position: center;
+    filter: blur(3px);
+    -webkit-filter: blur(3px);
+    height: auto;
+    width: 50%;
+    position: cover;
+    margin-top: 40px;
   }
   .index-text {
-    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgb(99, 91, 91); /* Fallback color */
     background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
     color: white;
     font-weight: bold;
@@ -32,4 +34,12 @@ body {
     width: 80%;
     padding: 20px;
     text-align: center;
+  }
+  .footer {
+    margin-top: 20px;
+    font-size: 18px;
+    background-color: #777;
+    padding: 10px;
+    text-align: center;
+    color: white;
   }

@@ -29,12 +29,26 @@
     </nav>
     <setion class="container">
         <div class="index-image">
-            <img src="ending-corruption.jpg" alt="">
+            <img srcset="corruption-320w.jpg 320w,
+                     corruption-480w.jpg 480w,
+                     corruption-768.jpg 800w,
+                     corruption-992.jpg 992w,
+                     corruption-1200.jpg 1200w"
+                sizes="(max-width: 320px) 280px,
+                    (max-width: 480px) 440px,
+                    (max-width: 992px) 992px,
+                    (max-width: 1200px) 1200px,
+                    800px" 
+                src="corruption.jpg"
+                alt="Elva dressed as a fairy">
         </div>
         <div class="index-text">
             <h1> Welcome To iReporter </h1>
             <p> help us in the fight against corruption</p>
         </div>
     </setion>
+    <footer class="footer">
+        <p>Designed with <i class="fas fa-heart"></i> by lawrence  </p>
+    </footer>
 </body>
 </html>
