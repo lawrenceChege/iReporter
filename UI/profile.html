@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>iReporter | Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/forms.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/profile.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/navbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/buttons.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css">
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <span class="navbar-toggle" id="navbar-toggle">
+            <i class="fas fa-bars"></i>
+        </span>
+        <a href="#" class="navbar-brand">iReporter</a>
+        <ul class="navbar-right" id="navbar-right">
+            <li>
+                <a href="dashboard.html" class="navbar-link">
+                    <i class="fas fa-lock"></i> &nbsp; Dashboard</a>
+            </li>
+            <li>
+                <a href="admin.html" class="navbar-link">
+                    <i class="fas fa-lock"></i> &nbsp; Admin</a>
+            </li>
+            <li>
+                <a href="logout.html" class="navbar-link">
+                    <i class="fas fa-lock"></i> &nbsp; logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <button class="button btn-blue" onclick="openPage('allflags', this, '#f88282')" id="defaultOpen">All</button>
+    <button class="button btn-red" onclick="openPage('redflags', this, '#041626')">Red flags</button>
+    <button class="button btn-green" onclick="openPage('interventions', this, '#f88282')">Interventions</button>
+    <div class="profile-section">
+        <div class="profile-card">
+            <div id="profile-picture">
+                <img src="images/default.jpg" alt="profile pic">
+            </div>
+            <div class="user-profile">
+                <div class="user-info">
+                    <div id="username">
+                        <label for="username"> Username</label>
+                        <p class="username"> Carol</p>
+                    </div>
+                    <div id="bio">
+                        <label for="bio"> bio</label>
+                        <p class="username"> She used to have a beautiful smile</p>  
+                    </div>
+                    <div id="all"></div>
+                    <a href="update_profile.html" class="button btn-blue">Edit Profile</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <section class="flex-container" id="allflags">
+        <p> This is home</p>
+        <div class="rejected" id="rejected"></div>
+        <div class="resolved" id="resolved"></div>
+        <div class="drafts" id="drafts"></div>
+        <div class="under-investigation" id="under-investigation"></div>
+        <div class="flags" id="flags"></div>
+    </section>
+
+    <section class="flex-container" id="redflags">
+        <p> This is your home</p>
+        <div class="rejected" id="rejected"></div>
+        <div class="resolved" id="resolved"></div>
+        <div class="drafts" id="drafts"></div>
+        <div class="under-investigation" id="under-investigation"></div>
+        <div class="flags" id="flags"></div>
+    </section>
+
+    <section class="flex-container" id="interventions">
+        <p> They are home</p>
+        <div class="rejected" id="rejected"></div>
+        <div class="resolved" id="resolved"></div>
+        <div class="drafts" id="drafts"></div>
+        <div class="under-investigation" id="under-investigation"></div>
+        <div class="flags" id="flags"></div>
+    </section>
+</body>
+
+</html>
