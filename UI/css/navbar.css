@@ -3,71 +3,89 @@
     display: none;
     float: right;
 }
-.navbar-link,
-        .navbar-brand {
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.7);
-        }
+.nav-pills {
+    list-style-type: none;
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    padding-bottom: 0;
+    height: 70px;
+    align-items: center;
+}
 
-        .navbar-right li {
-            text-align: center;
-            margin: 15px auto;
-        }
+.navbar-brand {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+}
 
-        .navbar-brand {
-            display: inline-block;
-            font-size: 22px;
-            margin-top: 10px;
-            margin-left: 20px;
-        }
+.navbar-right li {
+    text-align: center;
+    margin: 15px auto;
+}
 
-        .navbar-toggle {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 24px;
-        }
+.navbar-brand {
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
 
-        .active {
-            display: block;
-        }
+.navbar-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 24px;
+}
 
-        @media screen and (min-width: 768px) {
-            .navbar {
-                display: flex;
-                justify-content: space-between;
-                padding-bottom: 0;
-                height: 70px;
-                align-items: center;
-            }
+.active {
+    display: block;
+}
 
-            .navbar-right {
-                display: flex;
-                margin-right: 30px;
-                flex-direction: row;
-                justify-content: flex-end;
-            }
+@media screen and (min-width: 768px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+        height: 70px;
+        align-items: center;
+    }
+    .nav-pills {
+        display: flex;
+        width: 70%;
 
-            .navbar-right li {
-                margin: 0;
-            }
+    }
+    .nav-pills button {
+        text-align: center;
+    }
+    
+    .navbar-right {
+        display: flex;
+        margin-right: 20px;
+        padding: 10px;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
 
-            .navbar-link {
-                margin-left: 40px;
-            }
+    .navbar-right li {
+        margin: 0;
+    }
 
-            .navbar-brand {
-                margin-top: 0;
-            }
+    .navpill-link, .navbar-link {
+        margin-left: 40px;
+    }
 
-            .navbar-toggle {
-                display: none;
-            }
+    .navbar-brand {
+        margin-top: 0;
+    }
 
-            .logo:hover,
-            .navbar-link:hover {
-                color: rgba(255, 255, 255, 1);
-            }
-        }
+    .navbar-toggle {
+        display: none;
+    }
+
+    .logo:hover, .navpill-link:hover,
+    .navbar-link:hover {
+        color: rgba(255, 255, 255, 1);
+    }
+}

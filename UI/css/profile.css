@@ -1,0 +1,38 @@
+.profile-card{
+    border:1px solid #ddd;
+    border-radius:5px;
+    width:30%;
+    min-height:100%;
+    margin:0 auto;
+    float: right;
+    align-items: center;
+    }
+.profile-picture{
+    height:30%;
+    width:100%;
+    border-radius:80px;
+    border:2px solid transparent;
+    margin:5px 0px -10px 5px;
+}
+.username{
+    margin:10px 0px 0px 0px;
+    font-family: -apple-system,Ubuntu, 'Helvetica Neue';
+    font-weight: 600;
+    font-size: 18px;
+}
+.edit-profile {
+    margin:5px 0px 20px 25px;
+}
+.user-info {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+@media (max-width: 800px){
+.profile-picture{
+    height:30%;
+    width:90%;
+    margin:5px 0px -5px 0px;
+    border:2px solid #fff;
+    border-radius:45px;
+}
+}

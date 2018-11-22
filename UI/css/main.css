@@ -42,3 +42,13 @@ body {
     width: 100%;
     bottom: 0px;
   }
+.flex-container {
+  color: white;
+  display: none;
+  padding: 50px 20px;
+  height: 100%;
+}
+
+#allflags {background-color: rgba(3, 16, 56, 0.842);}
+#redflags {background-color: rgba(245, 6, 6, 0.418); }
+#interventions {background-color: rgb(7, 85, 7);}
