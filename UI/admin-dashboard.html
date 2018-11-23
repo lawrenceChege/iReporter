@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>iReporter | Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/forms.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/profile.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/navbar.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/buttons.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css">
+    <script src="js/main.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <span class="navbar-toggle" id="navbar-toggle">
+            <i class="fas fa-bars"></i>
+        </span>
+        <a href="#" class="navbar-brand">iReporter</a>
+        <ul class="navbar-right" id="navbar-right">
+            <li>
+                <a href="dashboard.html" class="navbar-link">
+                    <i class="fas fa-lock"></i> &nbsp; Dashboard</a>
+            </li>
+            <li>
+                <a href="admin.html" class="navbar-link">
+                    <i class="fas fa-lock"></i> &nbsp; Admin</a>
+            </li>
+            <li>
+                <a href="logout.html" class="navbar-link">
+                    <i class="fas fa-lock"></i> &nbsp; logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <button class="button btn-blue" onclick="openPage('allflags', this, '#f88282')" id="defaultOpen">All</button>
+    <button class="button btn-red" onclick="openPage('redflags', this, '#041626')">Red flags</button>
+    <button class="button btn-green" onclick="openPage('interventions', this, '#f88282')">Interventions</button>
+    <div class="container">
+        <section class="flex-container" id="allflags">
+            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
+                <label class="title-content" for="rejected">Rejected</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
+                <label for="resolved" class="title-content">Resolved</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
+                <label for="pending" class="title-content"> Pending</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+                <ul class="flag-list">
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title">Corrupt trafic police</h4>
+                            <span>Status: Resolved</span><span><i class="fa fa-flag" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> Corrupt lawyer</h4>
+                            <span>Status: Rejected</span> <span><i class="fa fa-flag" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> Corrupt trafic police</h4>
+                            <span>Status: Pending</span><span><i class="far fa-question-circle"></i></span> <br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title">Illegal building</h4>
+                            <span>Status: Resolved</span><span><i class="far fa-question-circle" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> Domestic violence </h4>
+                            <span>Status: Rejected</span> <span><i class="far fa-question-circle" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> River diversion</h4>
+                            <span>Status: Pending</span><span><i class="far fa-question-circle"></i></span> <br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="flex-container" id="redflags">
+            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
+                <label class="title-content" for="rejected">Rejected</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
+                <label for="resolved" class="title-content">Resolved</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
+                <label for="pending" class="title-content"> Pending</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+                <ul class="flag-list">
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title">Corrupt trafic police</h4>
+                            <span>Status: Resolved</span><span><i class="fa fa-flag" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> Corrupt lawyer</h4>
+                            <span>Status: Rejected</span> <span><i class="fa fa-flag" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> Corrupt trafic police</h4>
+                            <span>Status: Pending</span><span><i class="fa fa-flag"></i></span> <br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="flex-container" id="interventions">
+            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
+                <label class="title-content" for="rejected">Rejected</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
+                <label for="resolved" class="title-content">Resolved</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
+                <label for="drafts" class="title-content">Drafts</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+                <ul class="flag-list">
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title">Illegal building</h4>
+                            <span>Status: Resolved</span><span><i class="far fa-question-circle" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> Domestic violence </h4>
+                            <span>Status: Rejected</span> <span><i class="far fa-question-circle" aria-hidden="true"></i></span><br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="flag-list-item">
+                        <a href="#" id="id1">
+                            <h4 class="flag-title"> River diversion</h4>
+                            <span>Status: Pending</span><span><i class="far fa-question-circle"></i></span> <br>
+                            <small>Date : 12th June 2018</small>
+                            <div class="button-right">
+                                <button class="button btn-green">Resolve</button>
+                                <button class="button btn-red">Reject</button>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <footer class="footer">
+        <p>Designed with <i class="fas fa-heart"></i> by lawrence </p>
+    </footer>
+</body>
+
+</html>
