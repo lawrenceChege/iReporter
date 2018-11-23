@@ -83,6 +83,13 @@
   .flag-title{
       color: black;
   }
+  .flag-list{
+      text-align: left;
+  }
+  .flag-list-item{
+      margin: 5px;
+      background-image: linear-gradient(260deg, #fcf8f8 30%, #ffffff 100%);
+  }
   .rejected{
       color: red;
       background-color: white;
@@ -97,7 +104,7 @@
       background-color: white;
   }
   .drafts{
-      color: rgb(11, 180, 76);
+      color: rgb(204, 86, 18);
       background-color: white;
   }
   /* #allflags, #redflags, #interventions {
