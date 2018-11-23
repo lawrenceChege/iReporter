@@ -42,7 +42,15 @@
   .btn-blue {
       background-color: rgba(3, 16, 56, 0.842);
   }
+  .btn-green{
+    background-color: rgb(7, 85, 7);
+  }
 button a{
     color: white;
 
+}
+@media (max-width: 430px){
+  .button{
+    width: 95%;
+  }
 }
