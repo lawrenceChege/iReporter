@@ -49,3 +49,8 @@ button a{
     color: white;
 
 }
+@media (max-width: 430px){
+  .button{
+    width: 95%;
+  }
+}

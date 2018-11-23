@@ -40,55 +40,114 @@
     <button class="button btn-blue" onclick="openPage('allflags', this, '#f88282')" id="defaultOpen">All</button>
     <button class="button btn-red" onclick="openPage('redflags', this, '#041626')">Red flags</button>
     <button class="button btn-green" onclick="openPage('interventions', this, '#f88282')">Interventions</button>
-    <div class="profile-section">
-        <div class="profile-card">
-            <div id="profile-picture">
-                <img src="images/default.jpg" alt="profile pic">
-            </div>
-            <div class="user-profile">
-                <div class="user-info">
-                    <div id="username">
-                        <label for="username"> Username</label>
-                        <p class="username"> Carol</p>
-                    </div>
-                    <div id="bio">
-                        <label for="bio"> bio</label>
-                        <p class="username"> She used to have a beautiful smile</p>  
-                    </div>
-                    <div id="all"></div>
-                    <a href="update_profile.html" class="button btn-blue">Edit Profile</a>
+    <div class="container">
+        <div class="profile-section">
+            <div class="profile-card">
+                <div id="profile-picture">
+                    <img src="images/default.jpg" alt="profile pic">
                 </div>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <div id="username">
+                            <label for="username"> Username</label>
+                            <p class="username"> Carol</p>
+                        </div>
+                        <div id="bio">
+                            <label for="bio"> bio</label>
+                            <p class="username"> She used to have a beautiful smile</p>
+                        </div>
+                        <div id="all"></div>
+                        <a href="update_profile.html" class="button btn-blue">Edit Profile</a>
+                    </div>
+                </div>
+
             </div>
-            
         </div>
+
+        <section class="flex-container" id="allflags">
+            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
+                <label class="title-content" for="rejected">Rejected</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
+                <label for="resolved" class="title-content">Resolved</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
+                <label for="drafts" class="title-content">Drafts</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
+                <label for="pending" class="title-content"> Pending</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+                <ul class="flag-list">
+                    <li class="flag-list-item">
+                        <h4 class="flag-title"> blue</h4>
+                        <p class="flag-body"> this is blue</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="flex-container" id="redflags">
+            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
+                <label class="title-content" for="rejected">Rejected</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
+                <label for="resolved" class="title-content">Resolved</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
+                <label for="drafts" class="title-content">Drafts</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
+                <label for="pending" class="title-content"> Pending</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+                <ul class="flag-list">
+                    <li class="flag-list-item">
+                        <h4 class="flag-title"> blue</h4>
+                        <p class="flag-body"> this is blue</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="flex-container" id="interventions">
+            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
+                <label class="title-content" for="rejected">Rejected</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
+                <label for="resolved" class="title-content">Resolved</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
+                <label for="drafts" class="title-content">Drafts</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
+                <label for="pending" class="title-content"> Pending</label>
+                <p class="flag-number">12</p>
+            </div>
+            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+                <ul class="flag-list">
+                    <li class="flag-list-item">
+                        <h4 class="flag-title"> blue</h4>
+                        <p class="flag-body"> this is blue</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
     </div>
-
-    <section class="flex-container" id="allflags">
-        <p> This is home</p>
-        <div class="rejected" id="rejected"></div>
-        <div class="resolved" id="resolved"></div>
-        <div class="drafts" id="drafts"></div>
-        <div class="under-investigation" id="under-investigation"></div>
-        <div class="flags" id="flags"></div>
-    </section>
-
-    <section class="flex-container" id="redflags">
-        <p> This is your home</p>
-        <div class="rejected" id="rejected"></div>
-        <div class="resolved" id="resolved"></div>
-        <div class="drafts" id="drafts"></div>
-        <div class="under-investigation" id="under-investigation"></div>
-        <div class="flags" id="flags"></div>
-    </section>
-
-    <section class="flex-container" id="interventions">
-        <p> They are home</p>
-        <div class="rejected" id="rejected"></div>
-        <div class="resolved" id="resolved"></div>
-        <div class="drafts" id="drafts"></div>
-        <div class="under-investigation" id="under-investigation"></div>
-        <div class="flags" id="flags"></div>
-    </section>
+    <footer class="footer">
+        <p>Designed with <i class="fas fa-heart"></i> by lawrence </p>
+    </footer>
 </body>
 
 </html>
