@@ -5,6 +5,7 @@
 }
 body {
     font-family: 'Josefin Sans', sans-serif;
+    overflow-x: hidden;
 }
 .navbar {
     font-size: 18px;
@@ -31,6 +32,10 @@ body {
     width: 80%;
     padding: 20px;
     text-align: right;
+  }
+  .description{
+      border-radius: 45px;
+      width: 80%;
   }
   .footer {
     font-size: 18px;

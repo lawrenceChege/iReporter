@@ -49,6 +49,10 @@ button a{
     color: white;
 
 }
+.button-right{
+  float: right;
+  height: 50px;
+}
 @media (max-width: 430px){
   .button{
     width: 95%;
