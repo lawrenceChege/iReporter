@@ -5,6 +5,7 @@
 }
 body {
     font-family: 'Josefin Sans', sans-serif;
+    overflow-x: hidden;
 }
 .navbar {
     font-size: 18px;
