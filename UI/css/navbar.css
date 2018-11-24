@@ -1,6 +1,6 @@
 .navbar-right {
     list-style-type: none;
-    display: none;
+    display: flex;
     float: right;
 }
 .nav-pills {
