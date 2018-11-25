@@ -14,7 +14,13 @@
     font-weight: bold;
     font-size: 23px;
 }
-
+.record-form{
+    width: 98%;
+    background-color: white;
+}
+.flag-form{
+    color: black;
+}
 form.sign-form {
     padding-top: 40px;
 }

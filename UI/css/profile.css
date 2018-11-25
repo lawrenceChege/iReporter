@@ -115,6 +115,10 @@
   #allflags {background-color: rgba(9, 16, 37, 0.842);}
   #redflags {background-color: rgba(94, 6, 6, 0.692); }
   #interventions {background-color: rgba(38, 80, 38, 0.801);}
+  #createRedFlag {background-color: rgba(38, 80, 38, 0.801);}
+  #createIntervention {
+      background-color: rgba(9, 16, 37, 0.842);
+  }
 @media (max-width: 800px){
 .profile-picture{
     height:30%;
