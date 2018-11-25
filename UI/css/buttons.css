@@ -45,6 +45,12 @@
   .btn-green{
     background-color: rgb(7, 85, 7);
   }
+  .btn-orange{
+    background-color: orange;
+  }
+  .btn-cyan{
+    background-color: cyan;
+  }
 button a{
     color: white;
 
