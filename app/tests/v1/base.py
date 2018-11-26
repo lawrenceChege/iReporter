@@ -127,28 +127,7 @@ class BaseTestCase(TestCase):
             "Videos" : [Image, Image],
             "comment" : "falling construction building"
             }
-        self.update_redflag_no_comment ={
-            "createdOn" : datetime.now,  
-            "createdBy" : "carolmobic", 
-            "type" : "RedFlag",
-            "title": "NCA site auth",
-            "location" : "37.12N, 3.7E",
-            "status": "pending",
-            "Images" : [Image, Image], 
-            "Videos" : [Image, Image],
-            "comment" : ""
-            }
-        self.update_redflag_no_title={
-            "createdOn" : datetime.now,  
-            "createdBy" : "carolmobic", 
-            "type" : "RedFlag",
-            "title": "",
-            "location" : "37.12N, 3.7E",
-            "status": "pending",
-            "Images" : [Image, Image], 
-            "Videos" : [Image, Image],
-            "comment" : "falling construction building"
-            }
+        
         self.redflags = [
             {
                 "id": 1,
