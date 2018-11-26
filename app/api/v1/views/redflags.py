@@ -31,5 +31,5 @@ class RedFlags(Resource):
                 "comment" : args["comment"]
             }
         REDFLAGS.append(REDFLAG)
-        return REDFLAGS
+        return REDFLAGS,201
         
