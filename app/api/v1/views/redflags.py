@@ -9,11 +9,11 @@ class RedFlags(Resource):
         This class has methods for posting redflags and getting all redflags posted
     """
     def post(self):
-        post_redflag = Helper().new_redflag()
-        return post_redflag
+        new_redflag = Helper().post_redflag()
+        return new_redflag
 
     def get(self):
-        redflags = Helper().get_all()
+        redflags = Helper().get_all_redflags()
         return redflags 
 
 class RedFlag(Resource):
@@ -21,10 +21,13 @@ class RedFlag(Resource):
         This class holds methods for single redflags
     """
     def get(self, redflag_id):
-        get_specific = Helper().get_one()
+        get_specific = Helper().get_redflag()
         return get_specific
     def put(self, redflag_id):
-        edit_redflag = Helper().edit_one()
-        return edit_redflag
+        edit_one = Helper().edit_redflag()
+        return edit_one
+    def delete(self, redflag):
+        remove_redflag = Helper().delete_redflag()
+        return remove_redflag
 
         
