@@ -17,7 +17,7 @@ class Helper():
             "createdBy": args["user"],
             "type": "RedFlag",
             "title": args["title"],
-            "images":args["image"],
+            "images":args["images"],
             "video": args["video"],
             "location": args["location"],
             "status": "pending",
@@ -32,4 +32,15 @@ class Helper():
                 return {"status": 200, "data": REDFLAG}
             else:
                 return {"status": 404, "message": "Redflag not found"}
+
+    def edit_one(self, redflag_id):
+        for REDFLAG in REDFLAGS:
+            if REDFLAG["id"] == redflag_id:
+                REDFLAG["title"] = request.json["title"]
+                REDFLAG["type"] = request.json["type"]
+                REDFLAG["images"] = request.json["images"]
+                REDFLAG["video"] = request.json["video"]
+                REDFLAG["location"] = request.json["location"]
+                REDFLAG["description"] = request.json["description"]
+                return {"status":204, "data": REDFLAG ,"message": "Redflag updated successfully!"}
         
