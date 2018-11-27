@@ -35,6 +35,18 @@ class RedFlags(Resource):
 
     def get(self):
         return {"status": 200, "data": REDFLAGS}
+
+class RedFlag(Resource):
+    """
+        This class holds methods for single redflags
+    """
+    def get(self, redflag_id):
+        for REDFLAG in REDFLAGS:
+            for id in REDFLAG:
+                if id == redflag_id:
+                    return {"status": 200, "data": REDFLAG}
+                else:
+                    return {"status": 404, "message": "Redflag not found"}
         
 
         
