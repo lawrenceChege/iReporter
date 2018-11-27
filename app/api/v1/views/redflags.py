@@ -31,5 +31,10 @@ class RedFlags(Resource):
                 "comment" : args["comment"]
             }
         REDFLAGS.append(REDFLAG)
-        return REDFLAGS,201
+        return {"status": 201, "data": REDFLAGS}
+
+    def get(self):
+        return {"status": 200, "data": REDFLAGS}
+        
+
         
