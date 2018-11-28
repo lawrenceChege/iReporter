@@ -9,7 +9,7 @@ class TestRequestsTestCase(BaseTestCase):
     def test_new_redflag(self):
         """Test for posting a redflag"""
         #correct request
-        response = self.app.post('/ireporter/api/v1/red-flags/', data=json.dumps(
+        response = self.app.post('/api/v1/redflags/', data=json.dumps(
             self.redflag), headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.get_data())

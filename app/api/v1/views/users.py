@@ -1,4 +1,4 @@
-from flask_resfplus import Resource 
+from flask_restplus import Resource 
 from flask import request
 
 class Users(Resource):

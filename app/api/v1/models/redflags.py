@@ -13,8 +13,8 @@ class Helper():
 
         REDFLAG = {
             "id": len(REDFLAGS)+1,
-            "createdOn": datetime,
-            "createdBy": args["user"],
+            "createdOn": datetime.datetime.now,
+            "createdBy": args["createdBy"],
             "type": "RedFlag",
             "title": args["title"],
             "images":args["images"],
