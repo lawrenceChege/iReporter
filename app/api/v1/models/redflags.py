@@ -49,6 +49,20 @@ class Helper():
             if REDFLAG["id"] == redflag_id:
                 REDFLAGS.remove(REDFLAG[0])
                 return {"status":204, "message":"Redflag successfuly deleted"}
+            else:
+                return {"status": 404, "message": "Redflag not found"}
+
+
+    def edit_comment(self, redflag_id):
+        for REDFLAG in REDFLAGS:
+            if REDFLAG["id"] == redflag_id:
+                [{ "op": "replace", "path": "/comment", "value": request.json["description"] }]
+                REDFLAG["description"] = request.json["description"]
+                return {"status": 204, "message": "comment successfully updated"}
+            else:
+                return {"status": 404, "message": "Redflag not found"}
+
+        
 
 
         

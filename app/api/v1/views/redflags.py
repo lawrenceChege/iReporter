@@ -21,13 +21,19 @@ class RedFlag(Resource):
         This class holds methods for single redflags
     """
     def get(self, redflag_id):
-        get_specific = Helper().get_redflag()
+        get_specific = Helper().get_redflag(redflag_id)
         return get_specific
+
     def put(self, redflag_id):
-        edit_one = Helper().edit_redflag()
+        edit_one = Helper().edit_redflag(redflag_id)
         return edit_one
-    def delete(self, redflag):
-        remove_redflag = Helper().delete_redflag()
+
+    def delete(self, redflag_id):
+        remove_redflag = Helper().delete_redflag(redflag_id)
         return remove_redflag
+
+    def patch(self,redflag_id):
+        comment_update = Helper().edit_comment(redflag_id)
+        return comment_update
 
         
