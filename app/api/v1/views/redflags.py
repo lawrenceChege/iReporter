@@ -28,14 +28,14 @@ class RedFlag(Resource):
         get_specific = Helper().get_redflag(id)
         return get_specific
 
-    def put(self, redflag_id):
+    def put(self, id):
         edit_one = Helper().edit_redflag(id)
         return edit_one
 
-    def delete(self, redflag_id):
+    def delete(self, id):
         remove_redflag = Helper().delete_redflag(id)
         return remove_redflag
 
-    def patch(self, redflag_id):
+    def patch(self, id):
         comment_update = Helper().edit_comment(id)
         return comment_update

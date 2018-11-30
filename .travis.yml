@@ -25,7 +25,7 @@ script: true
  # Another command/method to run tests
 script:
   - pytest
-  - pytest --cov=./api/
+  - pytest --cov=./app/
 
 # This returns the coverage and let's coveralls know the coverage percent.
 # Note that travis will build your system and get the coverage.
