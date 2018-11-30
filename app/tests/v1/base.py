@@ -1,4 +1,5 @@
 """ This is the base class for all the tests"""
+from app.api.v1 import APP
 import unittest
 
 class BaseTestCase(TestCase):
