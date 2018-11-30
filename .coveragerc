@@ -1,0 +1,13 @@
+# When you want to specify the files that can only be tested
+
+[run]
+source =
+    app/
+    app/tests/
+
+# Let the system/travis understand the files to omit
+
+
+# Showing report received
+[report]
+show_missing = True
