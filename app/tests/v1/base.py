@@ -1,6 +1,11 @@
 """ This is the base class for all the tests"""
-from app.api.v1 import APP
+
 import unittest
+import datetime
+from unittest import TestCase
+from flask import Flask
+
+APP = Flask(__name__)
 
 class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
@@ -17,7 +22,7 @@ class BaseTestCase(TestCase):
             "email" : "carolmumbi@gmail.com",
             "phoneNumber" : "0708123123",
             "username" : "carolmobic", 
-            "registered" : 26/11/2018,
+            "registered" : "26/11/2018",
             "isAdmin" : False,
             },
              {
@@ -27,7 +32,7 @@ class BaseTestCase(TestCase):
             "email" : "laurencechege@gmail.com",
             "phoneNumber" : "0708123123",
             "username" : "lauchege", 
-            "registered" : 26/11/2018,
+            "registered" : "26/11/2018",
             "isAdmin" : False,
             },
              {
@@ -37,7 +42,7 @@ class BaseTestCase(TestCase):
             "email" : "kenn@gmail.com",
             "phoneNumber" : "0708123123",
             "username" : "gathee", 
-            "registered" : 26/11/2018,
+            "registered" : "26/11/2018",
             "isAdmin" : False,
             }
         ]
@@ -46,9 +51,9 @@ class BaseTestCase(TestCase):
            "firstname" : "carol",
            "lastname" : "mumbi",
            "email" : "carolmumbi@gmail.com",
-           "phoneNumber" : 0708123123,
+           "phoneNumber" : "0708123123",
            "username" : "carolmobic", 
-           "registered" : 26/11/2018,
+           "registered" : "26/11/2018",
            "isAdmin" : False,
             }
         self.person_no_username = {
@@ -69,14 +74,14 @@ class BaseTestCase(TestCase):
             "password": "maembembili"
         }
         self.person_existing_user = {
-            “id” : 1, 
-            “firstname” : "carol",
-            “lastname” : "mumbi",
-            “email” : "carolmumbi@gmail.com",
-            ”phoneNumber” : "0708123123",
-            “username” : "carolmobic", 
-            “registered” : 26/11/2018,
-            “isAdmin” : False,
+            "id" : 1, 
+           "firstname" : "carol",
+           "lastname" : "mumbi",
+           "email" : "carolmumbi@gmail.com",
+           "phoneNumber" : "0708123123",
+           "username" : "carolmobic", 
+           "registered" : 26/11/2018,
+           "isAdmin" : False,
             }
 
         self.correct_login = {"username": "carolmumbi",
@@ -88,16 +93,14 @@ class BaseTestCase(TestCase):
         self.no_password = {"username": "lawrence",
                             "password": ""}
         self.admin = {
-            “id” : 1, 
-            “firstname” : "admin",
-            “lastname” : "admin",
-            “othernames” : "admin",
-            “email” : "admin@gmail.com",
-            ”phoneNumber” : "0711123123",
-            “username” : "admin", 
-            “registered” : 26/11/2018,
-            “isAdmin” : True,
-            ...
+            "id" : 1, 
+           "firstname" : "carol",
+           "lastname" : "mumbi",
+           "email" : "carolmumbi@gmail.com",
+           "phoneNumber" : "0708123123",
+           "username" : "carolmobic", 
+           "registered" : "26/11/2018",
+           "isAdmin" : False,
             }
 
         self.admin_correct = {"username": "admin",
@@ -106,110 +109,110 @@ class BaseTestCase(TestCase):
                             "password": "mimi"}
 
         self.red_flag = {
-            "createdOn" : datetime.now,  
+            "createdOn" : str(datetime.datetime.now()),  
             "createdBy" : "carolmobic", 
             "type" : "RedFlag",
             "title": "NCA site auth",
             "location" : "37.12N, 3.7E",
             "status": "pending",
-            "Images" : [Image, Image], 
-            "Videos" : [Image, Image],
+            "Images" : "[Image, Image]", 
+            "Videos" : "[Image, Image]",
             "comment" : "falling  building"
             }
 
         self.update_redflag ={
-            "createdOn" : datetime.now,  
+            "createdOn" : str(datetime.datetime.now()),  
             "createdBy" : "carolmobic", 
             "type" : "RedFlag",
             "title": "NCA site auth",
             "location" : "37.12N, 3.7E",
             "status": "pending",
-            "Images" : [Image, Image], 
-            "Videos" : [Image, Image],
+            "Images" : "[Image, Image]", 
+            "Videos" : "[Image, Image]",
             "comment" : "falling construction building"
             }
         
         self.redflags = [
             {
                 "id": 1,
-                "createdOn" : datetime.now,  
+                "createdOn" : str(datetime.datetime.now()),  
                 "createdBy" : "carolmobic", 
                 "type" : "RedFlag",
                 "title": "NCA site auth",
                 "location" : "37.12N, 3.7E",
                 "status": "pending",
-                "Images" : [Image, Image], 
-                "Videos" : [Image, Image],
+                "Images" : "[Image, Image]", 
+                "Videos" : "[Image, Image]",
                 "comment" : "falling construction building"
             },
             {
                 "id": 2,
-                "createdOn" : datetime.now,  
+                "createdOn" : str(datetime.datetime.now()),  
                 "createdBy" : "carolmobic", 
                 "type" : "Intervention",
                 "title": "corrupt police",
                 "location" : "37.12N, 3.7E",
                 "status": "resolved",
-                "Images" : [Image, Image], 
-                "Videos" : [Image, Image],
+                "Images" : "[Image, Image]", 
+                "Videos" : "[Image, Image],",
                 "comment" : "traffic police takng bribes"
             },
             {
                 "id": 3,
-                "createdOn" : datetime.now,  
+                "createdOn" : str(datetime.datetime.now()),  
                 "createdBy" : "carolmobic", 
                 "type" : "RedFlag",
                 "title": "NCA site auth",
                 "location" : "37.12N, 3.7E",
                 "status": "pending",
-                "Images" : [Image, Image], 
-                "Videos" : [Image, Image],
+                "Images" : "[Image, Image]", 
+                "Videos" : "[Image, Image]",
                 "comment" : "falling construction building"
             },
             {
                 "id": 4,
-                "createdOn" : datetime.now,  
+                "createdOn" : str(datetime.datetime.now()),  
                 "createdBy" : "carolmobic", 
                 "type" : "RedFlag",
                 "title": "NCA site auth",
                 "location" : "37.12N, 3.7E",
                 "status": "pending",
-                "Images" : [Image, Image], 
-                "Videos" : [Image, Image],
+                "Images" : "[Image, Image]", 
+                "Videos" : "[Image, Image]",
                 "comment" : "falling construction building"
             }
         ]
         self.redflag_no_title = {
-            "createdOn" : datetime.now,  
+            "createdOn" : str(datetime.datetime.now()),  
             "createdBy" : "carolmobic", 
             "type" : "RedFlag",
             "title": "",
             "location" : "37.12N, 3.7E",
             "status": "pending",
-            "Images" : [Image, Image], 
-            "Videos" : [Image, Image],
+            "Images" : "[Image, Image]", 
+            "Videos" : "[Image, Image]",
             "comment" : "falling construction building"
         }
         self.redflag_no_comment = {
-            "createdOn" : datetime.now,  
+            "createdOn" : str(datetime.datetime.now()),  
             "createdBy" : "carolmobic", 
             "type" : "RedFlag",
             "title": "NCA site auth",
             "location" : "37.12N, 3.7E",
             "status": "pending",
-            "Images" : [Image, Image], 
-            "Videos" : [Image, Image],
+            "Images" : "[Image, Image]", 
+            "Videos" : "[Image, Image]",
             "comment" : ""
         }
         self.redflag_invalid_title = {
-            "createdOn" : datetime.now,  
+            "createdOn" :str(datetime.datetime.now()),  
             "createdBy" : "carolmobic", 
             "type" : 12345,
             "title": "NCA site auth",
             "location" : "37.12N, 3.7E",
             "status": "pending",
-            "Images" : [Image, Image], 
-            "Videos" : [Image, Image],
+            "Images" : "[Image, Image]", 
+            "Videos" : "[Image, Image]",
             "comment" : "falling construction building"
         }
         self.status_Resolved = {
