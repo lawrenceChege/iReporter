@@ -37,3 +37,4 @@ after_script:
 # Using codecov to get coverage
 after_success:
   - codecov
+  - coveralls
