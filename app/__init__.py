@@ -12,6 +12,7 @@ def create_app(config_name):
         This function creates a flask app and
         registers api version blueprints 
     """
+    
     APP= Flask(__name__, instance_relative_config=True)
     # APP.config.from_object(config[config_name])
     APP.config.from_pyfile('config.py')

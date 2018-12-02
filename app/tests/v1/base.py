@@ -4,7 +4,12 @@ import unittest
 import datetime
 from unittest import TestCase
 from flask import current_app
-from app import create_app
+from flask import Flask
+
+def create_app():
+    APP= Flask(__name__, instance_relative_config=True)
+    return APP
+
 
 
 class BaseTestCase(TestCase):
@@ -18,7 +23,7 @@ class BaseTestCase(TestCase):
             Setup the flask app for testing. 
             It initializes the app and app context.
         """
-        _app = create_app("testing")
+        _app = create_app()
 
         self.app = _app.test_client()
         self.app_context = _app.app_context()
