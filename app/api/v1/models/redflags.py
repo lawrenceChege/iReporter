@@ -9,22 +9,24 @@ class RedflagsModel():
 
     def post_redflag(self):
         args = request.get_json()
-
-        REDFLAG = {
-            "redflag_id": len(REDFLAGS)+1,
-            "createdOn": str(datetime.datetime.now()),
-            "modifiedOn": str(datetime.datetime.now()),
-            "createdBy": args["createdBy"],
-            "type": args["type"],
-            "title": args["title"],
-            "images": args["images"],
-            "video": args["video"],
-            "location": args["location"],
-            "status": args["status"],
-            "description": args["description"]
-        }
-        REDFLAGS.append(REDFLAG)
-        return REDFLAG
+        RED-FLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['description'] == args["description"]]
+        if len(RED-FLAG) != 0:
+            REDFLAG = {
+                "redflag_id": len(REDFLAGS)+1,
+                "createdOn": str(datetime.datetime.now()),
+                "modifiedOn": str(datetime.datetime.now()),
+                "createdBy": args["createdBy"],
+                "type": args["type"],
+                "title": args["title"],
+                "images": args["images"],
+                "video": args["video"],
+                "location": args["location"],
+                "status": args["status"],
+                "description": args["description"]
+            }
+            REDFLAGS.append(REDFLAG)
+            return REDFLAG
+        return None
 
     def get_redflag(self, id):
         REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
@@ -57,17 +59,20 @@ class RedflagsModel():
 
 
     def edit_comment(self, id):
-        REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
-        if len(REDFLAG) == 0:
-            return jsonify ({"status": 404, "message": "Redflag not found"})  
-        else:
-            # [{ "op": "replace", "path": "/description", "value": request.json["description"] }]
+        REDFLAG = self.get_redflag(id)
+        if len(REDFLAG) != 0:
             REDFLAG[0]["description"] = request.json["description"]
-            return {"status": 204, "message": "comment successfully updated"}
+            return REDFLAG          
+        return None
+        
 
     def edit_location(self, id):
-        pass
-
+        REDFLAG = self.get_redflag(id)
+        if len(REDFLAG) != 0:
+            REDFLAG[0]["location"] = request.json["location"]
+            return REDFLAG          
+        return None
+        
     def upload_image(self, id):
         pass
 

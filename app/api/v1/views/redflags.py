@@ -13,10 +13,12 @@ class RedFlags(Resource):
     def post(self):
         self.model = RedflagsModel()
         new_redflag = self.model.post_redflag()
-        return jsonify({"status": 201, "data":[{
-                            "RedFlag":new_redflag,
-                        }],
-                        "message": "Redflag posted successfully!"})
+        if new_redflag:
+            return jsonify({"status": 201, "data":[{
+                                "RedFlag":new_redflag,
+                            }],
+                            "message": "Redflag posted successfully!"})
+        return jsonify({"status": 404, "message": "Redflag already exists"})
 
     def get(self):
         self.model = RedflagsModel()
@@ -70,4 +72,14 @@ class Comment(Resource):
     def patch(self, id):
         self.model = RedflagsModel()
         comment_update = self.model.edit_comment(id)
-        return comment_update
+        if comment_update:
+            return {"status": 204, "message": "comment successfully updated"}
+        return jsonify ({"status": 404, "message": "Redflag not found"})
+
+class Location(Resource):
+    def patch(self, id):
+        self.model = RedflagsModel()
+        location_update = self.model.edit_location(id)
+        if location_update:
+            return {"status": 204, "message": "location successfully updated"}
+        return jsonify ({"status": 404, "message": "Redflag not found"})
