@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from flask_jwt_extended import get_jwt_identity
 import datetime
 REDFLAGS = []
 
@@ -9,13 +10,13 @@ class RedflagsModel():
 
     def post_redflag(self):
         args = request.get_json()
-        RED-FLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['description'] == args["description"]]
-        if len(RED-FLAG) != 0:
+        RedFlag = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['description'] == args["description"]]
+        if len(RedFlag) == 0:
             REDFLAG = {
                 "redflag_id": len(REDFLAGS)+1,
                 "createdOn": str(datetime.datetime.now()),
                 "modifiedOn": str(datetime.datetime.now()),
-                "createdBy": args["createdBy"],
+                "createdBy": str(self.current_user()),
                 "type": args["type"],
                 "title": args["title"],
                 "images": args["images"],
@@ -27,6 +28,8 @@ class RedflagsModel():
             REDFLAGS.append(REDFLAG)
             return REDFLAG
         return None
+
+    
 
     def get_redflag(self, id):
         REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
@@ -78,6 +81,10 @@ class RedflagsModel():
 
     def upload_video(self,id):
         pass
+
+    def current_user(self):
+        user = get_jwt_identity()
+        return user
             
 
         

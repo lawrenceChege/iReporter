@@ -18,7 +18,7 @@ class RedFlags(Resource):
                                 "RedFlag":new_redflag,
                             }],
                             "message": "Redflag posted successfully!"})
-        return jsonify({"status": 404, "message": "Redflag already exists"})
+        return jsonify({"status": 400, "message": "Redflag already exists"})
 
     def get(self):
         self.model = RedflagsModel()

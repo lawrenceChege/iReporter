@@ -1,5 +1,6 @@
 from flask_restplus import reqparse
 from flask import request
+from flask_jwt_extended import create_access_token
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -40,6 +41,11 @@ class UserModel():
         match = check_password_hash(self.password, request.json["password"])
         return match
 
+    def generate_jwt_token(self):
+        token = create_access_token(identity=self.username)
+        return token
+
+
     def find_by_id(self, id):
         """
         Find user by id
@@ -67,7 +73,12 @@ class UserModel():
         if u:
             # password = [u.password for u in self.db if u.password == request.json["password"]]
             if self.check_password_match():
-                    return {"status": 200, "message":"successful"}
+                token = self.generate_jwt_token()
+                return {"status": 200,
+                        "data":[{
+                            "token":"Bearer"+" "+token
+                        }],
+                        "message":"successful"}
             return {"status": 401, "message": "wrong credntials!"}
         return {"status":404, "message": "user not found"}
                
