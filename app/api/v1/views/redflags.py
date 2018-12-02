@@ -17,7 +17,7 @@ class RedFlags(Resource):
         return new_redflag
 
     def get(self):
-        redflags = self.model.get_all_redflags()
+        redflags = RedflagsModel().get_all_redflags()
         return redflags
 
 

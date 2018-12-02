@@ -7,7 +7,8 @@ import subprocess
 
 from app import create_app
 
-APP = create_app(os.getenv('FLASK_CONFIG'))
+# APP = create_app(os.getenv('FLASK_CONFIG'))
+APP = create_app("DEVELOPMENT")
 
 # @app.cli.command()
 # @click.argument('path', default=os.path.join('app'. 'tests'))
