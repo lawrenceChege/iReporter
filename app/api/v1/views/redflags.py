@@ -66,6 +66,7 @@ class RedFlag(Resource):
             return jsonify({"status":204, "message":"Redflag successfuly deleted"})   
         return jsonify({"status": 404, "message": "Redflag not found"})
 
+class Comment(Resource):
     def patch(self, id):
         self.model = RedflagsModel()
         comment_update = self.model.edit_comment(id)

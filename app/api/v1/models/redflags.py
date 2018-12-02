@@ -61,8 +61,8 @@ class RedflagsModel():
         if len(REDFLAG) == 0:
             return jsonify ({"status": 404, "message": "Redflag not found"})  
         else:
-            [{ "op": "replace", "path": "/comment", "value": request.json["description"] }]
-            # REDFLAG["description"] = request.json["description"]
+            # [{ "op": "replace", "path": "/description", "value": request.json["description"] }]
+            REDFLAG[0]["description"] = request.json["description"]
             return {"status": 204, "message": "comment successfully updated"}
 
     def edit_location(self, id):
