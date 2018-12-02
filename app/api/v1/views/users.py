@@ -21,7 +21,6 @@ class Users(Resource):
     def post(self):
 
         data = parser.parse_args()
-        return data
         # Validation
         # valid = validtion(data)
 
@@ -32,7 +31,7 @@ class Users(Resource):
         #     }           
         user = UserModel(**data)
 
-        if user.find_by_username(data["username"]):
+        if user.find_by_username():
             return {"status": 400,
                     "data":[
                         {
@@ -52,27 +51,9 @@ class User(Resource):
     """
         This class defines mthods for login in
     """
-    def post(self, id):
-        user_login = UserModel().login_user(id)
+    def post(self):
+        data = parser.parse_args()
+        user = UserModel(**data)
+        user_login = user.login_user()
         return user_login
 
-def validtion(body):
-    errors = []
-    isValid = False
-
-    if body["username"]== "":
-        errors.append({
-            "username": "Username field Required"
-        })
-    if body["password"]== "":
-        errors.append({
-            "password": "password field Required"
-        })
-
-    if len(errors) != 0: 
-        isValid = True
-
-    return {
-        "errors": errors,
-        "isValid": isValid
-    }

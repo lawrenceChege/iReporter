@@ -17,6 +17,7 @@ def create_app(config_name):
     # APP.config.from_object(config[config_name])
     APP.config.from_pyfile('config.py')
     APP.register_blueprint(v1)
+    APP.url_map.strict_slashes = False
     return APP
 
 
