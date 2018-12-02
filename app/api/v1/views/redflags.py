@@ -2,6 +2,7 @@
 import datetime
 from flask_restplus import Resource
 from flask import request, jsonify
+from flask_jwt_extended import jwt_required
 from app.api.v1.models.redflags import RedflagsModel
 
 
@@ -9,7 +10,7 @@ class RedFlags(Resource):
     """
         This class has methods for posting redflags and getting all redflags posted
     """
-
+    @jwt_required
     def post(self):
         self.model = RedflagsModel()
         new_redflag = self.model.post_redflag()
@@ -48,6 +49,7 @@ class RedFlag(Resource):
                              "message": "Redflag successfully retrieved!"})
         return jsonify({"status": 404, "message": "Redflag not found"})
 
+    @jwt_required
     def put(self, id):
         self.model = RedflagsModel()
         redflag = self.model.edit_redflag(id)
@@ -61,6 +63,7 @@ class RedFlag(Resource):
                              "message": "Redflag updated successfully!"}) 
         return jsonify({"status": 404, "message": "Redflag not found"})
 
+    @jwt_required
     def delete(self, id):
         self.model = RedflagsModel()
         redflag = self.model.delete_redflag(id)
@@ -69,6 +72,10 @@ class RedFlag(Resource):
         return jsonify({"status": 404, "message": "Redflag not found"})
 
 class Comment(Resource):
+    """
+        this class updates th description
+    """
+    @jwt_required
     def patch(self, id):
         self.model = RedflagsModel()
         comment_update = self.model.edit_comment(id)
@@ -77,6 +84,10 @@ class Comment(Resource):
         return jsonify ({"status": 404, "message": "Redflag not found"})
 
 class Location(Resource):
+    """
+        this class updates the location
+    """
+    @jwt_required
     def patch(self, id):
         self.model = RedflagsModel()
         location_update = self.model.edit_location(id)
