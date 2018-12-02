@@ -3,7 +3,7 @@ import datetime
 REDFLAGS = []
 
 
-class Helper():
+class RedflagsModel():
     def get_all_redflags(self):
         return jsonify({"status": 200, "data": REDFLAGS, "message": "All redflags found successfully"})
 

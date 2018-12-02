@@ -13,7 +13,7 @@ def create_app(config_name):
         registers api version blueprints 
     """
     APP= Flask(__name__, instance_relative_config=True)
-    APP.config.from_object(config[config_name])
+    # APP.config.from_object(config[config_name])
     APP.config.from_pyfile('config.py')
     APP.register_blueprint(v1)
     return APP
