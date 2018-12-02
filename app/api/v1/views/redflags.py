@@ -1,9 +1,32 @@
 """ These module deals with redflag methods and routes"""
 import datetime
-from flask_restplus import Resource
+from flask_restplus import Resource, reqparse
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
-from app.api.v1.models.redflags import RedflagsModel
+from app.api.v1.models.redflags import IncidentsModel
+
+parser = reqparse.RequestParser(bundle_errors=True)
+
+parser.add_argument("title",
+                    type=str,
+                    required=True,
+                    help="title field is required.")
+parser.add_argument("description",
+                    type=str,
+                    required=True,
+                    help="description field is required.")
+parser.add_argument("IncidentType",
+                    type=str,
+                    help="Type field is required.")
+parser.add_argument("images",
+                    type=str,
+                    help="images field is optional.")
+parser.add_argument("video",
+                    type=str,
+                    help="video field is optional.")
+parser.add_argument("location",
+                    type=str,
+                    help="location field is optional.")
 
 
 class RedFlags(Resource):
@@ -12,18 +35,20 @@ class RedFlags(Resource):
     """
     @jwt_required
     def post(self):
-        self.model = RedflagsModel()
+
+        data = parser.parse_args()
+        self.model = IncidentsModel()
         new_redflag = self.model.post_redflag()
         if new_redflag:
             return jsonify({"status": 201, "data":[{
-                                "RedFlag":new_redflag,
+                                "RedFlag_id":new_redflag,
                             }],
                             "message": "Redflag posted successfully!"})
         return jsonify({"status": 400, "message": "Redflag already exists"})
 
     def get(self):
-        self.model = RedflagsModel()
-        redflags = RedflagsModel().get_all_redflags()
+        self.model = IncidentsModel()
+        redflags = self.model.get_all_redflags()
         return  jsonify({"status": 200, 
                         "data":[{
                             "RedFlags":redflags,
@@ -37,7 +62,7 @@ class RedFlag(Resource):
     """
 
     def get(self, id):
-        self.model = RedflagsModel()
+        self.model = IncidentsModel()
         redflag = self.model.get_redflag(id)
         if redflag:
             return jsonify({"status": 200,
@@ -51,7 +76,10 @@ class RedFlag(Resource):
 
     @jwt_required
     def put(self, id):
-        self.model = RedflagsModel()
+        
+        data = parser.parse_args()
+        self.model = IncidentsModel()
+
         redflag = self.model.edit_redflag(id)
         if redflag:
             return jsonify( {"status":204,
@@ -65,7 +93,7 @@ class RedFlag(Resource):
 
     @jwt_required
     def delete(self, id):
-        self.model = RedflagsModel()
+        self.model = IncidentsModel()
         redflag = self.model.delete_redflag(id)
         if redflag:
             return jsonify({"status":204, "message":"Redflag successfuly deleted"})   
@@ -77,7 +105,7 @@ class Comment(Resource):
     """
     @jwt_required
     def patch(self, id):
-        self.model = RedflagsModel()
+        self.model = IncidentsModel()
         comment_update = self.model.edit_comment(id)
         if comment_update:
             return {"status": 204, "message": "comment successfully updated"}
@@ -89,7 +117,7 @@ class Location(Resource):
     """
     @jwt_required
     def patch(self, id):
-        self.model = RedflagsModel()
+        self.model = IncidentsModel()
         location_update = self.model.edit_location(id)
         if location_update:
             return {"status": 204, "message": "location successfully updated"}

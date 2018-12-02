@@ -12,7 +12,20 @@ parser.add_argument("username",
 parser.add_argument("password",
                     type=str,
                     required=True,
-                    help="password field is required.")
+                    help="Password field is required.")
+parser.add_argument("email",
+                    type=str,
+                    help="Email field is required.")
+parser.add_argument("firstname",
+                    type=str,
+                    help="Firstname field is optional.")
+parser.add_argument("lastname",
+                    type=str,
+                    help="Lastname field is optional.")
+parser.add_argument("phoneNumber",
+                    type=int,
+                    help="Phone number field is optional.")
+                
 
 class Users(Resource):
     """
@@ -20,15 +33,7 @@ class Users(Resource):
     """
     def post(self):
 
-        data = parser.parse_args()
-        # Validation
-        # valid = validtion(data)
-
-        # if not valid["isValid"]:
-        #     return {
-        #         "status": 400,
-        #         "data": json.dumps(valid["errors"])
-        #     }           
+        data = parser.parse_args()        
         user = UserModel(**data)
 
         if user.find_by_username():

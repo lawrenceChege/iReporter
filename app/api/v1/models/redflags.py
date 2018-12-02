@@ -4,7 +4,7 @@ import datetime
 REDFLAGS = []
 
 
-class RedflagsModel():
+class IncidentsModel():
     def get_all_redflags(self):
         return REDFLAGS
 
