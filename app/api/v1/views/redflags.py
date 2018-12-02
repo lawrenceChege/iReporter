@@ -1,7 +1,7 @@
 """ These module deals with redflag methods and routes"""
 import datetime
 from flask_restplus import Resource
-from flask import request
+from flask import request, jsonify
 from app.api.v1.models.redflags import RedflagsModel
 
 
@@ -9,37 +9,64 @@ class RedFlags(Resource):
     """
         This class has methods for posting redflags and getting all redflags posted
     """
-    def __init__(self):
-        self.model = RedflagsModel()
 
     def post(self):
+        self.model = RedflagsModel()
         new_redflag = self.model.post_redflag()
-        return new_redflag
+        return jsonify({"status": 201, "data":[{
+                            "RedFlag":new_redflag,
+                        }],
+                        "message": "Redflag posted successfully!"})
 
     def get(self):
+        self.model = RedflagsModel()
         redflags = RedflagsModel().get_all_redflags()
-        return redflags
+        return  jsonify({"status": 200, 
+                        "data":[{
+                            "RedFlags":redflags,
+                        }],
+                        "message": "All redflags found successfully"})
 
 
 class RedFlag(Resource):
     """
         This class holds methods for single redflags
     """
-    def __init__(self):
-        self.model = RedflagsModel()
 
     def get(self, id):
-        get_specific = self.model.get_redflag(id)
-        return get_specific
+        self.model = RedflagsModel()
+        redflag = self.model.get_redflag(id)
+        if redflag:
+            return jsonify({"status": 200,
+                             "data":[
+                                 {
+                                     "redflag": redflag,
+                                 }
+                             ],
+                             "message": "Redflag successfully retrieved!"})
+        return jsonify({"status": 404, "message": "Redflag not found"})
 
     def put(self, id):
-        edit_one = self.model.edit_redflag(id)
-        return edit_one
+        self.model = RedflagsModel()
+        redflag = self.model.edit_redflag(id)
+        if redflag:
+            return jsonify( {"status":204,
+                              "data":[
+                                 {
+                                     "redflag": redflag,
+                                 }
+                             ],
+                             "message": "Redflag updated successfully!"}) 
+        return jsonify({"status": 404, "message": "Redflag not found"})
 
     def delete(self, id):
-        remove_redflag = self.model.delete_redflag(id)
-        return remove_redflag
+        self.model = RedflagsModel()
+        redflag = self.model.delete_redflag(id)
+        if redflag:
+            return jsonify({"status":204, "message":"Redflag successfuly deleted"})   
+        return jsonify({"status": 404, "message": "Redflag not found"})
 
     def patch(self, id):
+        self.model = RedflagsModel()
         comment_update = self.model.edit_comment(id)
         return comment_update
