@@ -1,6 +1,6 @@
 """ These module deals with redflag methods and routes"""
 import datetime
-from flask-restplus import Resource
+from flask_restplus import Resource
 from flask import request
 from app.api.v1.models.redflags import Helper
 
