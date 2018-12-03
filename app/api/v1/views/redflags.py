@@ -14,6 +14,7 @@ class RedFlags(Resource):
 
     def get(self):
         redflags = Helper().get_all()
+
         return redflags 
 
 class RedFlag(Resource):
@@ -27,4 +28,3 @@ class RedFlag(Resource):
         edit_redflag = Helper().edit_one()
         return edit_redflag
 
-        
