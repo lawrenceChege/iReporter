@@ -4,6 +4,7 @@ from flask_restplus import Resource, reqparse
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
 from app.api.v1.models.redflags import IncidentsModel
+from app.api.v1.validators.validators import Validate
 
 parser = reqparse.RequestParser(bundle_errors=True)
 
@@ -33,18 +34,21 @@ class RedFlags(Resource):
     """
         This class has methods for posting redflags and getting all redflags posted
     """
-    @jwt_required
+    # @jwt_required
     def post(self):
-
-        data = parser.parse_args()
+        
+        self.validate = Validate()
         self.model = IncidentsModel()
-        new_redflag = self.model.post_redflag()
-        if new_redflag:
-            return jsonify({"status": 201, "data":[{
-                                "RedFlag_id":new_redflag,
-                            }],
-                            "message": "Redflag posted successfully!"})
-        return jsonify({"status": 400, "message": "Redflag already exists"})
+        parser.parse_args()
+        # valid = self.validate.check_redflag()
+        if self.validate.check_redflag() is None:
+            new_redflag = self.model.post_redflag()
+            if new_redflag:
+                return jsonify({"status": 201, "data":[{
+                                    "RedFlag_id":new_redflag,
+                                }],
+                                "message": "Redflag posted successfully!"})
+            return jsonify({"status": 400, "message": "Redflag already exists"})
 
     def get(self):
         self.model = IncidentsModel()
