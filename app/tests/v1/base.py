@@ -92,14 +92,13 @@ class BaseTestCase(TestCase):
             "status": "Rejected"
         }
         self.person = {
-            "id": 1,
+            # "id": 1,
             "firstname": "carol",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
             "phoneNumber": "0708123123",
             "username": "carolmobic",
-            "registered": "26/11/2018",
-            "isAdmin": False,
+            "password": "carolmobic"
         }
         self.person_no_username = {
             "email": "bluish@gmail.com",
@@ -130,7 +129,7 @@ class BaseTestCase(TestCase):
         }
 
         self.correct_login = {"username": "carolmumbi",
-                              "password": "liquids23"}
+                              "password": "carolmobic"}
         self.wrong_login = {"username": "lawrence",
                             "password": "mistubishi"}
         self.no_username = {"username": "",
