@@ -14,4 +14,14 @@ class RedFlags(Resource):
 
     def get(self):
         redflags = Helper().get_all()
+
         return redflags 
+
+class RedFlag(Resource):
+    """
+        This class holds methods for single redflags
+    """
+    def get(self, redflag_id):
+        get_specific = Helper().get_one()
+        return get_specific
+

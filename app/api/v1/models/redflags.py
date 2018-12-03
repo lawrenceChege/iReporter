@@ -25,3 +25,12 @@ class Helper():
         }
         REDFLAGS.append(REDFLAG)
         return {"status": 201, "data": REDFLAG, "message": "Redflag posted successfully!"}
+
+    def get_one(self, redflag_id):
+        for REDFLAG in REDFLAGS:
+            if REDFLAG["id"] == redflag_id:
+                return {"status": 200, "data": REDFLAG}
+            else:
+                return {"status": 404, "message": "Redflag not found"}
+        
+
