@@ -44,6 +44,7 @@ class Helper():
                 REDFLAG["description"] = request.json["description"]
                 return {"status":204, "data": REDFLAG ,"message": "Redflag updated successfully!"}
 
+
     def delete_redflag(self, redflag_id):
         for REDFLAG in REDFLAGS:
             if REDFLAG["id"] == redflag_id:
@@ -52,3 +53,4 @@ class Helper():
 
 
         
+

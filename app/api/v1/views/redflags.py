@@ -13,7 +13,7 @@ class RedFlags(Resource):
         return new_redflag
 
     def get(self):
-        redflags = Helper().get_all_redflags()
+        redflags = Helper().get_all()
         return redflags 
 
 class RedFlag(Resource):
@@ -30,4 +30,3 @@ class RedFlag(Resource):
         remove_redflag = Helper().delete_redflag()
         return remove_redflag
 
-        
