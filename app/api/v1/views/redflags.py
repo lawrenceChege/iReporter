@@ -24,4 +24,7 @@ class RedFlag(Resource):
     def get(self, redflag_id):
         get_specific = Helper().get_one()
         return get_specific
+    def put(self, redflag_id):
+        edit_redflag = Helper().edit_one()
+        return edit_redflag
 
