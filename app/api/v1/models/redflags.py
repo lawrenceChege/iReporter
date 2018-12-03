@@ -4,7 +4,7 @@ REDFLAGS = []
 
 
 class Helper():
-    def get_all(self):
+    def get_all_redflags(self):
         return {"status": 200, "data": REDFLAGS, "message": "All redflags found successfully"}
 
     def post_redflag(self):
@@ -26,14 +26,14 @@ class Helper():
         REDFLAGS.append(REDFLAG)
         return {"status": 201, "data": REDFLAG, "message": "Redflag posted successfully!"}
 
-    def get_one(self, redflag_id):
+    def get_redflag(self, redflag_id):
         for REDFLAG in REDFLAGS:
             if REDFLAG["id"] == redflag_id:
                 return {"status": 200, "data": REDFLAG}
             else:
                 return {"status": 404, "message": "Redflag not found"}
 
-    def edit_one(self, redflag_id):
+    def edit_redflag(self, redflag_id):
         for REDFLAG in REDFLAGS:
             if REDFLAG["id"] == redflag_id:
                 REDFLAG["title"] = request.json["title"]
@@ -43,4 +43,14 @@ class Helper():
                 REDFLAG["location"] = request.json["location"]
                 REDFLAG["description"] = request.json["description"]
                 return {"status":204, "data": REDFLAG ,"message": "Redflag updated successfully!"}
+
+
+    def delete_redflag(self, redflag_id):
+        for REDFLAG in REDFLAGS:
+            if REDFLAG["id"] == redflag_id:
+                REDFLAGS.remove(REDFLAG[0])
+                return {"status":204, "message":"Redflag successfuly deleted"}
+
+
         
+
