@@ -30,11 +30,11 @@ parser.add_argument("location",
                     help="location field is optional.")
 
 
-class RedFlags(Resource):
+class Incidents(Resource):
     """
         This class has methods for posting redflags and getting all redflags posted
     """
-    # @jwt_required
+    @jwt_required
     def post(self):
         
         self.validate = Validate()
@@ -60,7 +60,7 @@ class RedFlags(Resource):
                         "message": "All redflags found successfully"})
 
 
-class RedFlag(Resource):
+class Incident(Resource):
     """
         This class holds methods for single redflags
     """
