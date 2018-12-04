@@ -1,56 +1,79 @@
-from flask_restplus import reqparse
+from flask import request, jsonify
 import datetime
 REDFLAGS = []
 
 
 class Helper():
     def get_all_redflags(self):
-        return {"status": 200, "data": REDFLAGS, "message": "All redflags found successfully"}
+        return jsonify({"status": 200, "data": REDFLAGS, "message": "All redflags found successfully"})
 
     def post_redflag(self):
-        self.parser = reqparse.RequestParser()
-        args = self.parser.parse_args()
+        args = request.get_json()
 
         REDFLAG = {
-            "id": len(REDFLAGS)+1,
-            "createdOn": datetime.datetime.now,
+            "redflag_id": len(REDFLAGS)+1,
+            "createdOn": str(datetime.datetime.now()),
+            "modifiedOn": str(datetime.datetime.now()),
             "createdBy": args["createdBy"],
-            "type": "RedFlag",
+            "type": args["type"],
             "title": args["title"],
-            "images":args["images"],
+            "images": args["images"],
             "video": args["video"],
             "location": args["location"],
-            "status": "pending",
+            "status": args["status"],
             "description": args["description"]
         }
         REDFLAGS.append(REDFLAG)
         return {"status": 201, "data": REDFLAG, "message": "Redflag posted successfully!"}
 
-    def get_redflag(self, redflag_id):
-        for REDFLAG in REDFLAGS:
-            if REDFLAG["id"] == redflag_id:
-                return {"status": 200, "data": REDFLAG}
-            else:
-                return {"status": 404, "message": "Redflag not found"}
+    def get_redflag(self, id):
+        REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
+        if len(REDFLAG) == 0:
+            return jsonify({"status": 404, "message": "Redflag not found"})
+        else:
+            return jsonify({"status": 200, "data": REDFLAG, "message": "Redflag successfully retrieved!"})
 
-    def edit_redflag(self, redflag_id):
-        for REDFLAG in REDFLAGS:
-            if REDFLAG["id"] == redflag_id:
-                REDFLAG["title"] = request.json["title"]
-                REDFLAG["type"] = request.json["type"]
-                REDFLAG["images"] = request.json["images"]
-                REDFLAG["video"] = request.json["video"]
-                REDFLAG["location"] = request.json["location"]
-                REDFLAG["description"] = request.json["description"]
-                return {"status":204, "data": REDFLAG ,"message": "Redflag updated successfully!"}
+    def edit_redflag(self, id):
+        REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
+        if len(REDFLAG) == 0:
+            return jsonify({"status": 404, "message": "Redflag not found"})
+        else:
+            REDFLAG[0]["title"] = request.json["title"]
+            REDFLAG[0]["type"] = request.json["type"]
+            REDFLAG[0]["modifiedOn"] = str(datetime.datetime.now())
+            REDFLAG[0]["images"] = request.json["images"]
+            REDFLAG[0]["video"] = request.json["video"]
+            REDFLAG[0]["location"] = request.json["location"]
+            REDFLAG[0]["description"] = request.json["description"]
+            return jsonify( {"status":204, "data": REDFLAG ,"message": "Redflag updated successfully!"})
+
+    def delete_redflag(self, id):
+        REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
+        if len(REDFLAG) == 0:
+            return jsonify({"status": 404, "message": "Redflag not found"})
+        else:
+            REDFLAGS.remove(REDFLAG[0])
+            return jsonify({"status":204, "message":"Redflag successfuly deleted"})            
 
 
-    def delete_redflag(self, redflag_id):
-        for REDFLAG in REDFLAGS:
-            if REDFLAG["id"] == redflag_id:
-                REDFLAGS.remove(REDFLAG[0])
-                return {"status":204, "message":"Redflag successfuly deleted"}
+    def edit_comment(self, id):
+        REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
+        if len(REDFLAG) == 0:
+            return jsonify ({"status": 404, "message": "Redflag not found"})  
+        else:
+            [{ "op": "replace", "path": "/comment", "value": request.json["description"] }]
+            # REDFLAG["description"] = request.json["description"]
+            return {"status": 204, "message": "comment successfully updated"}
 
+    def edit_location(self, id):
+        pass
+
+    def upload_image(self, id):
+        pass
+
+    def upload_video(self,id):
+        pass
+            
 
         
 
