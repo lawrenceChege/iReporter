@@ -36,7 +36,7 @@ class IncidentsModel():
                 "images": args["images"],
                 "video": args["video"],
                 "location": args["location"],
-                "status": args["status"],
+                "status": "pending",
                 "description": args["description"]
             }
             REDFLAGS.append(REDFLAG)

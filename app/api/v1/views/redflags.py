@@ -5,7 +5,7 @@ from flask import request, jsonify,Flask
 from flask_jwt_extended import jwt_required
 from app.api.v1.models.redflags import IncidentsModel
 
-# from app.api.v1.validators.validators import Validate
+from app.api.v1.validators.validators import Validate
 
 app =Flask(__name__)
 API = Api(app)
@@ -39,7 +39,7 @@ class Incidents(Resource):
         This class has methods for posting redflags and getting all redflags posted
     """
 
-    @jwt_required
+    # @jwt_required
     @API.doc(params={'title': 'The title of the incident',
                      'type': 'Redflag or Intervention',
                      'description': 'The general description of the incident',
@@ -51,17 +51,34 @@ class Incidents(Resource):
             This method  posts an incident to the databse
         """
 
-        # self.validate = Validate()
+        Valid = Validate()
         self.model = IncidentsModel()
-        self.parse = parser.parse_args()
+        args = parser.parse_args()
+        title = args["title"].strip()
+        images = args["images"].strip()
+        video = args["video"].strip()
+        location = args["location"].strip()
+        description= args["description"].strip()
+        if not request.json:
+            return jsonify({"error" : "check your request type"})
+        if not Valid.valid_string(title) or not bool(title) :
+            return {"error" : "Title is invalid or empty"}, 400
+        if not Valid.valid_string(images) :
+            return {"error" : "Images link is invalid"}, 400
+        if not Valid.valid_string(video):
+            return {"error" : "Video link is invalid"}, 400
+        if not Valid.valid_string(location):
+            return {"error" : "location input  is invalid"}, 400
+        if not Valid.valid_string(description) or not bool(description) :
+            return {"error" : "description is invalid or empty"}, 400
 
         new_redflag = self.model.post_incident()
         if new_redflag:
-            return jsonify({"status": 201, "data": [{
+            return {"status": 201, "data": [{
                 "RedFlag_id": new_redflag,
             }],
-                "message": "Redflag posted successfully!"})
-        return jsonify({"status": 400, "error": "Redflag already exists"})
+                "message": "Redflag posted successfully!"}, 201
+        return {"status": 400, "error": "Redflag already exists"}, 400
 
     @API.doc('List all Incidents')
     def get(self):
@@ -70,11 +87,11 @@ class Incidents(Resource):
         """
         self.model = IncidentsModel()
         redflags = self.model.get_all_incidents()
-        return jsonify({"status": 200,
+        return {"status": 200,
                         "data": [{
                             "RedFlags": redflags,
                         }],
-                        "message": "All redflags found successfully"})
+                        "message": "All redflags found successfully"}, 200
 
 
 class Incident(Resource):
@@ -89,14 +106,14 @@ class Incident(Resource):
         self.model = IncidentsModel()
         redflag = self.model.get_incident_by_id(id)
         if redflag:
-            return jsonify({"status": 200,
+            return {"status": 200,
                             "data": [
                                 {
                                     "redflag": redflag,
                                 }
                             ],
-                            "message": "Redflag successfully retrieved!"})
-        return jsonify({"status": 404, "error": "Redflag not found"})
+                            "message": "Redflag successfully retrieved!"}, 200
+        return {"status": 404, "error": "Redflag not found"}, 404
 
     @API.doc(params={'id': 'Incident id'})
     @jwt_required
@@ -104,19 +121,37 @@ class Incident(Resource):
         """
             This method modifies an incident partially or wholly
         """
-        parser.parse_args()
+        Valid = Validate()
         self.model = IncidentsModel()
+        args = parser.parse_args()
+        title = args["title"].strip()
+        images = args["images"].strip()
+        video = args["video"].strip()
+        location = args["location"].strip()
+        description= args["description"].strip()
+        if not request.json:
+            return jsonify({"error" : "check your request type"})
+        if not Valid.valid_string(title) or not bool(title) :
+            return {"error" : "Title is invalid or empty"}, 400
+        if not Valid.valid_string(images) :
+            return {"error" : "Images link is invalid"}, 400
+        if not Valid.valid_string(video):
+            return {"error" : "Video link is invalid"}, 400
+        if not Valid.valid_string(location):
+            return {"error" : "location input  is invalid"}, 400
+        if not Valid.valid_string(description) or not bool(description) :
+            return {"error" : "description is invalid or empty"}, 400
 
         redflag = self.model.edit_incident(id)
         if redflag:
-            return jsonify({"status": 204,
+            return {"status": 204,
                             "data": [
                                 {
                                     "redflag": redflag,
                                 }
                             ],
-                            "message": "Redflag updated successfully!"})
-        return jsonify({"status": 404, "error": "Redflag not found"})
+                            "message": "Redflag updated successfully!"},204
+        return {"status": 404, "error": "Redflag not found"},404
 
     @jwt_required
     @API.doc(params={'id': 'Incident id'})
@@ -127,8 +162,8 @@ class Incident(Resource):
         self.model = IncidentsModel()
         redflag = self.model.delete_incident(id)
         if redflag:
-            return jsonify({"status": 204, "message": "Redflag successfuly deleted"})
-        return jsonify({"status": 404, "error": "Redflag not found"})
+            return {"status": 204, "message": "Redflag successfuly deleted"}, 204
+        return {"status": 404, "error": "Redflag not found"}, 404
 
 
 class Comment(Resource):
@@ -141,11 +176,17 @@ class Comment(Resource):
         """
             This method modifies the description part of an incident.
         """
+        Valid = Validate()
         self.model = IncidentsModel()
+        args = parser.parse_args()
+        description: args["description"].strip()
+        if not Valid.valid_string(description) or not bool(description) :
+            return {"error" : "description is invalid or empty"}, 400
+
         comment_update = self.model.edit_incident_comment(id)
         if comment_update:
-            return {"status": 204, "message": "comment successfully updated"}
-        return jsonify({"status": 404, "error": "Redflag not found"})
+            return {"status": 204, "message": "comment successfully updated"}, 204
+        return {"status": 404, "error": "Redflag not found"}, 404
 
 
 class Location(Resource):
@@ -158,8 +199,14 @@ class Location(Resource):
         """
             This method modifies the location field of an incident
         """
+        Valid = Validate()
         self.model = IncidentsModel()
+        args = parser.parse_args()
+        location: args["location"].strip()
+        if not Valid.valid_string(location):
+            return {"error" : "location input  is invalid"}, 400
         location_update = self.model.edit_location(id)
         if location_update:
-            return {"status": 204, "message": "location successfully updated"}
-        return jsonify({"status": 404, "error": "Redflag not found"})
+            return {"status": 204, "message": "location successfully updated"}, 204
+        return {"status": 404, "error": "Redflag not found"}, 404
+    
