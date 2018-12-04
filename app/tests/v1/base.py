@@ -4,11 +4,12 @@ import unittest
 import datetime
 from unittest import TestCase
 from flask import current_app
-from flask import Flask
+from app import create_app
+# from flask import Flask
 
-def create_app():
-    APP= Flask(__name__, instance_relative_config=True)
-    return APP
+# def create_app():
+#     APP= Flask(__name__, instance_relative_config=True)
+#     return APP
 
 
 
@@ -23,67 +24,67 @@ class BaseTestCase(TestCase):
             Setup the flask app for testing. 
             It initializes the app and app context.
         """
-        _app = create_app()
+        _app = create_app("testing")
 
         self.app = _app.test_client()
         self.app_context = _app.app_context()
         self.app_context.push()
+        self.token = 0
 
         self.red_flag = {
-            "createdOn": str(datetime.datetime.now()),
-            "createdBy": "carolmobic",
             "type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "status": "pending",
-            "Images": "[Image, Image]",
-            "Videos": "[Image, Image]",
-            "comment": "falling  building"
+            "images": "[Image, Image]",
+            "video": "[Image, Image]",
+            "description": "falling  building"
+        }
+        self.red_flag2 = {
+            "type": "RedFlag",
+            "title": "NCA site auth",
+            "location": "37.12N, 3.7E",
+            "status": "pending",
+            "images": "[Image, Image]",
+            "video": "[Image, Image]",
+            "description": "falling  building is here"
         }
 
         self.update_redflag = {
-            "createdOn": str(datetime.datetime.now()),
-            "createdBy": "carolmobic",
             "type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "status": "pending",
-            "Images": "[Image, Image]",
-            "Videos": "[Image, Image]",
-            "comment": "falling construction building"
+            "images": "[Image, Image]",
+            "video": "[Image, Image]",
+            "description": "falling construction building"
         }
         self.redflag_no_title = {
-            "createdOn": str(datetime.datetime.now()),
-            "createdBy": "carolmobic",
             "type": "RedFlag",
             "title": "",
             "location": "37.12N, 3.7E",
             "status": "pending",
-            "Images": "[Image, Image]",
-            "Videos": "[Image, Image]",
-            "comment": "falling construction building"
+            "images": "[Image, Image]",
+            "video": "[Image, Image]",
+            "descrrption": "falling construction building"
         }
         self.redflag_no_comment = {
-            "createdOn": str(datetime.datetime.now()),
-            "createdBy": "carolmobic",
             "type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "status": "pending",
-            "Images": "[Image, Image]",
-            "Videos": "[Image, Image]",
-            "comment": ""
+            "images": "[Image, Image]",
+            "video": "[Image, Image]",
+            "description": ""
         }
         self.redflag_invalid_title = {
-            "createdOn": str(datetime.datetime.now()),
-            "createdBy": "carolmobic",
             "type": 12345,
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "status": "pending",
-            "Images": "[Image, Image]",
-            "Videos": "[Image, Image]",
-            "comment": "falling construction building"
+            "images": "[Image, Image]",
+            "video": "[Image, Image]",
+            "description": "falling construction building"
         }
         self.status_Resolved = {
             "status": "Resolved"
@@ -92,13 +93,12 @@ class BaseTestCase(TestCase):
             "status": "Rejected"
         }
         self.person = {
-            # "id": 1,
             "firstname": "carol",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
             "phoneNumber": "0708123123",
             "username": "carolmobic",
-            "password": "carolmobic"
+            "password": "carolmumbi"
         }
         self.person_no_username = {
             "email": "bluish@gmail.com",
@@ -124,12 +124,14 @@ class BaseTestCase(TestCase):
             "email": "carolmumbi@gmail.com",
             "phoneNumber": "0708123123",
             "username": "carolmobic",
-            "registered": 26/11/2018,
-            "isAdmin": False,
+            "registered": 26/11/2018
         }
 
-        self.correct_login = {"username": "carolmumbi",
-                              "password": "carolmobic"}
+        self.correct_login = {
+            "username": "carolmobic",
+            "password": "carolmumbi"
+            }
+
         self.wrong_login = {"username": "lawrence",
                             "password": "mistubishi"}
         self.no_username = {"username": "",
@@ -143,8 +145,7 @@ class BaseTestCase(TestCase):
             "email": "carolmumbi@gmail.com",
             "phoneNumber": "0708123123",
             "username": "carolmobic",
-            "registered": "26/11/2018",
-            "isAdmin": False,
+            "registered": "26/11/2018"
         }
 
         self.admin_correct = {"username": "admin",
@@ -152,17 +153,17 @@ class BaseTestCase(TestCase):
         self.admin_wrong = {"username": "lawrence",
                             "password": "mimi"}
 
-    def test_app(self):
-        """
-            This method tests if an app context exists
-        """
-        self.assertFalse(current_app is None)
+    # def test_app(self):
+    #     """
+    #         This method tests if an app context exists
+    #     """
+    #     self.assertFalse(current_app is None)
 
-    def test_app_config(self):
-        """
-            This method tests if the app environment is set to testing
-        """
-        self.assertTrue(current_app.config['TESTING'])
+    # def test_app_config(self):
+    #     """
+    #         This method tests if the app environment is set to testing
+    #     """
+    #     self.assertTrue(current_app.config['TESTING'])
 
     def tearDown(self):
         """

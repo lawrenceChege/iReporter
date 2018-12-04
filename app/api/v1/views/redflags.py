@@ -4,7 +4,7 @@ from flask_restplus import Resource, reqparse
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
 from app.api.v1.models.redflags import IncidentsModel
-from app.api.v1.validators.validators import Validate
+# from app.api.v1.validators.validators import Validate
 
 parser = reqparse.RequestParser(bundle_errors=True)
 
@@ -34,21 +34,21 @@ class Incidents(Resource):
     """
         This class has methods for posting redflags and getting all redflags posted
     """
+   
     @jwt_required
     def post(self):
         
-        self.validate = Validate()
+        # self.validate = Validate()
         self.model = IncidentsModel()
-        parser.parse_args()
-        # valid = self.validate.check_redflag()
-        if self.validate.check_redflag() is None:
-            new_redflag = self.model.post_redflag()
-            if new_redflag:
-                return jsonify({"status": 201, "data":[{
-                                    "RedFlag_id":new_redflag,
-                                }],
-                                "message": "Redflag posted successfully!"})
-            return jsonify({"status": 400, "message": "Redflag already exists"})
+        self.parse = parser.parse_args()
+        
+        new_redflag = self.model.post_redflag()
+        if new_redflag:
+            return jsonify({"status": 201, "data":[{
+                                "RedFlag_id":new_redflag,
+                            }],
+                            "message": "Redflag posted successfully!"})
+        return jsonify({"status": 400, "error": "Redflag already exists"})
 
     def get(self):
         self.model = IncidentsModel()
@@ -76,7 +76,7 @@ class Incident(Resource):
                                  }
                              ],
                              "message": "Redflag successfully retrieved!"})
-        return jsonify({"status": 404, "message": "Redflag not found"})
+        return jsonify({"status": 404, "error": "Redflag not found"})
 
     @jwt_required
     def put(self, id):
@@ -93,7 +93,7 @@ class Incident(Resource):
                                  }
                              ],
                              "message": "Redflag updated successfully!"}) 
-        return jsonify({"status": 404, "message": "Redflag not found"})
+        return jsonify({"status": 404, "error": "Redflag not found"})
 
     @jwt_required
     def delete(self, id):
@@ -101,7 +101,7 @@ class Incident(Resource):
         redflag = self.model.delete_redflag(id)
         if redflag:
             return jsonify({"status":204, "message":"Redflag successfuly deleted"})   
-        return jsonify({"status": 404, "message": "Redflag not found"})
+        return jsonify({"status": 404, "error": "Redflag not found"})
 
 class Comment(Resource):
     """
@@ -113,7 +113,7 @@ class Comment(Resource):
         comment_update = self.model.edit_comment(id)
         if comment_update:
             return {"status": 204, "message": "comment successfully updated"}
-        return jsonify ({"status": 404, "message": "Redflag not found"})
+        return jsonify ({"status": 404, "error": "Redflag not found"})
 
 class Location(Resource):
     """
@@ -125,4 +125,4 @@ class Location(Resource):
         location_update = self.model.edit_location(id)
         if location_update:
             return {"status": 204, "message": "location successfully updated"}
-        return jsonify ({"status": 404, "message": "Redflag not found"})
+        return jsonify ({"status": 404, "error": "Redflag not found"})
