@@ -29,8 +29,6 @@ class IncidentsModel():
             return REDFLAG
         return None
 
-    
-
     def get_redflag(self, id):
         REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
         if len(REDFLAG) == 0:
@@ -88,3 +86,4 @@ class IncidentsModel():
             
 
         
+

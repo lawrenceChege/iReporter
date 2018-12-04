@@ -59,7 +59,6 @@ class Incidents(Resource):
                         }],
                         "message": "All redflags found successfully"})
 
-
 class Incident(Resource):
     """
         This class holds methods for single redflags
