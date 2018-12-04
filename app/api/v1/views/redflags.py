@@ -16,8 +16,7 @@ class RedFlags(Resource):
 
     def get(self):
         redflags = Helper().get_all_redflags()
-        return redflags
-
+        return redflag
 
 class RedFlag(Resource):
     """
@@ -35,7 +34,6 @@ class RedFlag(Resource):
     def delete(self, id):
         remove_redflag = Helper().delete_redflag(id)
         return remove_redflag
-
     def patch(self, id):
         comment_update = Helper().edit_comment(id)
         return comment_update

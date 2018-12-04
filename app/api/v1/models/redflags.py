@@ -24,7 +24,7 @@ class Helper():
             "description": args["description"]
         }
         REDFLAGS.append(REDFLAG)
-        return jsonify({"status": 201, "data": REDFLAG, "message": "Redflag posted successfully!"})
+        return {"status": 201, "data": REDFLAG, "message": "Redflag posted successfully!"}
 
     def get_redflag(self, id):
         REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
@@ -76,3 +76,4 @@ class Helper():
             
 
         
+
