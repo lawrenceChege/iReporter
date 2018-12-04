@@ -38,7 +38,7 @@ class Users(Resource):
         This class defines methods for getting all users and signing up
     """
 
-    @api.doc(param={'firstname': 'Enter first name',
+    @api.doc(params={'firstname': 'Enter first name',
                     'lastname': 'Enter last name',
                     'email': 'Enter email',
                     'phoneNumber': 'Enter phone number',
@@ -73,7 +73,7 @@ class User(Resource):
     """
         This class defines mthods for login in
     """
-    @api.doc(param={'Username': 'Enter a unique username',
+    @api.doc(params={'Username': 'Enter a unique username',
                     'password': 'Enter password'})
     def post(self):
         """
