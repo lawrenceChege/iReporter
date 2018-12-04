@@ -1,47 +1,34 @@
-# """ This module does validation for data input in incidents """
-# import re
-# from app.api.v1.views.redflags import Incidents
+""" This module does validation for data input in incidents """
+import re
 
-# class Validate(Incidents):
-#     """
-#         methods for validatin incidents input data
-#     """
+class Validate():
+    """
+        methods for validatin incidents input data
+    """
+
+    def valid_email(self, email):
+        vemail = re.match(
+        r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email)
+        if not vemail:
+            return None
+        return True
+
+    def valid_password(self, password):
+        password = re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password)
+        if password is None:
+            return None
+        return True
     
-#     def __init__(self):
-#         self.args = parse
-#         self.title = self.args["title"]
-#         self.description = self.args["description"]
-#         self.type = self.args["type"]
+    def valid_string(self, value):
+        """
+            checks if value in data is empty
+        """
+        if not isinstance(value, str):
+            return None
+        return True
 
-#     def check_redflag(self):
-#         self.check_title()
-#         self.check_description()
-#         self.check_type()
-
-#     def check_email(self):
-#         pass
-
-#     def check_password(self):
-#         pass
-    
-#     def check_username(self):
-#         pass
-
-#     def check_title(self):
-#         if isinstance(self.args["title"], str) and len(self.title) == 0:
-#             return {"message": "Title string is required "}
-#         return None
-
-#     def check_description(self):
-#         if isinstance(self.args["description"], str) and len(self.description) == 0:
-#             return {"message": "Description string is required "}
-#         return None
-
-
-#     def check_type(self):
-#         if isinstance(self.args["type"], str) and len(self.type) == 0:
-#             return {"message": "Type string is required "}
-#         return None
+    def blank_key(self):
+        pass
 
 
     
