@@ -42,7 +42,7 @@ class Users(Resource):
                     'lastname': 'Enter last name',
                     'email': 'Enter email',
                     'phoneNumber': 'Enter phone number',
-                    'Username': 'Enter a unique username',
+                    'username': 'Enter a unique username',
                     'password': 'Enter password'})
     def post(self):
         """

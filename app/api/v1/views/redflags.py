@@ -41,7 +41,7 @@ class Incidents(Resource):
 
     @jwt_required
     @API.doc(params={'title': 'The title of the incident',
-                     'typpe': 'Redflag or Intervention',
+                     'type': 'Redflag or Intervention',
                      'description': 'The general description of the incident',
                      'images': 'The link to the image',
                      'video': 'the link to the video',
