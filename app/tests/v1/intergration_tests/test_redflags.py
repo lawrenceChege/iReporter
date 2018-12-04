@@ -23,7 +23,7 @@
 #             This method tests for CRUD functionality of the class
 #         """
 
-#         redflag = RedflagsModel(**TESTREDFLAG.incident) 
+#         redflag = RedflagsModel(**TESTREDFLAG.incident)
 
 #         self.assertIsNone( RedflagsModel().get_redflag(1)),
 #         "Get a redflag with id '1' before saving"
@@ -34,5 +34,3 @@
 #         self.assertIsNotNone(RedflagsModel().get_redflag(1)),
 #         "Did not find a redflag with"
 #         "id '1' after post"
-        
-   

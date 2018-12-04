@@ -1,15 +1,23 @@
+"""
+    This module holds the Model for the Users
+"""
+import datetime
 from flask_restplus import reqparse
 from flask import request
 from flask_jwt_extended import create_access_token
-import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
 USERS = []
 
+
 class UserModel():
+    """
+        This class manages the data for the users
+    """
     id = 1
-    def __init__(self, firstname=None, 
-                lastname=None, email=None, phoneNumber=None, username=None, password=None):
+
+    def __init__(self, firstname=None,
+                 lastname=None, email=None, phoneNumber=None, username=None, password=None):
         self.id = UserModel.id
         self.firstname = firstname
         self.lastname = lastname
@@ -30,7 +38,7 @@ class UserModel():
 
         private_key = generate_password_hash(request.json["password"])
         return private_key
-    
+
     def check_password_match(self):
         """
         Check if pass match
@@ -45,7 +53,6 @@ class UserModel():
         token = create_access_token(identity=self.username)
         return token
 
-
     def find_by_id(self, id):
         """
         Find user by id
@@ -59,29 +66,38 @@ class UserModel():
         """
         Find user by username
         """
-        user = [u.username for u in self.db if u.username == request.json["username"]]
-        if user: 
+        user = [u.username for u in self.db if u.username ==
+                request.json["username"]]
+        if user:
             return user
         return None
 
     def save_to_db(self):
+        """
+            This method saves the user to the database.
+        """
         self.db.append(self)
 
     def login_user(self):
+        """
+            This method logs in the user.
+            It takes username and password as parameters and
+            It returns jwt token
+        """
         u = self.find_by_username()
-    
+
         if u:
             # password = [u.password for u in self.db if u.password == request.json["password"]]
             if self.check_password_match():
                 token = self.generate_jwt_token()
                 return {"status": 200,
-                        "data":[{
-                            "token":"Bearer"+" "+token
+                        "data": [{
+                            "token": "Bearer"+" "+token
                         }],
-                        "message":"successful"}
+                        "message": "successful"}
             return {"status": 401, "message": "wrong credntials!"}
-        return {"status":404, "message": "user not found"}
-               
+        return {"status": 404, "message": "user not found"}
+
     # def validtion(body):
     #     errors = []
     #     isValid = False
@@ -95,7 +111,7 @@ class UserModel():
     #             "password": "password field Required"
     #         })
 
-    #     if len(errors) != 0: 
+    #     if len(errors) != 0:
     #         isValid = True
 
     #     return {

@@ -5,28 +5,27 @@ from app.tests.v1.base import BaseTestCase
 
 class TestRequestsTestCase(BaseTestCase):
     """Tests for redflags"""
-    
+
     def signup(self):
         """ 
              create a test user 
-        """ 
+        """
         response = self.app.post('/api/v1/auth/signup/',
-                                    data = json.dumps(self.person),
-                                    headers = {'content-type': 'application/json'}
-                                    )
+                                 data=json.dumps(self.person),
+                                 headers={'content-type': 'application/json'}
+                                 )
 
         return response
-
 
     def login(self):
         """
             sign in a user
         """
         response = self.app.post('api/v1/auth/login/',
-                                    data = json.dumps(self.correct_login),
-                                    headers = {'content-type': 'application/json'})
+                                 data=json.dumps(self.correct_login),
+                                 headers={'content-type': 'application/json'})
         return response
-   
+
     def get_jwt_token(self):
         """
             get jwt token
@@ -44,20 +43,18 @@ class TestRequestsTestCase(BaseTestCase):
         self.get_jwt_token()
         token = self.token
         redflag = self.app.post('/api/v1/incidents/',
-                                data = json.dumps(data),
-                                headers = {'content-type': 'application/json',
-                                            'Authorization': token})
+                                data=json.dumps(data),
+                                headers={'content-type': 'application/json',
+                                         'Authorization': token})
         return redflag
-
 
     def test_app_works(self):
         response = self.app.get('api/v1')
         self.assertEqual(response.status_code, 301)
 
-
     def test_post_incident(self):
         """Test for posting an incident"""
-        #correct request
+        # correct request
         response = self.post_incident(self.red_flag2)
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
@@ -82,14 +79,14 @@ class TestRequestsTestCase(BaseTestCase):
     def test_view_all_incidents(self):
         """Test for viewing all incidents"""
         self.post_incident(self.red_flag)
-        response = self.app.get('/api/v1/incidents/')        
+        response = self.app.get('/api/v1/incidents/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], "All redflags found successfully")
 
     def test_view_an_incident(self):
         """Test for vieving a particular redflag"""
-        #existing redflag
+        # existing redflag
         self.post_incident(self.red_flag)
         response = self.app.get('/api/v1/incidents/1/')
         self.assertEqual(response.status_code, 200)
@@ -98,12 +95,11 @@ class TestRequestsTestCase(BaseTestCase):
 
     def test_view_incident_not_found(self):
         """Test for viewing an incident that does not exist"""
-        #redflag does not exist
+        # redflag does not exist
         response = self.app.get('/api/v1/incidents/1344/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], "Redflag not found")
-
 
     def test_modify_an_incident(self):
         """Test for modifying an incident """
@@ -112,19 +108,19 @@ class TestRequestsTestCase(BaseTestCase):
         response = self.app.put('/api/v1/incidents/1/',
                                 data=json.dumps(self.update_redflag),
                                 headers={'content-type': "application/json",
-                                            'Authorization': token})
+                                         'Authorization': token})
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], "Redflag updated successfully!")
 
     def test_modify_incident_not_found(self):
-        
+
         self.post_incident(self.red_flag)
         token = self.token
         response = self.app.put('/api/v1/incidents/143/',
                                 data=json.dumps(self.update_redflag),
                                 headers={'content-type': "application/json",
-                                            'Authorization': token})
+                                         'Authorization': token})
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], "Redflag not found")
@@ -134,23 +130,19 @@ class TestRequestsTestCase(BaseTestCase):
         self.post_incident(self.red_flag)
         token = self.token
         response = self.app.delete('/api/v1/incidents/2/',
-                                    headers = {'content-type': 'application/json',
+                                   headers={'content-type': 'application/json',
                                             'Authorization': token})
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], "Redflag successfuly deleted")
 
     def test_delete_incident_not_found(self):
-        
+
         self.post_incident(self.red_flag)
         token = self.token
         response = self.app.delete('/api/v1/incidents/2222/',
-                                    headers = {'content-type': 'application/json',
+                                   headers={'content-type': 'application/json',
                                             'Authorization': token})
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], "Redflag not found")
-        
-    
-
-    
