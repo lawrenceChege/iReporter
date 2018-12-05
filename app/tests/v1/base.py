@@ -35,7 +35,6 @@ class BaseTestCase(TestCase):
             "type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
-            "status": "pending",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
             "description": "falling  building"
@@ -44,7 +43,6 @@ class BaseTestCase(TestCase):
             "type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
-            "status": "pending",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
             "description": "falling  building is here"
@@ -54,7 +52,6 @@ class BaseTestCase(TestCase):
             "type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
-            "status": "pending",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
             "description": "falling construction building"
@@ -63,28 +60,33 @@ class BaseTestCase(TestCase):
             "type": "RedFlag",
             "title": "",
             "location": "37.12N, 3.7E",
-            "status": "pending",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
             "descrrption": "falling construction building"
+        }
+        self.redflag_invalid_image = {
+            "type": "RedFlag",
+            "title": "",
+            "location": "37.12N, 3.7E",
+            "images":9&8,
+            "video": "[Image, Image]",
+            "descrrption": "falling constructions center"
         }
         self.redflag_no_comment = {
             "type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
-            "status": "pending",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
             "description": ""
         }
-        self.redflag_invalid_title = {
-            "type": 12345,
+        self.redflag_invalid_video = {
+            "type": "12345",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
-            "status": "pending",
             "images": "[Image, Image]",
-            "video": "[Image, Image]",
-            "description": "falling construction building"
+            "video": 1234,
+            "description": "falling construction kapanga building"
         }
         self.status_Resolved = {
             "status": "Resolved"
@@ -98,15 +100,23 @@ class BaseTestCase(TestCase):
             "email": "carolmumbi@gmail.com",
             "phoneNumber": "0708123123",
             "username": "carolmobic",
-            "password": "carolmumbi"
+            "password": "mae12#embiliA"
+        }
+        self.person1 = {
+            "firstname": "mwaniki",
+            "lastname": "mumbi",
+            "email": "carolmumbi@gmail.com",
+            "phoneNumber": "0708123123",
+            "username": "carolnice",
+            "password": "mae12#embiliA"
         }
         self.person_no_username = {
             "email": "bluish@gmail.com",
-            "password": "maembembili"
+            "password": "mae12#embili"
         }
         self.person_no_email = {
             "username": "lawrence",
-            "password": "maembembili"
+            "password": "mae12#embili"
         }
         self.person_no_password = {
             "username": "lawrence",
@@ -115,24 +125,37 @@ class BaseTestCase(TestCase):
         self.person_invalid_email = {
             "username": "lawrence",
             "email": "mbuchez.com",
-            "password": "maembembili"
+            "password": "mae12#embili"
+        }
+        self.person_invalid_username = {
+            "username": "",
+            "email": "mbuchez@gmail.com",
+            "password": "mae12#embili"
+        }
+        self.person_invalid_password = {
+            "username": "mama yao",
+            "email": "mbuchez@gmail.com",
+            "password": "maembe"
         }
         self.person_existing_user = {
-            "id": 1,
-            "firstname": "carol",
+            "firstname": "carolol",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
             "phoneNumber": "0708123123",
             "username": "carolmobic",
-            "registered": 26/11/2018
+            "password": "aswdeAWSE$WE"
         }
 
         self.correct_login = {
             "username": "carolmobic",
-            "password": "carolmumbi"
+            "password": "mae12#embiliA"
+            }
+        self.correct_login1 = {
+            "username": "carolmobic",
+            "password": "aswdeAWSE$WE"
             }
 
-        self.wrong_login = {"username": "lawrence",
+        self.wrong_login = {"username": "carolmoboc",
                             "password": "mistubishi"}
         self.no_username = {"username": "",
                             "password": "maembembili"}
