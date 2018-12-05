@@ -10,29 +10,6 @@ from app.api.v1.validators.validators import Validate
 app = Flask(__name__)
 api = Api(app)
 
-parser = reqparse.RequestParser(bundle_errors=True)
-
-parser.add_argument("username",
-                    type=str,
-                    required=True,
-                    help="Username field is required.")
-parser.add_argument("password",
-                    type=str,
-                    required=True,
-                    help="Password field is required.")
-parser.add_argument("email",
-                    type=str,
-                    help="Email field is required.")
-parser.add_argument("firstname",
-                    type=str,
-                    help="Firstname field is optional.")
-parser.add_argument("lastname",
-                    type=str,
-                    help="Lastname field is optional.")
-parser.add_argument("phoneNumber",
-                    type=int,
-                    help="Phone number field is optional.")
-
 
 class Users(Resource):
     """
@@ -49,6 +26,30 @@ class Users(Resource):
         """
             This method registers a user to the database.
         """
+                
+        parser = reqparse.RequestParser(bundle_errors=True)
+
+        parser.add_argument("username",
+                            type=str,
+                            required=True,
+                            help="Username field is required.")
+        parser.add_argument("password",
+                            type=str,
+                            required=True,
+                            help="Password field is required.")
+        parser.add_argument("email",
+                            type=str,
+                            required = True,
+                            help="Email field is required.")
+        parser.add_argument("firstname",
+                            type=str,
+                            help="Firstname field is optional.")
+        parser.add_argument("lastname",
+                            type=str,
+                            help="Lastname field is optional.")
+        parser.add_argument("phoneNumber",
+                            type=int,
+                            help="Phone number field is optional.")
 
         args = parser.parse_args()
         user = UserModel(**args)
@@ -58,7 +59,7 @@ class Users(Resource):
         password =args['password'].strip()
         if not request.json:
             return jsonify({"error" : "check your request type"})
-        if not Valid.valid_string(username) or not bool(username) :
+        if not email or not Valid.valid_string(username) or not bool(username) :
             return {"error" : "Username is invalid or empty"}, 400
         if not Valid.valid_email(email) or not bool(email):
             return {"error" : "Email is invalid or empty!"}, 400
@@ -92,8 +93,19 @@ class User(Resource):
         """
             This method logs in the user
         """
+                
+        parser = reqparse.RequestParser(bundle_errors=True)
+
+        parser.add_argument("username",
+                            type=str,
+                            required=True,
+                            help="Username field is required.")
+        parser.add_argument("password",
+                            type=str,
+                            required=True,
+                            help="Password field is required.")
         args = parser.parse_args()
-        user = UserModel(**args)
+        users = UserModel(**args)
         Valid = Validate()
         username = args['username'].strip()
         password =args['password'].strip()
@@ -104,5 +116,14 @@ class User(Resource):
         if not Valid.valid_password(password) or not bool(password):
             return {
                 "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
-        user_login = user.login_user()
-        return user_login, 201
+        user = users.find_by_username()
+        if user:
+            token = users.login_user()
+            if token:
+                return {"status": 200,
+                            "data": [{
+                                "token": "Bearer"+" "+token
+                            }],
+                            "message": "successful"}, 201
+            return {"status": 401, "message": "wrong credntials!"}, 401
+        return {"status": 404, "message": "user not found"}, 404
