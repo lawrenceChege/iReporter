@@ -11,7 +11,7 @@ class TestIncidentsTestCase(BaseTestCase):
              create a test user 
         """
         response = self.app.post('/api/v1/auth/signup/',
-                                 data=json.dumps(self.person),
+                                 data=json.dumps(self.person_existing_user),
                                  headers={'content-type': 'application/json'}
                                  )
 
@@ -22,7 +22,7 @@ class TestIncidentsTestCase(BaseTestCase):
             sign in a user
         """
         response = self.app.post('api/v1/auth/login/',
-                                 data=json.dumps(self.correct_login),
+                                 data=json.dumps(self.correct_login1),
                                  headers={'content-type': 'application/json'})
         return response
 

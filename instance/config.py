@@ -12,12 +12,14 @@ class Config:
     DEBUG = False
     BUNDLE_ERRORS = True
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+    # JWT_ACCESS_TOKEN_EXPIRES = os.getenv('JWT_ACCESS_TOKEN_EXPIRES')
 
 
 class DevelopmentConfig(Config):
     """
         Thsi defines the development environment of the app
     """
+    
     DEBUG = True
 
 

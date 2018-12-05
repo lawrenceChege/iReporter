@@ -67,20 +67,15 @@ class Users(Resource):
             return {"error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
 
         if user.find_by_username():
-            return {"status": 400,
-                    "data": [
-                        {
-                            "message": "Username already in use."
-                        }
-                    ]}, 400
+            return {"status": 400,  "error": "Username already in use." }, 400
         user.save_to_db()
         return {"status": 201,
                 "data": [
                     {
-                        "id": user.id,
-                        "message": 'User created Succesfully.'
-                    }
-                ]}, 201
+                        "id": user.id
+                    }],              
+                    "message": 'User created Succesfully.'
+                }, 201
 
 
 class User(Resource):
@@ -125,5 +120,5 @@ class User(Resource):
                                 "token": "Bearer"+" "+token
                             }],
                             "message": "successful"}, 201
-            return {"status": 401, "message": "wrong credntials!"}, 401
-        return {"status": 404, "message": "user not found"}, 404
+            return {"status": 401, "error": "wrong credntials!"}, 401
+        return {"status": 404, "error": "user not found"}, 404
