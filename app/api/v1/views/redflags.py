@@ -170,13 +170,13 @@ class Incident(Resource):
 
         redflag = self.model.edit_incident(id)
         if redflag:
-            return {"status": 204,
+            return {"status": 200,
                             "data": [
                                 {
                                     "redflag": redflag,
                                 }
                             ],
-                            "message": "Redflag updated successfully!"},204
+                            "message": "Redflag updated successfully!"},200
         return {"status": 404, "error": "Redflag not found"},404
 
     @jwt_required
@@ -188,7 +188,7 @@ class Incident(Resource):
         self.model = IncidentsModel()
         redflag = self.model.delete_incident(id)
         if redflag:
-            return {"status": 204, "message": "Redflag successfuly deleted"}, 204
+            return {"status": 200, "message": "Redflag successfuly deleted"}, 200
         return {"status": 404, "error": "Redflag not found"}, 404
 
 
@@ -217,7 +217,7 @@ class Comment(Resource):
 
         comment_update = self.model.edit_incident_comment(id)
         if comment_update:
-            return {"status": 204, "message": "comment successfully updated"}, 204
+            return {"status": 200, "message": "comment successfully updated"}, 200
         return {"status": 404, "error": "Redflag not found"}, 404
 
 
@@ -244,7 +244,7 @@ class Location(Resource):
             return {"error" : "location input  is invalid"}, 400
         location_update = self.model.edit_location(id)
         if location_update:
-            return {"status": 204, "message": "location successfully updated"}, 204
+            return {"status": 200, "message": "location successfully updated"}, 200
         return {"status": 404, "error": "Redflag not found"}, 404
 
 
