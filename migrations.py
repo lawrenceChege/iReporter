@@ -2,8 +2,8 @@
 import os
 import psycopg2
 
-DATABASE_URL = os.getenv('DATABASE_URL')
-TEST_DATABASE_URL = os.getenv('TEST_DATABASE_URL')
+DATABASE_URL = 'dbname="ireporter"  host="localhost" user="postgres" password="12345678"'
+TEST_DATABASE_URL = 'dbname="ireporter_test"  host="localhost" user="postgres" password="12345678"'
 CONNECTION_CREDS = {
     "host": os.getenv('DB_HOST'),    
     "database": os.getenv('DB_NAME'),
@@ -29,36 +29,36 @@ def init_db():
         connect to ireporter database
     """
     try:
-        print("conecting to ireporter database ...")
+        print("conecting to ireporter database ...\n")
         try:
             conn = connection(**CONNECTION_CREDS)
-            print("connected to db")
+            print("connected to db\n")
             return conn
         except :
             conn = connection(DATABASE_URL)
-            print("connected to db")
+            print("connected to db\n")
             return conn
     except:
-        print("connection to database failed")
+        print("connection to database failed\n")
 
 def init_test_db():
     """
         connect to test db
     """
     try:
-        print("conecting to TEST database ...")
+        print("conecting to TEST database ...\n")
         try:
             conn = connection(**TEST_CONNECTION_CREDS)
-            print("connected to tet db")
+            print("connected to tet db\n")
             return conn
         except :
             conn = connection(TEST_DATABASE_URL)
-            print("connected to test db")
+            print("connected to test db\n")
             return conn
     except:
-        print("connection to test database failed")
+        print("connection to test database failed\n")
 
-def create_tables():
+def create_tables(db):
     """
         create tables in the database
     """
@@ -94,30 +94,29 @@ def create_tables():
         """
     )
     conn = None
-    test_conn = None
     try:
-        test_conn = init_test_db()
-        test_cur = test_conn.cursor()
-        conn = init_db()
-        cur = conn.cursor()
-        for command in commands:
-            cur.execute(command)
-            test_cur.execute(command)
-        cur.close()
-        test_cur.close()
-        conn.commit()
-        test_conn.commit()
-        conn.close()
-        test_conn.close()
+        if db == 'main':
+            conn = init_db()
+            cur = conn.cursor()
+            for command in commands:
+                cur.execute(command)
+            cur.close()
+            conn.commit()
+            conn.close()
+        elif db == 'test':
+            conn = init_test_db()
+            cur = conn.cursor()
+            for command in commands:
+                cur.execute(command)
+            cur.close()
+            conn.commit()
+            conn.close()       
 
     except (Exception, psycopg2.DatabaseError) as error:
         print (error)
-        print('could not create tables')
+        print('could not create tables\n')
     finally:
-        if conn or test_conn is not None:
+        if conn is not None:
             conn.close()
-            test_conn.close()
 
-if __name__ == '__main__':
-    create_tables()
     
