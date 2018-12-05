@@ -9,7 +9,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 USERS = []
 
-
 class UserModel():
     """
         This class manages the data for the users
@@ -83,38 +82,10 @@ class UserModel():
             This method logs in the user.
             It takes username and password as parameters and
             It returns jwt token
-        """
-        u = self.find_by_username()
+        """ 
+        if self.check_password_match():
+            token = self.generate_jwt_token()
+            return token
+        return None
+        
 
-        if u:
-            # password = [u.password for u in self.db if u.password == request.json["password"]]
-            if self.check_password_match():
-                token = self.generate_jwt_token()
-                return {"status": 200,
-                        "data": [{
-                            "token": "Bearer"+" "+token
-                        }],
-                        "message": "successful"}
-            return {"status": 401, "message": "wrong credntials!"}
-        return {"status": 404, "message": "user not found"}
-
-    # def validtion(body):
-    #     errors = []
-    #     isValid = False
-
-    #     if body["username"]== "":
-    #         errors.append({
-    #             "username": "Username field Required"
-    #         })
-    #     if body["password"]== "":
-    #         errors.append({
-    #             "password": "password field Required"
-    #         })
-
-    #     if len(errors) != 0:
-    #         isValid = True
-
-    #     return {
-    #         "errors": errors,
-    #         "isValid": isValid
-    #     }

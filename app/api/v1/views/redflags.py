@@ -3,6 +3,7 @@ import datetime
 from flask_restplus import Resource, reqparse, Api
 from flask import request, jsonify,Flask
 from flask_jwt_extended import jwt_required
+
 from app.api.v1.models.redflags import IncidentsModel
 
 from app.api.v1.validators.validators import Validate
@@ -10,28 +11,9 @@ from app.api.v1.validators.validators import Validate
 app =Flask(__name__)
 API = Api(app)
 
-parser = reqparse.RequestParser(bundle_errors=True)
-
-parser.add_argument("title",
-                    type=str,
-                    required=True,
-                    help="title field is required.")
-parser.add_argument("description",
-                    type=str,
-                    required=True,
-                    help="description field is required.")
-parser.add_argument("IncidentType",
-                    type=str,
-                    help="Type field is required.")
-parser.add_argument("images",
-                    type=str,
-                    help="images field is optional.")
-parser.add_argument("video",
-                    type=str,
-                    help="video field is optional.")
-parser.add_argument("location",
-                    type=str,
-                    help="location field is optional.")
+@app.errorhandler(500)
+def servererror(error):
+    return {"error": 'something went wrong'}
 
 
 class Incidents(Resource):
@@ -39,7 +21,7 @@ class Incidents(Resource):
         This class has methods for posting redflags and getting all redflags posted
     """
 
-    # @jwt_required
+    @jwt_required
     @API.doc(params={'title': 'The title of the incident',
                      'type': 'Redflag or Intervention',
                      'description': 'The general description of the incident',
@@ -50,6 +32,28 @@ class Incidents(Resource):
         """
             This method  posts an incident to the databse
         """
+        parser = reqparse.RequestParser(bundle_errors=True)
+
+        parser.add_argument("title",
+                            type=str,
+                            required=True,
+                            help="title field is required.")
+        parser.add_argument("description",
+                            type=str,
+                            required=True,
+                            help="description field is required.")
+        parser.add_argument("IncidentType",
+                            type=str,
+                            help="Type field is required.")
+        parser.add_argument("images",
+                            type=str,
+                            help="images field is optional.")
+        parser.add_argument("video",
+                            type=str,
+                            help="video field is optional.")
+        parser.add_argument("location",
+                            type=str,
+                            help="location field is optional.")
 
         Valid = Validate()
         self.model = IncidentsModel()
@@ -121,6 +125,28 @@ class Incident(Resource):
         """
             This method modifies an incident partially or wholly
         """
+        parser = reqparse.RequestParser(bundle_errors=True)
+
+        parser.add_argument("title",
+                            type=str,
+                            required=True,
+                            help="title field is required.")
+        parser.add_argument("description",
+                            type=str,
+                            required=True,
+                            help="description field is required.")
+        parser.add_argument("IncidentType",
+                            type=str,
+                            help="Type field is required.")
+        parser.add_argument("images",
+                            type=str,
+                            help="images field is optional.")
+        parser.add_argument("video",
+                            type=str,
+                            help="video field is optional.")
+        parser.add_argument("location",
+                            type=str,
+                            help="location field is optional.")
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
@@ -131,13 +157,13 @@ class Incident(Resource):
         description= args["description"].strip()
         if not request.json:
             return jsonify({"error" : "check your request type"})
-        if not Valid.valid_string(title) or not bool(title) :
+        if not Valid.valid_string(title) or not bool(title):
             return {"error" : "Title is invalid or empty"}, 400
-        if not Valid.valid_string(images) :
+        if not Valid.valid_string(images) or not bool(images):
             return {"error" : "Images link is invalid"}, 400
-        if not Valid.valid_string(video):
+        if not Valid.valid_string(video)or not bool(video) :
             return {"error" : "Video link is invalid"}, 400
-        if not Valid.valid_string(location):
+        if not Valid.valid_string(location) or not bool(location):
             return {"error" : "location input  is invalid"}, 400
         if not Valid.valid_string(description) or not bool(description) :
             return {"error" : "description is invalid or empty"}, 400
@@ -176,10 +202,16 @@ class Comment(Resource):
         """
             This method modifies the description part of an incident.
         """
+        parser = reqparse.RequestParser(bundle_errors=True)
+
+        parser.add_argument("description",
+                            type=str,
+                            required=True,
+                            help="description field is required.")
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        description: args["description"].strip()
+        description = args["description"].strip()
         if not Valid.valid_string(description) or not bool(description) :
             return {"error" : "description is invalid or empty"}, 400
 
@@ -199,14 +231,21 @@ class Location(Resource):
         """
             This method modifies the location field of an incident
         """
+        parser = reqparse.RequestParser(bundle_errors=True)
+        parser.add_argument("location",
+                            type=str,
+                            required = True,
+                            help="location field is optional.")
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        location: args["location"].strip()
+        location = args["location"].strip()
         if not Valid.valid_string(location):
             return {"error" : "location input  is invalid"}, 400
         location_update = self.model.edit_location(id)
         if location_update:
             return {"status": 204, "message": "location successfully updated"}, 204
         return {"status": 404, "error": "Redflag not found"}, 404
+
+
     

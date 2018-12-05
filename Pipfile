@@ -11,6 +11,8 @@ flask = "*"
 flask-restplus = "*"
 gunicorn = "*"
 pytest = "*"
+coverage = "*"
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.7"
