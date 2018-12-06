@@ -15,12 +15,10 @@ class UserModel(DbModel):
     """
         This class manages the data for the users
     """
-    id = 1
 
     def __init__(self, firstname=None, othernames=None, isAdmin=False, 
                  lastname=None, email=None, phoneNumber=None, username=None, password=None):
         super().__init__('main')
-        self.id = UserModel.id
         self.firstname = firstname
         self.lastname = lastname
         self.othernames = othernames
@@ -31,8 +29,6 @@ class UserModel(DbModel):
         self.registered = datetime.datetime.now()
         self.isAdmin = isAdmin
 
-        UserModel.id += 1
-
     @staticmethod
     def generate_pass_hash():
         """
@@ -42,13 +38,15 @@ class UserModel(DbModel):
         private_key = generate_password_hash(request.json["password"])
         return private_key
 
-    def check_password_match(self):
+    def check_password_match(self, user):
         """
         Check if pass match
 
         :param :password: password
         return: Boolean
         """
+        username = user
+        self.password = self.get_password(username)
         match = check_password_hash(self.password, request.json["password"])
         return match
 
@@ -56,16 +54,42 @@ class UserModel(DbModel):
         token = create_access_token(identity=self.username)
         return token
 
-    def find_by_id(self, user_id):
+    def get_password(self, username):
+        """ gets hash password from db """
+        try:
+            self.cur.execute(
+                "SELECT TRIM(password) FROM users WHERE username=%s", (username,)
+                )
+            password = self.findOne()[0]
+            return password
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
+    def find_user_id(self, username):
         """
         Find user by id
         """
         try:
             self.cur.execute(
-                "SELECT TRIM(user_id) FROM users WHERE user_id=%s", (user_id,)
+                "SELECT user_id FROM users WHERE username=%s", (username,)
                 )
-            user = self.findOne()
-            return user
+            user_id = self.findOne()
+            return user_id
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
+    def find_by_email(self,email):
+        """
+        Find user by email
+        """
+        try:
+            self.cur.execute(
+                "SELECT TRIM(email) FROM users WHERE email=%s", (email,)
+                )
+            email = self.findOne()
+            return email
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
@@ -76,10 +100,10 @@ class UserModel(DbModel):
         """
         try:
             self.cur.execute(
-                "SELECT TRIM(username) FROM users WHERE username=%s", (username,))
-            user = self.findOne()
-            print(user)
-            return user
+                "SELECT username FROM users WHERE username=%s", (username,)
+                )
+            username = self.findOne()[0]
+            return username
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
@@ -102,7 +126,6 @@ class UserModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             print('could not save to db')
-            return None
 
     def login_user(self):
         """
@@ -110,7 +133,6 @@ class UserModel(DbModel):
             It takes username and password as parameters and
             It returns jwt token
         """
-        if self.check_password_match():
-            token = self.generate_jwt_token()
-            return token
-        return None
+        token = self.generate_jwt_token()
+        return token
+        

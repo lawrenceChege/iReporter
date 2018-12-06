@@ -92,7 +92,7 @@ class DbModel():
         commands = (
             """
                 CREATE TABLE IF NOT EXISTS users(
-                    user_id SERIAL PRIMARY KEY,
+                    user_id SERIAL PRIMARY KEY NOT NULL,
                     firstname CHAR(20),
                     lastname CHAR(20),
                     othernames CHAR(20),
@@ -106,7 +106,7 @@ class DbModel():
             """,
             """
                 CREATE TABLE IF NOT EXISTS incidents(
-                    incident_id SERIAL PRIMARY KEY,
+                    incident_id SERIAL PRIMARY KEY NOT NULL,
                     createdOn DATE NOT NULL ,
                     modifiedOn DATE NOT NULL,
                     type CHAR(20) NOT NULL,

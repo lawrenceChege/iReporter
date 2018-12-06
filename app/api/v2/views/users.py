@@ -68,14 +68,17 @@ class Users(Resource):
 
         if users.find_by_username(username):
             return {"status": 400,  "error": "Username already in use." }, 400
-        users.save_to_db()
-        return {"status": 201,
-                "data": [
-                    {
-                        "id": users.id
-                    }],              
-                    "message": 'User created Succesfully.'
-                }, 201
+        if users.find_by_email(email):
+            return {"status": 400, "error": "Email already in use."}, 400
+        
+        if users.save_to_db():
+            return {"status": 201,
+                    "data": [
+                        {
+                            "id": users.find_user_id(username)[0]
+                        }],              
+                        "message": 'User created Succesfully.'
+                    }, 201
 
 
 class User(Resource):
@@ -99,26 +102,33 @@ class User(Resource):
                             type=str,
                             required=True,
                             help="Password field is required.")
+
         args = parser.parse_args()
         users = UserModel(**args)
         Valid = Validate()
+
         username = args['username'].strip()
         password =args['password'].strip()
+
         if not request.json:
             return jsonify({"error" : "check your request type"})
+
         if not Valid.valid_string(username) or not bool(username) :
             return {"error" : "Username is invalid or empty"}, 400
+
         if not Valid.valid_password(password) or not bool(password):
             return {
                 "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
-        user = users.find_by_username(username)
-        if user:
-            token = users.login_user()
-            if token:
-                return {"status": 200,
-                            "data": [{
-                                "token": "Bearer"+" "+token
-                            }],
-                            "message": "successful"}, 201
+        
+        if not users.find_by_username(username):
+            return {"status": 404, "error": "user not found"}, 404
+        if not users.check_password_match(username):
             return {"status": 401, "error": "wrong credntials!"}, 401
-        return {"status": 404, "error": "user not found"}, 404
+        
+        if users.login_user():
+            return {"status": 200,
+                        "data": [{
+                            "token": "Bearer"+" "+ users.login_user()
+                        }],
+                        "message": "successful"}, 201
+        
