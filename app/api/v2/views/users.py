@@ -52,7 +52,7 @@ class Users(Resource):
                             help="Phone number field is optional.")
 
         args = parser.parse_args()
-        user = UserModel(**args)
+        users = UserModel(**args)
         Valid = Validate()
         username = args['username'].strip()
         email = args['email'].strip()
@@ -66,13 +66,13 @@ class Users(Resource):
         if not Valid.valid_password(password) or not bool(password):
             return {"error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
 
-        if user.find_by_username():
+        if users.find_by_username(username):
             return {"status": 400,  "error": "Username already in use." }, 400
-        user.save_to_db()
+        users.save_to_db()
         return {"status": 201,
                 "data": [
                     {
-                        "id": user.id
+                        "id": users.id
                     }],              
                     "message": 'User created Succesfully.'
                 }, 201
@@ -111,7 +111,7 @@ class User(Resource):
         if not Valid.valid_password(password) or not bool(password):
             return {
                 "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
-        user = users.find_by_username()
+        user = users.find_by_username(username)
         if user:
             token = users.login_user()
             if token:
