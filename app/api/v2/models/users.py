@@ -29,6 +29,7 @@ class UserModel(DbModel):
         self.registered = datetime.datetime.now()
         self.isAdmin = isAdmin
 
+
     @staticmethod
     def generate_pass_hash():
         """
