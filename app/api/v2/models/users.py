@@ -8,48 +8,28 @@ from flask_restplus import reqparse
 from flask import request
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
-from migrations import connection
-
-DATABASE_URL = os.getenv('DATABASE_URL')
-USERS = []
+from migrations import DbModel
 
 
-def conn():
-    try:
-        print("connecting to db...\n")
-        try:
-            conn = connection(DATABASE_URL)
-            print('connected to db\n')
-            return conn
-        except:
-            conn = psycopg2.connect(
-                'postgresql://localhost/ireporter?user=postgres&password=12345678')
-            print('connected to db\n')
-            return conn
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-        print('error connecting to db\n')
-
-
-class UserModel():
+class UserModel(DbModel):
     """
         This class manages the data for the users
     """
     id = 1
 
-    def __init__(self, firstname=None,
+    def __init__(self, firstname=None, othernames=None, isAdmin=False, 
                  lastname=None, email=None, phoneNumber=None, username=None, password=None):
+        super().__init__('main')
         self.id = UserModel.id
         self.firstname = firstname
         self.lastname = lastname
+        self.othernames = othernames
         self.email = email
         self.password = self.generate_pass_hash()
         self.phoneNumber = phoneNumber
         self.username = username
-        self.created_on = datetime.datetime.now()
-        self.db = USERS
-        self.conn = conn()
-        self.cur = self.conn.cursor()
+        self.registered = datetime.datetime.now()
+        self.isAdmin = isAdmin
 
         UserModel.id += 1
 
@@ -82,8 +62,9 @@ class UserModel():
         """
         try:
             self.cur.execute(
-                "SELECT TRIM(user_id) FROM users WHERE user_id=%s", (user_id,))
-            user = self.cur.fetchone()
+                "SELECT TRIM(user_id) FROM users WHERE user_id=%s", (user_id,)
+                )
+            user = self.findOne()
             return user
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -96,7 +77,8 @@ class UserModel():
         try:
             self.cur.execute(
                 "SELECT TRIM(username) FROM users WHERE username=%s", (username,))
-            user = self.cur.fetchone()
+            user = self.findOne()
+            print(user)
             return user
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -107,16 +89,19 @@ class UserModel():
             This method saves the user to the database.
         """
         try:
+            data =( self.firstname, self.lastname, self.othernames, self.username, self.email, self.phoneNumber, self.password, self.registered, self.isAdmin, )
             self.cur.execute(
                 """
-                    INSERT INTO users (firstname, lastname, othernames, username, email, password, registered, isAdmin)
-                    VALUES(%(firstname)s, %(lastname)s, %(othernames)s, %(username)s, %(email)s, %(password)s, %(registered)s, %(isAdmin)s)
-                """, self
+                    INSERT INTO users (firstname, lastname, othernames, username, email, phoneNumber, password, registered, isAdmin)
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);
+                """, data
             )
-            self.conn.commit()
+            self.commit()
+            print('success')
             return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
+            print('could not save to db')
             return None
 
     def login_user(self):

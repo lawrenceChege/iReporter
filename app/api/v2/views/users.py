@@ -66,7 +66,7 @@ class Users(Resource):
         if not Valid.valid_password(password) or not bool(password):
             return {"error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
 
-        if not users.find_by_username(username):
+        if users.find_by_username(username):
             return {"status": 400,  "error": "Username already in use." }, 400
         users.save_to_db()
         return {"status": 201,
