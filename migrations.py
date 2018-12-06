@@ -2,8 +2,8 @@
 import os
 import psycopg2
 
-DATABASE_URL = 'dbname="ireporter"  host="localhost" user="postgres" password="12345678"'
-TEST_DATABASE_URL = 'dbname="ireporter_test"  host="localhost" user="postgres" password="12345678"'
+DATABASE_URL = 'postgresql://localhost/ireporter?user=postgres&password=12345678'
+TEST_DATABASE_URL = 'postgresql://localhost/ireporter_test?user=postgres&password=12345678'
 CONNECTION_CREDS = {
     "host": os.getenv('DB_HOST'),    
     "database": os.getenv('DB_NAME'),
