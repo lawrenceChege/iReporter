@@ -109,14 +109,14 @@ class DbModel():
                     incident_id SERIAL PRIMARY KEY NOT NULL,
                     createdOn DATE NOT NULL ,
                     modifiedOn DATE NOT NULL,
-                    type CHAR(20) NOT NULL,
-                    location point,
+                    record_type CHAR(20) NOT NULL,
+                    location VARCHAR(50),
                     status CHAR(20) NOT NULL DEFAULT 'pending',
                     images VARCHAR(80),
                     video VARCHAR(80),
                     title VARCHAR(100) NOT NULL,
                     comment VARCHAR(250) NOT NULL unique,
-                    createdBy INT REFERENCES users (user_id)
+                    createdBy CHAR(20) REFERENCES users (username)
 
                 )
             """
