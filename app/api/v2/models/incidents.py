@@ -114,10 +114,25 @@ class IncidentsModel(DbModel):
             self.cur.execute(
                 "SELECT * FROM incidents WHERE incident_id=%s", (id,)
                 )
-            data=self.findOne()
-            print(data)
-            incident = self.convert_data_to_list_of_dict(data)
-            print(incident)
+            data = self.findAll()
+            incident = []
+            for item in data:
+                incident_id, record_type, location, status, images, video, title, comment, createdBy, createdOn, modifiedOn = item
+                incident_dict = dict(
+                    incident_id = int(incident_id),
+                    record_type = record_type,
+                    location = location,
+                    images = images,
+                    status = status,
+                    video = video,
+                    title = title,
+                    comment = comment,
+                    createdBy = createdBy,
+                    createdOn = createdOn,
+                    modifiedOn = modifiedOn 
+                )
+                incident.append(incident_dict)   
+            print(incident)         
             return incident
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -130,18 +145,7 @@ class IncidentsModel(DbModel):
             It takes the id of the incident as the parameter and,
             It returns the updated incident as a result.
         """
-        # REDFLAG = self.get_incident_by_id(id)
-        # if REDFLAG:
-        #     REDFLAG[0]["title"] = request.json["title"]
-        #     REDFLAG[0]["type"] = request.json["type"]
-        #     REDFLAG[0]["modifiedOn"] = str(datetime.datetime.now())
-        #     REDFLAG[0]["images"] = request.json["images"]
-        #     REDFLAG[0]["video"] = request.json["video"]
-        #     REDFLAG[0]["location"] = request.json["location"]
-        #     REDFLAG[0]["description"] = request.json["description"]
-        #     return REDFLAG
-        # else:
-        return None
+        pass
 
     def delete_incident(self, id):
         """ 
@@ -149,11 +153,7 @@ class IncidentsModel(DbModel):
             It takes an id of the incident as parameter and,
             It returns the list of incidents.
         """
-        # REDFLAG = self.get_incident_by_id(id)
-        # if REDFLAG:
-        #     REDFLAGS.remove(REDFLAG[0])
-        #     return REDFLAGS
-        return None
+        pass
 
     def edit_incident_comment(self, id):
         """

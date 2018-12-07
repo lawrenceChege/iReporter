@@ -123,21 +123,22 @@ class Incident(Resource):
         This class holds methods for single redflags
     """
     @API.doc(params={'id': 'Incident id'})
-    def get(self, id):
+    def get(self, incident_id):
         """
             This method retrieves an incident from the database using its id
         """
         self.model = IncidentsModel()
         
-        if self.model.get_incident_by_id(id):
-            return {"status": 200,
-                            "data": [
-                                {
-                                    "redflag": self.model.get_incident_by_id(id),
-                                }
-                            ],
-                            "message": "Redflag successfully retrieved!"}, 200
-        return {"status": 404, "error": "Redflag not found"}, 404
+        if not self.model.get_incident_by_id(incident_id):
+            return {"status": 404, "error": "Redflag not found"}, 404
+        return {"status": 200,
+                        "data": [
+                            {
+                                "redflag": self.model.get_incident_by_id(id),
+                            }
+                        ],
+                        "message": "Redflag successfully retrieved!"}, 200
+    
 
     @API.doc(params={'id': 'Incident id'})
     @jwt_required
