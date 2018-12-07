@@ -38,20 +38,21 @@ class IncidentsModel(DbModel):
             self.cur.execute(
                 "SELECT * FROM incidents"
             )
-            incidents = self.findAll()
+            data = self.findAll()
+            incidents = self.convert_data_to_list_of_dict(data)
+            print(incidents)
             return incidents
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
 
-    def convert_data_to_list_of_dict(self):
+    def convert_data_to_list_of_dict(self, *listoftuples):
         """ format data for output """
-        incidents = self.get_all_incidents()
+        incidents = listoftuples
         listOfDict =[{ "incident_id":a[0], "createdOn":a[1], "modifiedOn":a[2],
                     "record_type": a[3], "location": a[4], "status": a[5],
                      "images": a[6],"video": a[7],"title": a[8] ,"comment":a[9],
                      "createdBy":a[10] } for a in incidents]
-        print(listOfDict)
         return listOfDict
 
 
@@ -109,11 +110,19 @@ class IncidentsModel(DbModel):
             It takes the id of the incident as parameter and
             It returns the incident as a result
         """
-        # REDFLAG = [REDFLAG for REDFLAG in REDFLAGS if REDFLAG['redflag_id'] == id]
-        # if len(REDFLAG) == 0:
-        return None
-        # else:
-        #     return REDFLAG
+        try:
+            self.cur.execute(
+                "SELECT * FROM incidents WHERE incident_id=%s", (id,)
+                )
+            data=self.findOne()
+            print(data)
+            incident = self.convert_data_to_list_of_dict(data)
+            print(incident)
+            return incident
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
 
     def edit_incident(self, id):
         """

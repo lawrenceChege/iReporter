@@ -109,7 +109,7 @@ class Incidents(Resource):
         """
         self.model = IncidentsModel()
         if self.model.get_all_incidents():
-            incidents = self.model.convert_data_to_list_of_dict()
+            incidents = self.model.get_all_incidents()
             return {"status": 200,
                             "data": [{
                                 "RedFlags": eval(str(incidents))
@@ -133,7 +133,7 @@ class Incident(Resource):
             return {"status": 200,
                             "data": [
                                 {
-                                    "redflag": (self.model.get_incident_by_id(id)),
+                                    "redflag": self.model.get_incident_by_id(id),
                                 }
                             ],
                             "message": "Redflag successfully retrieved!"}, 200
