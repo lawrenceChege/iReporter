@@ -10,7 +10,7 @@ from app.api.v1 import version_one as v1
 from app.api.errors import errors as e
 
 
-timeout = datetime.timedelta(3000)
+timeout = datetime.timedelta(300)
 
 def create_app(config_name):
     """
