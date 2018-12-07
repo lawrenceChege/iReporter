@@ -1,6 +1,7 @@
 """
     This module handles the models for incidents
 """
+import json
 import datetime
 import psycopg2
 from flask import request, jsonify
@@ -38,11 +39,21 @@ class IncidentsModel(DbModel):
                 "SELECT * FROM incidents"
             )
             incidents = self.findAll()
-            print(incidents)
             return incidents
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
+
+    def convert_data_to_list_of_dict(self):
+        """ format data for output """
+        incidents = self.get_all_incidents()
+        listOfDict =[{ "incident_id":a[0], "createdOn":a[1], "modifiedOn":a[2],
+                    "record_type": a[3], "location": a[4], "status": a[5],
+                     "images": a[6],"video": a[7],"title": a[8] ,"comment":a[9],
+                     "createdBy":a[10] } for a in incidents]
+        print(listOfDict)
+        return listOfDict
+
 
     def find_incident_by_comment(self, comment):
         """ gets an incident from comment"""
