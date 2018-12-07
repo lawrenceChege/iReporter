@@ -1,7 +1,7 @@
 """ These module deals with redflag methods and routes"""
 import datetime
 from flask_restplus import Resource, reqparse, Api
-from flask import request, jsonify,Flask
+from flask import request, jsonify,Flask 
 from flask_jwt_extended import jwt_required
 
 from app.api.v2.models.incidents import IncidentsModel
@@ -108,12 +108,14 @@ class Incidents(Resource):
             This method retrives all the posted incidents from the database
         """
         self.model = IncidentsModel()
-        redflags = self.model.get_all_incidents()
-        return jsonify({"status": 200,
-                        "data": [{
-                            "RedFlags": redflags,
-                        }],
-                        "message": "All redflags found successfully"}), 200
+        if self.model.get_all_incidents():
+            incidents = self.model.convert_data_to_list_of_dict()
+            return {"status": 200,
+                            "data": [{
+                                "RedFlags": eval(str(incidents))
+                            }],
+                            "message": "All redflags found successfully"}, 200
+        return {"status":404, "error": "No incidents found"}
 
 
 class Incident(Resource):
@@ -131,7 +133,7 @@ class Incident(Resource):
             return {"status": 200,
                             "data": [
                                 {
-                                    "redflag": self.model.get_incident_by_id(id),
+                                    "redflag": (self.model.get_incident_by_id(id)),
                                 }
                             ],
                             "message": "Redflag successfully retrieved!"}, 200
