@@ -4,7 +4,6 @@ language: python
 # Mention the python version in which travis will run the app
 python:
   - "3.6"
-  - "3.7.1"
 
 
 # command to install dependencies in the requirements file
@@ -24,8 +23,7 @@ script: true
 
  # Another command/method to run tests
 script:
-  - pytest
-  - pytest --cov=./app/
+  - pytest --cov=app app/tests/v1
 
 # This returns the coverage and let's coveralls know the coverage percent.
 # Note that travis will build your system and get the coverage.
