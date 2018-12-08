@@ -15,6 +15,9 @@ coverage = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
 pytest-cov = "*"
+autopep8 = "*"
+pylint = "*"
+codecov = "*"
 
 [requires]
 python_version = "3.7"
