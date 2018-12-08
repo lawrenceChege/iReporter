@@ -5,6 +5,7 @@ A platform where citizens can report corruption cases or government intervention
 [![Build Status](https://travis-ci.org/lawrenceChege/iReporter.svg?branch=develop)](https://travis-ci.org/lawrenceChege/iReporter)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b99e2ea3d09bbd651354/maintainability)](https://codeclimate.com/github/lawrenceChege/iReporter/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0bcde400dc8421aa972e9954b90bb11)](https://app.codacy.com/app/lawrenceChege/iReporter?utm_source=github.com&utm_medium=referral&utm_content=lawrenceChege/iReporter&utm_campaign=Badge_Grade_Dashboard)
+[![codecov](https://codecov.io/gh/lawrenceChege/iReporter/branch/challenge-3/graph/badge.svg)](https://codecov.io/gh/lawrenceChege/iReporter)
 
 
 
