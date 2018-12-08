@@ -80,6 +80,7 @@ class Users(Resource):
                         }],              
                         "message": 'User created Succesfully.'
                     }, 201
+        return {"status":500, "error": "Oops! something went Wrong!"},500
 
 
 class User(Resource):
@@ -134,4 +135,5 @@ class User(Resource):
                             "token": "Bearer"+" "+ token
                         }],
                         "message": "successful"}, 201
+        return {"status":500, "error": "Oops! something went Wrong!"},500
         

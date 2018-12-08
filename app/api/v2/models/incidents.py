@@ -118,19 +118,28 @@ class IncidentsModel(DbModel):
         """
         pass
 
-    def delete_incident(self, id):
+    def delete_incident(self, incident_id):
         """ 
             This method removes an incident by id from the database.
             It takes an id of the incident as parameter and,
             It returns the list of incidents.
         """
-        pass
+        try:
+            self.cur.execute(
+                "DELETE FROM incidents WHERE incident_id=%s", (incident_id,)
+                )
+            self.commit()
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
 
     def edit_incident_comment(self, id):
         """
             This method modifies the description field of an incident.
             It takes an id as parameter and,
             It returns The updated incident as a result.
+            
         """
         return None
 
