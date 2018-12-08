@@ -30,39 +30,16 @@ class IncidentsModel(DbModel):
         self.createdBy = self.current_user()
 
 
-    def get_all_incidents(self):
-        """
-            This method returns all the posted incidents
-        """
-        try:
-            self.cur.execute(
-                "SELECT * FROM incidents"
-            )
-            data = self.findAll()
-            incidents = self.convert_data_to_list_of_dict(data)
-            print(incidents)
-            return incidents
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-            return None
+   
 
-    def convert_data_to_list_of_dict(self, *listoftuples):
-        """ format data for output """
-        incidents = listoftuples
-        listOfDict =[{ "incident_id":a[0], "createdOn":a[1], "modifiedOn":a[2],
-                    "record_type": a[3], "location": a[4], "status": a[5],
-                     "images": a[6],"video": a[7],"title": a[8] ,"comment":a[9],
-                     "createdBy":a[10] } for a in incidents]
-        return listOfDict
-
-
+    
     def find_incident_by_comment(self, comment):
         """ gets an incident from comment"""
         try:
             self.cur.execute(
                 "SELECT * FROM incidents WHERE comment=%s", (comment,)
                 )
-            comment = self.findOne()[0]
+            comment = self.findOne()
             print(comment)
             return comment
         except (Exception, psycopg2.DatabaseError) as error:
@@ -75,14 +52,12 @@ class IncidentsModel(DbModel):
             self.cur.execute(
                 "SELECT incident_id FROM incidents WHERE comment=%s", (comment,)
                 )
-            incident_id = self.findOne()[0]
+            incident_id = self.findOne().get('incident_id')
             print(incident_id)
             return incident_id
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
-
-
 
     def post_incident(self):
         """
@@ -103,6 +78,20 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             print('could not save to db')
+
+    def get_all_incidents(self):
+        """
+            This method returns all the posted incidents
+        """
+        try:
+            self.cur.execute(
+                "SELECT * FROM incidents"
+            )
+            data = self.findAll()
+            return data
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
        
     def get_incident_by_id(self, id):
         """
@@ -114,25 +103,7 @@ class IncidentsModel(DbModel):
             self.cur.execute(
                 "SELECT * FROM incidents WHERE incident_id=%s", (id,)
                 )
-            data = self.findAll()
-            incident = []
-            for item in data:
-                incident_id, record_type, location, status, images, video, title, comment, createdBy, createdOn, modifiedOn = item
-                incident_dict = dict(
-                    incident_id = int(incident_id),
-                    record_type = record_type,
-                    location = location,
-                    images = images,
-                    status = status,
-                    video = video,
-                    title = title,
-                    comment = comment,
-                    createdBy = createdBy,
-                    createdOn = createdOn,
-                    modifiedOn = modifiedOn 
-                )
-                incident.append(incident_dict)   
-            print(incident)         
+            incident = self.findOne()
             return incident
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -161,10 +132,6 @@ class IncidentsModel(DbModel):
             It takes an id as parameter and,
             It returns The updated incident as a result.
         """
-        # REDFLAG = self.get_incident_by_id(id)
-        # if len(REDFLAG) != 0:
-        #     REDFLAG[0]["description"] = request.json["description"]
-        #     return REDFLAG
         return None
 
     def edit_location(self, id):
@@ -173,10 +140,6 @@ class IncidentsModel(DbModel):
             It takes an id as the parameter.
             It returns the updated incident.
         """
-        # REDFLAG = self.get_incident_by_id(id)
-        # if len(REDFLAG) != 0:
-        #     REDFLAG[0]["location"] = request.json["location"]
-        #     return REDFLAG
         return None
 
     def upload_image(self, id):

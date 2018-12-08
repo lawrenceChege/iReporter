@@ -1,5 +1,5 @@
 """ These module deals with redflag methods and routes"""
-import datetime
+import datetime, json
 from flask_restplus import Resource, reqparse, Api
 from flask import request, jsonify,Flask 
 from flask_jwt_extended import jwt_required
@@ -62,19 +62,19 @@ class Incidents(Resource):
         Valid = Validate()
         args = parser.parse_args()
         
-        record_type = args["record_type"].strip()
-        title = args["title"].strip()
-        images = args["images"].strip()
-        video = args["video"].strip()
-        location = args["location"].strip()
-        comment= args["comment"].strip()
+        record_type = args.get("record_type")
+        title    = args.get("title")
+        images   = args.get("images")
+        video    = args.get("video")
+        location = args.get("location")
+        comment  = args.get("comment")
         self.model = IncidentsModel(record_type=record_type,location=location, 
                 images=images, video=video, title=title, comment=comment,)
 
         if not request.json:
             return jsonify({"error" : "check your request type"})
 
-        if not Valid.valid_string(title) or not bool(title) :
+        if not Valid.valid_string(title) or not bool(title.strip()) :
             return {"error" : "Title is invalid or empty"}, 400
 
         if not Valid.valid_string(images) :
@@ -86,10 +86,10 @@ class Incidents(Resource):
         if not Valid.valid_string(location):
             return {"error" : "location input  is invalid"}, 400
 
-        if not Valid.valid_string(comment) or not bool(comment) :
+        if not Valid.valid_string(comment) or not bool(comment.strip()) :
             return {"error" : "description is invalid or empty"}, 400
 
-        if not Valid.valid_string(record_type) or not bool(record_type) :
+        if not Valid.valid_string(record_type) or not bool(record_type.strip()) :
             return {"error" : "Type is invalid or empty"}, 400
 
         if self.model.find_incident_by_comment(comment):
@@ -112,7 +112,7 @@ class Incidents(Resource):
             incidents = self.model.get_all_incidents()
             return {"status": 200,
                             "data": [{
-                                "RedFlags": eval(str(incidents))
+                                "RedFlags": incidents
                             }],
                             "message": "All redflags found successfully"}, 200
         return {"status":404, "error": "No incidents found"}
@@ -128,13 +128,13 @@ class Incident(Resource):
             This method retrieves an incident from the database using its id
         """
         self.model = IncidentsModel()
-        
-        if not self.model.get_incident_by_id(incident_id):
+        incident = self.model.get_incident_by_id(incident_id)
+        if not incident:
             return {"status": 404, "error": "Redflag not found"}, 404
         return {"status": 200,
                         "data": [
                             {
-                                "redflag": self.model.get_incident_by_id(id),
+                                "redflag": incident,
                             }
                         ],
                         "message": "Redflag successfully retrieved!"}, 200

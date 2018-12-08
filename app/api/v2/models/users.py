@@ -39,20 +39,20 @@ class UserModel(DbModel):
         private_key = generate_password_hash(request.json["password"])
         return private_key
 
-    def check_password_match(self, user):
+    def check_password_match(self, username, password):
         """
         Check if pass match
 
         :param :password: password
         return: Boolean
         """
-        username = user
-        self.password = self.get_password(username)
-        match = check_password_hash(self.password, request.json["password"])
+        self.password = self.get_password(username).get('btrim')
+        match = check_password_hash(self.password, password)
         return match
 
-    def generate_jwt_token(self):
-        token = create_access_token(identity=self.username)
+    def generate_jwt_token(self, username):
+        self.user_id = self.find_user_id(username)
+        token = create_access_token(identity=self.user_id)
         return token
 
     def get_password(self, username):
@@ -61,7 +61,7 @@ class UserModel(DbModel):
             self.cur.execute(
                 "SELECT TRIM(password) FROM users WHERE username=%s", (username,)
                 )
-            password = self.findOne()[0]
+            password = self.findOne()
             return password
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -76,7 +76,8 @@ class UserModel(DbModel):
                 "SELECT user_id FROM users WHERE username=%s", (username,)
                 )
             user_id = self.findOne()
-            return user_id
+            id = user_id.get('user_id')
+            return id
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
@@ -103,7 +104,7 @@ class UserModel(DbModel):
             self.cur.execute(
                 "SELECT username FROM users WHERE username=%s", (username,)
                 )
-            username = self.findOne()[0]
+            username = self.findOne()
             return username
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -128,12 +129,12 @@ class UserModel(DbModel):
             print(error)
             print('could not save to db')
 
-    def login_user(self):
+    def login_user(self, username):
         """
             This method logs in the user.
             It takes username and password as parameters and
             It returns jwt token
         """
-        token = self.generate_jwt_token()
+        token = self.generate_jwt_token(username)
         return token
         
