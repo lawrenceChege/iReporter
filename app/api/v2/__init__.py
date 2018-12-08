@@ -8,8 +8,8 @@ API = Api(version_two)
 
 
 API.add_resource(Incidents, '/incidents/')
-API.add_resource(Incident, '/incidents/<int:id>/')
-API.add_resource(Comment, '/incidents/<int:id>/description')
+API.add_resource(Incident, '/incidents/<int:incident_id>/')
+API.add_resource(Comment, '/incidents/<int:incident_id>/description')
 API.add_resource(Location, '/incidents/<int:id>/location')
 API.add_resource(Users, '/auth/signup/')
 API.add_resource(User, '/auth/login/')

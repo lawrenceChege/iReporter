@@ -54,9 +54,9 @@ class Users(Resource):
         args = parser.parse_args()
         users = UserModel(**args)
         Valid = Validate()
-        username = args['username'].strip()
-        email = args['email'].strip()
-        password =args['password'].strip()
+        username = args.get('username').strip()
+        email    = args.get('email').strip()
+        password = args.get('password').strip()
         if not request.json:
             return jsonify({"error" : "check your request type"})
         if not email or not Valid.valid_string(username) or not bool(username) :
@@ -71,11 +71,12 @@ class Users(Resource):
         if users.find_by_email(email):
             return {"status": 400, "error": "Email already in use."}, 400
         
+        
         if users.save_to_db():
             return {"status": 201,
                     "data": [
                         {
-                            "id": users.find_user_id(username)[0]
+                            "id" : users.find_user_id(username)                     
                         }],              
                         "message": 'User created Succesfully.'
                     }, 201
@@ -107,8 +108,8 @@ class User(Resource):
         users = UserModel(**args)
         Valid = Validate()
 
-        username = args['username'].strip()
-        password =args['password'].strip()
+        username = args.get('username').strip()
+        password = args.get('password').strip()
 
         if not request.json:
             return jsonify({"error" : "check your request type"})
@@ -122,13 +123,15 @@ class User(Resource):
         
         if not users.find_by_username(username):
             return {"status": 404, "error": "user not found"}, 404
-        if not users.check_password_match(username):
+        if not users.check_password_match(username, password):
             return {"status": 401, "error": "wrong credntials!"}, 401
-        
-        if users.login_user():
+        user_id = users.find_user_id(username)
+        token = users.login_user(username)
+        if token:
             return {"status": 200,
                         "data": [{
-                            "token": "Bearer"+" "+ users.login_user()
+                            "id": user_id,
+                            "token": "Bearer"+" "+ token
                         }],
                         "message": "successful"}, 201
         

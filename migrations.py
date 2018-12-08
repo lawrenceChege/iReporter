@@ -1,6 +1,7 @@
 """ This module holds the database migrations """
 import os
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
 DATABASE_URL = 'postgresql://localhost/ireporter?user=postgres&password=12345678'
 TEST_DATABASE_URL = 'postgresql://localhost/ireporter_test?user=postgres&password=12345678'
@@ -27,7 +28,7 @@ class DbModel():
         self.db_con_creds = CONNECTION_CREDS
         self.db_test_con_creds = TEST_CONNECTION_CREDS
         self.conn = self.choose_db(db)
-        self.cur = self.conn.cursor()
+        self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
     def connection(self, *args, **url):
         """
@@ -107,8 +108,8 @@ class DbModel():
             """
                 CREATE TABLE IF NOT EXISTS incidents(
                     incident_id SERIAL PRIMARY KEY NOT NULL,
-                    createdOn DATE NOT NULL ,
-                    modifiedOn DATE NOT NULL,
+                    createdOn VARCHAR(50) NOT NULL ,
+                    modifiedOn VARCHAR(50) NOT NULL,
                     record_type CHAR(20) NOT NULL,
                     location VARCHAR(50),
                     status CHAR(20) NOT NULL DEFAULT 'pending',
@@ -116,7 +117,7 @@ class DbModel():
                     video VARCHAR(80),
                     title VARCHAR(100) NOT NULL,
                     comment VARCHAR(250) NOT NULL unique,
-                    createdBy CHAR(20) REFERENCES users (username)
+                    createdBy INT REFERENCES users (user_id)
 
                 )
             """
