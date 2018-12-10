@@ -16,3 +16,16 @@ def serverError(e):
 def not_found(e):
     return jsonify({"status": 404,
         "error": "Resource Not found !"})
+
+@errors.app_errorhandler(405)
+def not_allowed(e):
+    return jsonify({"status": 405,
+        "error": "Method Not allowed on this route!"})
+
+@errors.app_errorhandler(301)
+def moved_permanently(e):
+    return jsonify({"status": 301,
+        "error": "The resource has been Moved Permanently!"})
+
+
+        

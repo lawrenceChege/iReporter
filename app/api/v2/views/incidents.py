@@ -93,7 +93,7 @@ class Incidents(Resource):
             return {"error" : "Type is invalid or empty"}, 400
 
         if self.model.find_incident_by_comment(comment):
-            return {"status": 400, "error": "Redflag already exists"}, 400
+            return {"status": 400, "error": "Incident already exists"}, 400
 
         if self.model.post_incident():
             return {"status": 201, "data": [{
@@ -115,7 +115,7 @@ class Incidents(Resource):
                             "data": [{
                                 "RedFlags": incidents
                             }],
-                            "message": "All redflags found successfully"}, 200
+                            "message": "All incidents found successfully"}, 200
         return {"status":500, "error": "Oops! something went Wrong!"},500
 
 
@@ -131,14 +131,14 @@ class Incident(Resource):
         self.model = IncidentsModel()
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
-            return {"status": 404, "error": "Redflag not found"}, 404
+            return {"status": 404, "error": "Incident not found"}, 404
         return {"status": 200,
                         "data": [
                             {
                                 "redflag": incident,
                             }
                         ],
-                        "message": "Redflag successfully retrieved!"}, 200
+                        "message": "Incident successfully retrieved!"}, 200
     
 
     @API.doc(params={'id': 'Incident id'})
@@ -172,33 +172,41 @@ class Incident(Resource):
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        title = args["title"].strip()
-        images = args["images"].strip()
-        video = args["video"].strip()
-        location = args["location"].strip()
-        description= args["description"].strip()
+        title       = args.get("title")
+        images      = args.get("images")
+        video       = args.get("video")
+        location    = args.get("location")
+        description = args.get("description")
         if not request.json:
             return jsonify({"error" : "check your request type"})
-        if not Valid.valid_string(title) or not bool(title):
+
+        if not Valid.valid_string(title) or not bool(title.stip()):
             return {"error" : "Title is invalid or empty"}, 400
+
         if not Valid.valid_string(images) or not bool(images):
             return {"error" : "Images link is invalid"}, 400
+
         if not Valid.valid_string(video)or not bool(video) :
             return {"error" : "Video link is invalid"}, 400
+
         if not Valid.valid_string(location) or not bool(location):
             return {"error" : "location input  is invalid"}, 400
-        if not Valid.valid_string(description) or not bool(description) :
+
+        if not Valid.valid_string(description) or not bool(description.stip()) :
             return {"error" : "description is invalid or empty"}, 400
+
+        if not self.model.find_incident_id(id):
+            return {"status": 404, "error": "Incident not found"},404
 
         if self.model.edit_incident(id):
             return {"status": 200,
                             "data": [
                                 {
-                                    "redflag": self.model.edit_incident(id),
+                                    "incident": self.model.edit_incident(id),
                                 }
                             ],
-                            "message": "Redflag updated successfully!"},200
-        return {"status": 404, "error": "Redflag not found"},404
+                            "message": "Incident updated successfully!"},200
+        return {"status": 500, "error": "Oops! Something went wrong!"},500
 
     @jwt_required
     @API.doc(params={'id': 'Incident id'})
@@ -211,7 +219,7 @@ class Incident(Resource):
         if not incident:
             return {"status": 404, "error": "Redflag not found"}, 404
         if self.model.delete_incident(incident_id):
-            return {"status": 200, "message": "Redflag successfuly deleted"}, 200
+            return {"status": 200, "message": "Incident successfuly deleted"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500
 
 
@@ -241,7 +249,7 @@ class Comment(Resource):
        
         if self.model.edit_incident_comment(id):
             return {"status": 200, "message": "comment successfully updated"}, 200
-        return {"status": 404, "error": "Redflag not found"}, 404
+        return {"status": 404, "error": "Inci not found"}, 404
 
 
 class Location(Resource):
@@ -268,7 +276,7 @@ class Location(Resource):
         
         if self.model.edit_location(id):
             return {"status": 200, "message": "location successfully updated"}, 200
-        return {"status": 404, "error": "Redflag not found"}, 404
+        return {"status": 404, "error": "Incident not found"}, 404
 
 
     

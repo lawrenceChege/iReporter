@@ -23,11 +23,27 @@ def create_app(config_name):
     APP.config.from_object(config[config_name])
     APP.config['JWT_SECRET_KEY'] = 'fcv gzxcv62ws'
     APP.config['JWT_ACCESS_TOKEN_EXPIRES'] = timeout
-    JWTManager(APP)
+    jwt = JWTManager(APP)
     APP.register_blueprint(v1)
     APP.register_blueprint(v2)
     APP.register_blueprint(e)
     APP.url_map.strict_slashes = False
+
+    @jwt.expired_token_loader
+    def my_expired_token_callback():
+        return {
+            'status': 401,
+            'sub_status': 42,
+            'error': 'The token has expired'
+        }, 401
+
+    @jwt.unauthorized_loader
+    def my_unauthorized_callback():
+        return {
+            'status': 401,
+            'sub_status': 43,
+            'error': 'Missing token'
+        }, 401
 
    
     return APP
