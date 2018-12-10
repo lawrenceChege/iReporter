@@ -2,7 +2,7 @@
     "_meta": {
         "hash": {
             "sha256": "c1281fc7f365d8e13aefeebb33730539b6fd3d1e52e9646735a64f48d77874ba"
-        },
+           },
         "pipfile-spec": 6,
         "requires": {
             "python_version": "3.7"

@@ -18,6 +18,7 @@ pytest-cov = "*"
 autopep8 = "*"
 pylint = "*"
 codecov = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
