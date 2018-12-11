@@ -142,7 +142,6 @@ class IncidentsModel(DbModel):
             
         """
         try:
-            print('print something')
             self.cur.execute(
                 """
                 UPDATE incidents
@@ -151,19 +150,30 @@ class IncidentsModel(DbModel):
                 """, (comment, incident_id)
                 )
             self.commit()
-            print("Print comment")
             return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
 
-    def edit_location(self, id):
+    def edit_location(self, location, incident_id):
         """
             This method modifies the location field of an incident.
             It takes an id as the parameter.
             It returns the updated incident.
         """
-        return None
+        try:
+            self.cur.execute(
+                """
+                UPDATE incidents
+                SET location = %s
+                WHERE incident_id = %s;
+                """, (location, incident_id)
+                )
+            self.commit()
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
 
     def upload_image(self, id):
         """
