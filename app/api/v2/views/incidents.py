@@ -228,28 +228,36 @@ class Comment(Resource):
         this class updates th description
     """
     @jwt_required
-    @API.doc(params={'id': 'Incident id'})
-    def patch(self, id):
+    @API.doc(params={'id': 'Incident id', 'comment':'Update comment'})
+    def patch(self, incident_id):
         """
-            This method modifies the description part of an incident.
+            This method modifies the comment part of an incident.
         """
         parser = reqparse.RequestParser(bundle_errors=True)
 
-        parser.add_argument("description",
+        parser.add_argument("comment",
                             type=str,
                             required=True,
-                            help="description field is required.")
+                            help="comment field is required.")
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        description = args["description"].strip()
-        if not Valid.valid_string(description) or not bool(description) :
-            return {"error" : "description is invalid or empty"}, 400
+        comment = args.get("comment")
+        if not Valid.valid_string(comment) or not bool(comment.strip()):
+            return {"error" : "Comment is invalid or empty"}, 400
 
-       
-        if self.model.edit_incident_comment(id):
-            return {"status": 200, "message": "comment successfully updated"}, 200
-        return {"status": 404, "error": "Inci not found"}, 404
+        if not self.model.get_incident_by_id(incident_id):
+            return {"status": 404, "error": "Incindent not found"}, 404
+
+        if self.model.edit_incident_comment(comment, incident_id):
+            id = self.model.find_incident_id(comment)
+            return {"status": 200,
+                    "data": [
+                        {"id": id}
+                    ],
+                    "message": "comment successfully updated"}, 200
+        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
+        
 
 
 class Location(Resource):
@@ -257,8 +265,8 @@ class Location(Resource):
         this class updates the location
     """
     @jwt_required
-    @API.doc(params={'id': 'Incident id'})
-    def patch(self, id):
+    @API.doc(params={'incident_id': 'Incident id', 'location':' location update'})
+    def patch(self, incident_id):
         """
             This method modifies the location field of an incident
         """
@@ -270,13 +278,14 @@ class Location(Resource):
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        location = args["location"].strip()
-        if not Valid.valid_string(location):
+        location = args.get("location")
+        if not Valid.valid_string(location.strip()):
             return {"error" : "location input  is invalid"}, 400
-        
-        if self.model.edit_location(id):
+        if not self.model.get_incident_by_id(incident_id):
+            return {"status": 404, "error": "Incindent not found"}, 404        
+        if self.model.edit_location(location, incident_id):
             return {"status": 200, "message": "location successfully updated"}, 200
-        return {"status": 404, "error": "Incident not found"}, 404
+        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
 
 
     

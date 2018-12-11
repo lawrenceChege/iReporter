@@ -134,22 +134,46 @@ class IncidentsModel(DbModel):
             print(error)
             return None
 
-    def edit_incident_comment(self, id):
+    def edit_incident_comment(self, comment, incident_id):
         """
             This method modifies the description field of an incident.
             It takes an id as parameter and,
             It returns The updated incident as a result.
             
         """
-        return None
+        try:
+            self.cur.execute(
+                """
+                UPDATE incidents
+                SET comment = %s
+                WHERE incident_id = %s;
+                """, (comment, incident_id)
+                )
+            self.commit()
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
 
-    def edit_location(self, id):
+    def edit_location(self, location, incident_id):
         """
             This method modifies the location field of an incident.
             It takes an id as the parameter.
             It returns the updated incident.
         """
-        return None
+        try:
+            self.cur.execute(
+                """
+                UPDATE incidents
+                SET location = %s
+                WHERE incident_id = %s;
+                """, (location, incident_id)
+                )
+            self.commit()
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
 
     def upload_image(self, id):
         """
