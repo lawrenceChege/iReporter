@@ -10,7 +10,7 @@ class TestIncidentsTestCase(BaseTestCase):
         """ 
              create a test user 
         """
-        response = self.app.post('/api/v1/auth/signup/',
+        response = self.app.post('/api/v2/auth/signup/',
                                  data=json.dumps(self.person_existing_user),
                                  headers={'content-type': 'application/json'}
                                  )
@@ -21,7 +21,7 @@ class TestIncidentsTestCase(BaseTestCase):
         """
             sign in a user
         """
-        response = self.app.post('api/v1/auth/login/',
+        response = self.app.post('api/v2/auth/login/',
                                  data=json.dumps(self.correct_login1),
                                  headers={'content-type': 'application/json'})
         return response
@@ -42,14 +42,14 @@ class TestIncidentsTestCase(BaseTestCase):
         """
         self.get_jwt_token()
         token = self.token
-        redflag = self.app.post('/api/v1/incidents/',
+        redflag = self.app.post('/api/v2/incidents/',
                                 data=json.dumps(data),
                                 headers={'content-type': 'application/json',
                                          'Authorization': token})
         return redflag
 
     def test_app_works(self):
-        response = self.app.get('api/v1')
+        response = self.app.get('api/v2')
         self.assertEqual(response.status_code, 301)
 
     def test_post_incident(self):
@@ -87,7 +87,7 @@ class TestIncidentsTestCase(BaseTestCase):
     def test_view_all_incidents(self):
         """Test for viewing all incidents"""
         self.post_incident(self.red_flag)
-        response = self.app.get('/api/v1/incidents/')
+        response = self.app.get('/api/v2/incidents/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], "All redflags found successfully")
@@ -96,7 +96,7 @@ class TestIncidentsTestCase(BaseTestCase):
         """Test for vieving a particular redflag"""
         # existing redflag
         self.post_incident(self.red_flag)
-        response = self.app.get('/api/v1/incidents/1/')
+        response = self.app.get('/api/v2/incidents/1/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], "Redflag successfully retrieved!")
@@ -104,7 +104,7 @@ class TestIncidentsTestCase(BaseTestCase):
     def test_view_incident_not_found(self):
         """Test for viewing an incident that does not exist"""
         # redflag does not exist
-        response = self.app.get('/api/v1/incidents/1344/')
+        response = self.app.get('/api/v2/incidents/1344/')
         self.assertEqual(response.status_code, 404)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], "Redflag not found")
@@ -113,7 +113,7 @@ class TestIncidentsTestCase(BaseTestCase):
         """Test for modifying an incident """
         self.post_incident(self.redflag_invalid_video)
         token = self.token
-        response = self.app.put('/api/v1/incidents/1/',
+        response = self.app.put('/api/v2/incidents/1/',
                                 data=json.dumps(self.update_redflag),
                                 headers={'content-type': "application/json",
                                          'Authorization': token})
@@ -123,7 +123,7 @@ class TestIncidentsTestCase(BaseTestCase):
 
         self.post_incident(self.red_flag)
         token = self.token
-        response = self.app.put('/api/v1/incidents/143/',
+        response = self.app.put('/api/v2/incidents/143/',
                                 data=json.dumps(self.update_redflag),
                                 headers={'content-type': "application/json",
                                          'Authorization': token})
@@ -135,7 +135,7 @@ class TestIncidentsTestCase(BaseTestCase):
         """Test for deleting a redflag"""
         self.post_incident(self.red_flag)
         token = self.token
-        response = self.app.delete('/api/v1/incidents/1/',
+        response = self.app.delete('/api/v2/incidents/1/',
                                    headers={'content-type': 'application/json',
                                             'Authorization': token})
         self.assertEqual(response.status_code, 404)
@@ -144,7 +144,7 @@ class TestIncidentsTestCase(BaseTestCase):
 
         self.post_incident(self.red_flag)
         token = self.token
-        response = self.app.delete('/api/v1/incidents/2222/',
+        response = self.app.delete('/api/v2/incidents/2222/',
                                    headers={'content-type': 'application/json',
                                             'Authorization': token})
         self.assertEqual(response.status_code, 404)

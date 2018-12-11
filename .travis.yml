@@ -19,12 +19,19 @@ install:
 # command to run tests
 # This is the script that enables travis to run the tests
 # There are many ways to do dependeing on how you want travis to run and get you coverage
+services:
+  - postgresql
+
+before-script:
+  - psql -c "CREATE DATABASE ireporter;" -U postgres
+
 script: true
   - nosetests --with-coverage --coverage report
 
  # Another command/method to run tests
 script:
   - py.test --cov=app app/tests/v1
+  - py.test --cov=app app/tests/v2
 
 # This returns the coverage and let's coveralls know the coverage percent.
 # Note that travis will build your system and get the coverage.

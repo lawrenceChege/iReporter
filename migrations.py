@@ -3,6 +3,7 @@ import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+HEROKU_DB_URL = 'postgres://gqpylxymapzcup:ebd641e7c5bd2116a79f179a869557f684818b0df68a0379a528330987886192@ec2-184-72-239-186.compute-1.amazonaws.com:5432/d2hukbh74b0mkk'
 DATABASE_URL = 'postgresql://localhost/ireporter?user=postgres&password=12345678'
 TEST_DATABASE_URL = 'postgresql://localhost/ireporter_test?user=postgres&password=12345678'
 CONNECTION_CREDS = {
@@ -26,6 +27,7 @@ class DbModel():
         self.db_url = DATABASE_URL
         self.db_test_url = TEST_DATABASE_URL
         self.db_con_creds = CONNECTION_CREDS
+        self.db_heroku = HEROKU_DB_URL
         self.db_test_con_creds = TEST_CONNECTION_CREDS
         self.conn = self.choose_db(db)
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
@@ -44,10 +46,10 @@ class DbModel():
             connect to ireporter database
         """
         try:
-            print("connecting to db...\n")
+            print("connecting to main  db...\n")
             try:
-                conn = connection(self.db_url)
-                print('connected to db\n')
+                conn = connection(self.db_heroku)
+                print('connected to heroku db\n')
                 return conn
             except:
                 conn = psycopg2.connect(

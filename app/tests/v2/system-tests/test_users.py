@@ -10,7 +10,7 @@ class TestUsersTestCase(BaseTestCase):
         """ 
              create a test user 
         """
-        response = self.app.post('/api/v1/auth/signup/',
+        response = self.app.post('/api/v2/auth/signup/',
                                  data=json.dumps(user),
                                  headers={'content-type': 'application/json'}
                                  )
@@ -21,7 +21,7 @@ class TestUsersTestCase(BaseTestCase):
         """
             sign in a user
         """
-        response = self.app.post('api/v1/auth/login/',
+        response = self.app.post('api/v2/auth/login/',
                                  data=json.dumps(user),
                                  headers={'content-type': 'application/json'})
         return response
