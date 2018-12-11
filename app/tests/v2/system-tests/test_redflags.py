@@ -2,19 +2,17 @@
 import json
 from app.tests.base import BaseTestCase
 
-
 class TestIncidentsTestCase(BaseTestCase):
     """Tests for redflags"""
 
     def signup(self):
-        """ 
-             create a test user 
+        """
+             create a test user
         """
         response = self.app.post('/api/v2/auth/signup/',
                                  data=json.dumps(self.person_existing_user),
                                  headers={'content-type': 'application/json'}
                                  )
-
         return response
 
     def login(self):
@@ -75,7 +73,7 @@ class TestIncidentsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], 'description is invalid or empty')
-    
+
     def test_new_incident_invalid_image(self):
         """Test for posting a redflag without a vali link image"""
         #no body

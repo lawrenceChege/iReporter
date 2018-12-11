@@ -11,11 +11,6 @@ from app.api.v1.validators.validators import Validate
 app =Flask(__name__)
 API = Api(app)
 
-@app.errorhandler(500)
-def servererror(error):
-    return {"error": 'something went wrong'}
-
-
 class Incidents(Resource):
     """
         This class has methods for posting redflags and getting all redflags posted
@@ -86,7 +81,7 @@ class Incidents(Resource):
 
     @API.doc('List all Incidents')
     def get(self):
-        """ 
+        """
             This method retrives all the posted incidents from the database
         """
         self.model = IncidentsModel()
@@ -182,7 +177,7 @@ class Incident(Resource):
     @jwt_required
     @API.doc(params={'id': 'Incident id'})
     def delete(self, id):
-        """ 
+        """
             This method removes an incident from the db
         """
         self.model = IncidentsModel()
@@ -246,6 +241,3 @@ class Location(Resource):
         if location_update:
             return {"status": 200, "message": "location successfully updated"}, 200
         return {"status": 404, "error": "Redflag not found"}, 404
-
-
-    

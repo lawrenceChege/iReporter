@@ -8,7 +8,6 @@ from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
 
 USERS = []
-
 class UserModel():
     """
         This class manages the data for the users
@@ -82,10 +81,8 @@ class UserModel():
             This method logs in the user.
             It takes username and password as parameters and
             It returns jwt token
-        """ 
+        """
         if self.check_password_match():
             token = self.generate_jwt_token()
             return token
         return None
-        
-

@@ -4,8 +4,8 @@
 from flask import request, jsonify
 from flask_jwt_extended import get_jwt_identity
 import datetime
-REDFLAGS = []
 
+REDFLAGS = []
 
 class IncidentsModel():
     """
@@ -75,7 +75,7 @@ class IncidentsModel():
             return None
 
     def delete_incident(self, id):
-        """ 
+        """
             This method removes an incident by id from the database.
             It takes an id of the incident as parameter and,
             It returns the list of incidents.

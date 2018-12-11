@@ -10,7 +10,6 @@ from app.api.v1.validators.validators import Validate
 app = Flask(__name__)
 api = Api(app)
 
-
 class Users(Resource):
     """
         This class defines methods for getting all users and signing up
@@ -26,7 +25,7 @@ class Users(Resource):
         """
             This method registers a user to the database.
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",
@@ -73,7 +72,7 @@ class Users(Resource):
                 "data": [
                     {
                         "id": user.id
-                    }],              
+                    }],
                     "message": 'User created Succesfully.'
                 }, 201
 
@@ -88,7 +87,7 @@ class User(Resource):
         """
             This method logs in the user
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",

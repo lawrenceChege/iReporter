@@ -7,8 +7,8 @@ class TestIncidentsTestCase(BaseTestCase):
     """Tests for redflags"""
 
     def signup(self):
-        """ 
-             create a test user 
+        """
+             create a test user
         """
         response = self.app.post('/api/v1/auth/signup/',
                                  data=json.dumps(self.person_existing_user),
@@ -75,7 +75,7 @@ class TestIncidentsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], 'description is invalid or empty')
-    
+
     def test_new_incident_invalid_image(self):
         """Test for posting a redflag without a vali link image"""
         #no body

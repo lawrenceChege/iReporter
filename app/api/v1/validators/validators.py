@@ -18,7 +18,7 @@ class Validate():
         if password is None:
             return None
         return True
-    
+
     def valid_string(self, value):
         """
             checks if value in data is empty
@@ -29,6 +29,3 @@ class Validate():
 
     def blank_key(self):
         pass
-
-
-    

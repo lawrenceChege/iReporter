@@ -1,5 +1,5 @@
 """
-This module runs the app and tests 
+This module runs the app and tests
 """
 import os
 from app import create_app
@@ -8,7 +8,6 @@ config = os.getenv('FLASK_CONFIG')
 
 db=DbModel('main')
 testdb = DbModel('test')
-# APP = create_app(config)
 APP = create_app("development")
 db.create_tables()
 testdb.create_tables()

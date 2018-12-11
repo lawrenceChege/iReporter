@@ -5,23 +5,16 @@ import datetime
 from unittest import TestCase
 from flask import current_app
 from app import create_app
-# from flask import Flask
-
-# def create_app():
-#     APP= Flask(__name__, instance_relative_config=True)
-#     return APP
-
-
 
 class BaseTestCase(TestCase):
     """
-        This class allows for dynamic creation of the database and 
+        This class allows for dynamic creation of the database and
         provides a blank database after every scenario
     """
 
     def setUp(self):
         """
-            Setup the flask app for testing. 
+            Setup the flask app for testing.
             It initializes the app and app context.
         """
         _app = create_app("testing")
@@ -68,7 +61,7 @@ class BaseTestCase(TestCase):
             "type": "RedFlag",
             "title": "",
             "location": "37.12N, 3.7E",
-            "images":9&8,
+            "images": 9 & 8,
             "video": "[Image, Image]",
             "descrrption": "falling constructions center"
         }
@@ -149,11 +142,11 @@ class BaseTestCase(TestCase):
         self.correct_login = {
             "username": "carolmobic",
             "password": "mae12#embiliA"
-            }
+        }
         self.correct_login1 = {
             "username": "carolmobic",
             "password": "aswdeAWSE$WE"
-            }
+        }
 
         self.wrong_login = {"username": "carolmoboc",
                             "password": "mistubishi"}
@@ -176,25 +169,12 @@ class BaseTestCase(TestCase):
         self.admin_wrong = {"username": "lawrence",
                             "password": "mimi"}
 
-    # def test_app(self):
-    #     """
-    #         This method tests if an app context exists
-    #     """
-    #     self.assertFalse(current_app is None)
-
-    # def test_app_config(self):
-    #     """
-    #         This method tests if the app environment is set to testing
-    #     """
-    #     self.assertTrue(current_app.config['TESTING'])
-
     def tearDown(self):
         """
             This method is called if setUp() succeeds.
             It destroys the app context.
         """
         self.app_context.pop()
-
 
 if __name__ == '__main__':
     unittest.main()

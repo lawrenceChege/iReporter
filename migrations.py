@@ -7,13 +7,13 @@ HEROKU_DB_URL = 'postgres://gqpylxymapzcup:ebd641e7c5bd2116a79f179a869557f684818
 DATABASE_URL = 'postgresql://localhost/ireporter?user=postgres&password=12345678'
 TEST_DATABASE_URL = 'postgresql://localhost/ireporter_test?user=postgres&password=12345678'
 CONNECTION_CREDS = {
-    "host": os.getenv('DB_HOST'),    
+    "host": os.getenv('DB_HOST'),
     "database": os.getenv('DB_NAME'),
     "user": os.getenv('DB_USER'),
     "password": os.getenv('DB_PASSWORD')
 }
 TEST_CONNECTION_CREDS = {
-    "host": os.getenv('TEST_DB_HOST'),    
+    "host": os.getenv('TEST_DB_HOST'),
     "database": os.getenv('TEST_DB_NAME'),
     "user": os.getenv('TEST_DB_USER'),
     "password": os.getenv('TEST_DB_PASSWORD')
@@ -38,8 +38,6 @@ class DbModel():
         """
         conn = psycopg2.connect(url)
         return conn
-
-
 
     def init_db(self):
         """
@@ -124,13 +122,11 @@ class DbModel():
                 )
             """
         )
-        
-               
         try:
             for command in commands:
                 self.cur.execute(command)
             self.commit()
-            self.close()      
+            self.close()
 
         except (Exception, psycopg2.DatabaseError) as error:
             print (error)
@@ -139,11 +135,9 @@ class DbModel():
             if self.conn is not None:
                 self.conn.close()
 
-    
-
     def drop_tables(self, table):
         """ drop existing tables """
-        try: 
+        try:
             self.cur.execute("DROP TABLE IF EXISTS"+ table)
             self.commit()
             self.close()
@@ -153,7 +147,6 @@ class DbModel():
         finally:
             if self.conn is not None:
                 self.close()
-
 
     def commit(self):
         """
@@ -175,10 +168,3 @@ class DbModel():
     def findAll(self):
         """ return all items from query"""
         return self.cur.fetchall()
-
-
-
-    
-
-
-    

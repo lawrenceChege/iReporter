@@ -10,13 +10,12 @@ from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash
 from migrations import DbModel
 
-
 class UserModel(DbModel):
     """
         This class manages the data for the users
     """
 
-    def __init__(self, firstname=None, othernames=None, isAdmin=False, 
+    def __init__(self, firstname=None, othernames=None, isAdmin=False,
                  lastname=None, email=None, phoneNumber=None, username=None, password=None):
         super().__init__('main')
         self.firstname = firstname
@@ -29,13 +28,11 @@ class UserModel(DbModel):
         self.registered = datetime.datetime.now()
         self.isAdmin = isAdmin
 
-
     @staticmethod
     def generate_pass_hash():
         """
         encrypt password
         """
-
         private_key = generate_password_hash(request.json["password"])
         return private_key
 
@@ -137,4 +134,3 @@ class UserModel(DbModel):
         """
         token = self.generate_jwt_token(username)
         return token
-        

@@ -4,11 +4,11 @@ from app.tests.base import BaseTestCase
 
 class TestUsersTestCase(BaseTestCase):
     """
-         test for users 
+         test for users
     """
     def signup(self, user):
-        """ 
-             create a test user 
+        """
+             create a test user
         """
         response = self.app.post('/api/v1/auth/signup/',
                                  data=json.dumps(user),
@@ -26,7 +26,7 @@ class TestUsersTestCase(BaseTestCase):
                                  headers={'content-type': 'application/json'})
         return response
 
-    
+
     def test_correct_signup(self):
         """
             test for signup with all required fields
@@ -92,7 +92,7 @@ class TestUsersTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], 'Email is invalid or empty!')
-    
+
     def test_signup_invalid_password(self):
         """
             test for signup with an invalid username
@@ -161,5 +161,4 @@ class TestUsersTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'],'Username is invalid or empty' )
-
 

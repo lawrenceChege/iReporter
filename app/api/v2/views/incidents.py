@@ -1,19 +1,13 @@
 """ These module deals with redflag methods and routes"""
 import datetime, json
 from flask_restplus import Resource, reqparse, Api
-from flask import request, jsonify,Flask 
+from flask import request, jsonify,Flask
 from flask_jwt_extended import jwt_required
-
 from app.api.v2.models.incidents import IncidentsModel
-
 from app.api.v2.validators.validators import Validate
 
 app =Flask(__name__)
 API = Api(app)
-
-@app.errorhandler(500)
-def servererror(error):
-    return {"error": 'something went wrong'}
 
 
 class Incidents(Resource):
@@ -61,51 +55,43 @@ class Incidents(Resource):
 
         Valid = Validate()
         args = parser.parse_args()
-        
+
         record_type = args.get("record_type")
         title    = args.get("title")
         images   = args.get("images")
         video    = args.get("video")
         location = args.get("location")
         comment  = args.get("comment")
-        self.model = IncidentsModel(record_type=record_type,location=location, 
+        self.model = IncidentsModel(record_type=record_type,location=location,
                 images=images, video=video, title=title, comment=comment,)
 
         if not request.json:
             return jsonify({"error" : "check your request type"})
-
         if not Valid.valid_string(title) or not bool(title.strip()) :
             return {"error" : "Title is invalid or empty"}, 400
-
         if not Valid.valid_string(images) :
             return {"error" : "Images link is invalid"}, 400
-
         if not Valid.valid_string(video):
             return {"error" : "Video link is invalid"}, 400
-
         if not Valid.valid_string(location):
             return {"error" : "location input  is invalid"}, 400
-
         if not Valid.valid_string(comment) or not bool(comment.strip()) :
             return {"error" : "description is invalid or empty"}, 400
-
         if not Valid.valid_string(record_type) or not bool(record_type.strip()) :
             return {"error" : "Type is invalid or empty"}, 400
-
         if self.model.find_incident_by_comment(comment):
             return {"status": 400, "error": "Incident already exists"}, 400
-
         if self.model.post_incident():
             return {"status": 201, "data": [{
                 "RedFlag_id": self.model.find_incident_id(comment),
             }],
                 "message": "Created incident successfully!"}, 201
         return {"status": 500, "error": "Oops! something went wrong!"},500
-        
+
 
     @API.doc('List all Incidents')
     def get(self):
-        """ 
+        """
             This method retrives all the posted incidents from the database
         """
         self.model = IncidentsModel()
@@ -139,7 +125,7 @@ class Incident(Resource):
                             }
                         ],
                         "message": "Incident successfully retrieved!"}, 200
-    
+
 
     @API.doc(params={'id': 'Incident id'})
     @jwt_required
@@ -211,7 +197,7 @@ class Incident(Resource):
     @jwt_required
     @API.doc(params={'id': 'Incident id'})
     def delete(self, incident_id):
-        """ 
+        """
             This method removes an incident from the db
         """
         self.model = IncidentsModel()
@@ -257,7 +243,7 @@ class Comment(Resource):
                     ],
                     "message": "comment successfully updated"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500
-        
+
 
 
 class Location(Resource):
@@ -282,10 +268,7 @@ class Location(Resource):
         if not Valid.valid_string(location.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not self.model.get_incident_by_id(incident_id):
-            return {"status": 404, "error": "Incindent not found"}, 404        
+            return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_location(location, incident_id):
             return {"status": 200, "message": "location successfully updated"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500
-
-
-    
