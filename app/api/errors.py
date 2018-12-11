@@ -1,4 +1,7 @@
 from flask import Blueprint, jsonify
+from flask_jwt_extended import JWTManager
+
+
 
 errors = Blueprint('errors', __name__)
 
@@ -22,10 +25,3 @@ def not_allowed(e):
     return jsonify({"status": 405,
         "error": "Method Not allowed on this route!"})
 
-@errors.app_errorhandler(301)
-def moved_permanently(e):
-    return jsonify({"status": 301,
-        "error": "The resource has been Moved Permanently!"})
-
-
-        
