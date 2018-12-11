@@ -19,7 +19,7 @@ class DevelopmentConfig(Config):
     """
         Thsi defines the development environment of the app
     """
-    
+    PROPAGATE_EXEPTIONS = True
     DEBUG = True
 
 
