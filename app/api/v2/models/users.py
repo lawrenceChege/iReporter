@@ -18,7 +18,7 @@ class UserModel(DbModel):
 
     def __init__(self, firstname=None, othernames=None, isAdmin=False, 
                  lastname=None, email=None, phoneNumber=None, username=None, password=None):
-        super().__init__('main')
+        super().__init__()
         self.firstname = firstname
         self.lastname = lastname
         self.othernames = othernames

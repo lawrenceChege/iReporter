@@ -4,15 +4,13 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import current_app
 
-HEROKU_URL = 'postgres://gqpylxymapzcup:ebd641e7c5bd2116a79f179a869557f684818b0df68a0379a528330987886192@ec2-184-72-239-186.compute-1.amazonaws.com:5432/d2hukbh74b0mkk'
-
 class DbModel():
     """
         consists of methods to connect and query from db
     """
 
-    def __init__(self, url):
-        self.db_url = url
+    def __init__(self):
+        self.db_url = current_app.config['DATABASE_URL']
         self.conn = self.init_db()
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
@@ -32,18 +30,12 @@ class DbModel():
             connect to ireporter database
         """
         try:
-            print("connecting to db...\n")
-            try:
-                conn = self.connection(HEROKU_URL)
-                print('connected to  heroku db\n')
-                self.cur = conn.cursor(cursor_factory=RealDictCursor)
-                return conn
-            except:
-                conn = self.connection(self.db_url)                
-                self.cur = conn.cursor(cursor_factory=RealDictCursor)
-                print(self.db_url)
-                print('connected to local db\n')
-                return conn
+            print("connecting to db...\n")            
+            conn = self.connection(self.db_url)
+            self.cur = conn.cursor(cursor_factory=RealDictCursor)
+            print(self.db_url)
+            print('connected to db\n')
+            return conn
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             print('error connecting to db\n')

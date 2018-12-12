@@ -25,16 +25,11 @@ def create_app(config_name):
     jwt = JWTManager(APP)
     APP.register_blueprint(v1)
     APP.register_blueprint(v2)
-    JWT_ACCESS_TOKEN_EXPIRES = timeout
+    APP.config['JWT_ACCESS_TOKEN_EXPIRES'] = timeout
     APP.register_blueprint(e)
     APP.url_map.strict_slashes = False
-    if config_name == 'development':
-        url = 'postgresql://localhost/ireporter?user=postgres&password=12345678' 
-    elif config_name == 'testing':
-        url = 'postgresql://localhost/ireporter_test?user=postgres&password=12345678'
-
     with APP.app_context():
-        db = DbModel(url)
+        db = DbModel()
         db.init_db()
         db.create_tables()
    

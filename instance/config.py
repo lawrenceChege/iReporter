@@ -13,24 +13,25 @@ class Config:
     BUNDLE_ERRORS = True
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
     JWT_ACCESS_TOKEN_EXPIRES = os.getenv('JWT_ACCESS_TOKEN_EXPIRES')
-    # Database
-    DB_HOST = os.getenv('DB_HOST')
-    DB_USERNAME = os.getenv('DB_USERNAME')
-    DB_PASSWORD = os.getenv('DB_PASSWORD')
     # User
     ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
     ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
     ADMIN_USERNAME = os.getenv('ADMIN_USERNAME')
 
-
+class HerokuConfig(Config):
+    """
+        Thsi defines the development environment of the app
+    """
+    PROPAGATE_EXEPTIONS = True
+    DEBUG = True
+    DATABASE_URL = 'postgres://gqpylxymapzcup:ebd641e7c5bd2116a79f179a869557f684818b0df68a0379a528330987886192@ec2-184-72-239-186.compute-1.amazonaws.com:5432/d2hukbh74b0mkk'
 class DevelopmentConfig(Config):
     """
         Thsi defines the development environment of the app
     """
     PROPAGATE_EXEPTIONS = True
-    DEBUG = True    
-    DB_NAME = os.getenv('DB_NAME')
-    DATABASE_URL = os.getenv('DATABASE_URL')
+    DEBUG = True
+    DATABASE_URL = 'postgresql://localhost/ireporter?user=postgres&password=12345678'
 
 
 class TestingConfig(Config):
@@ -39,7 +40,7 @@ class TestingConfig(Config):
     """
     TESTING = True
     DEBUG = True
-    TEST_DATABASE_URL = os.getenv('TEST_DATABASE_URL')    
+    DATABASE_URL = 'postgresql://localhost/ireporter_test?user=postgres&password=12345678'  
     DB_NAME = os.getenv('DB_TEST_NAME')
 
 
@@ -57,5 +58,5 @@ config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
-    'default': DevelopmentConfig
+    'default': HerokuConfig
 }

@@ -7,7 +7,7 @@ from migrations import DbModel
 config = os.getenv('FLASK_CONFIG')
 
 
-APP = create_app("development")
+APP = create_app("default")
 
 if __name__ == "__main__":
     APP.run(debug = True)
