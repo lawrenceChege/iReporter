@@ -24,6 +24,7 @@ class HerokuConfig(Config):
     """
     PROPAGATE_EXEPTIONS = True
     DEBUG = True
+    DATABASE = os.getenv('DATABASE_URL')
     DATABASE_URL = 'postgres://gqpylxymapzcup:ebd641e7c5bd2116a79f179a869557f684818b0df68a0379a528330987886192@ec2-184-72-239-186.compute-1.amazonaws.com:5432/d2hukbh74b0mkk'
 class DevelopmentConfig(Config):
     """
@@ -31,6 +32,7 @@ class DevelopmentConfig(Config):
     """
     PROPAGATE_EXEPTIONS = True
     DEBUG = True
+    DATABASE = os.getenv('DATABASE_URL')
     DATABASE_URL = 'postgresql://localhost/ireporter?user=postgres&password=12345678'
 
 
@@ -40,8 +42,9 @@ class TestingConfig(Config):
     """
     TESTING = True
     DEBUG = True
-    DATABASE_URL = 'postgresql://localhost/ireporter_test?user=postgres&password=12345678'  
-    DB_NAME = os.getenv('DB_TEST_NAME')
+    DATABASE = os.getenv('DATABASE_URL')
+    DATABASE_URL = 'postgresql://localhost/test?user=postgres&password=12345678'
+    
 
 
 class ProductionConfig(Config):
@@ -49,8 +52,7 @@ class ProductionConfig(Config):
         This defines the production environment fro the app
     """
     DEBUG = False
-    TESTING = False    
-    DB_NAME = os.getenv('DB_NAME')
+    TESTING = False
     DATABASE_URL = os.getenv('DATABASE_URL')
 
 

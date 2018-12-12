@@ -11,6 +11,7 @@ class DbModel():
 
     def __init__(self):
         self.db_url = current_app.config['DATABASE_URL']
+        self.db = current_app.config['DATABASE']
         self.conn = self.init_db()
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
@@ -30,6 +31,10 @@ class DbModel():
             connect to ireporter database
         """
         try:
+            if self.db:
+                print("connecting to actual db...\n") 
+                conn = self.connection(self.db)
+                self.cur = conn.cursor(cursor_factory=RealDictCursor)
             print("connecting to db...\n")            
             conn = self.connection(self.db_url)
             self.cur = conn.cursor(cursor_factory=RealDictCursor)
@@ -81,7 +86,8 @@ class DbModel():
                
         try:
             for command in commands:
-                self.cur.execute(command)
+                self.cur.execute(command)                
+                print('creating table ..\n')
             self.commit()
             self.close()      
 

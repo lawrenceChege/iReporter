@@ -7,9 +7,6 @@ from flask import current_app
 from app import create_app
 from migrations import DbModel
 
-db = DbModel('test')
-
-
 
 class BaseTestCase(TestCase):
     """
@@ -22,11 +19,14 @@ class BaseTestCase(TestCase):
             Setup the flask app for testing. 
             It initializes the app and app context.
         """
-        _app = create_app("testing")
+        APP = create_app("testing")
 
-        self.app = _app.test_client()
-        self.app_context = _app.app_context()
-        self.app_context.push()
+        self.app = APP.test_client()
+        with APP.app_context():
+            db = DbModel()
+            db.init_db()
+            db.drop_tables('incidents')
+            db.drop_tables('users')
         self.token = 0
 
         self.red_flag = {
@@ -191,9 +191,7 @@ class BaseTestCase(TestCase):
             This method is called if setUp() succeeds.
             It destroys the app context.
         """
-        db.drop_tables('incidents')
-        db.drop_tables('users')
-        self.app_context.pop()
+        pass
 
 
 if __name__ == '__main__':

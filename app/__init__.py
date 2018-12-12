@@ -34,5 +34,3 @@ def create_app(config_name):
         db.create_tables()
    
     return APP
-
-
