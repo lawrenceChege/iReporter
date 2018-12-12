@@ -1,6 +1,6 @@
 """Test for methods applied to Red Flags"""
 import json
-from app.tests.base import BaseTestCase
+from app.tests.v1.base import BaseTestCase
 
 
 class TestIncidentsTestCase(BaseTestCase):
