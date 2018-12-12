@@ -10,40 +10,40 @@ class DbModel():
     """
 
     def __init__(self):
+        
+        self.db_host = current_app.config['DB_HOST']
+        self.db_username = current_app.config['DB_USER']
+        self.db_password = current_app.config['DB_PASSWORD']
+        self.db_name = current_app.config['DB_NAME']
         self.db_url = current_app.config['DATABASE_URL']
-        self.db = current_app.config['DATABASE']
-        self.conn = self.init_db()
-        self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
-    def connection(self, url):
-        """
-            connect to postgres database
-        """
         try:
-            conn = psycopg2.connect(url)
-            return conn
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-            print('error connecting to db\n')
+            self.conn = psycopg2.connect(
+                host=self.db_host,
+                user=self.db_username,
+                password=self.db_password,
+                database=self.db_name,
+            )
+            self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
+        except:
+            self.conn = psycopg2.connect(self.db_url)
+            self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
-    def init_db(self):
-        """
-            connect to ireporter database
-        """
+    def init_db(self, app):
         try:
-            if self.db:
-                print("connecting to actual db...\n") 
-                conn = self.connection(self.db)
-                self.cur = conn.cursor(cursor_factory=RealDictCursor)
-            print("connecting to db...\n")            
-            conn = self.connection(self.db_url)
-            self.cur = conn.cursor(cursor_factory=RealDictCursor)
-            print(self.db_url)
-            print('connected to db\n')
-            return conn
-        except (Exception, psycopg2.DatabaseError) as error:
-            print(error)
-            print('error connecting to db\n')
+            self.conn = psycopg2.connect(
+                host=app.config['DB_HOST'],
+                user=app.config['DB_USER'],
+                password=app.config['DB_PASSWORD'],
+                database=app.config['DB_NAME'],
+            )
+            print("connectted to db using creds...\n")
+            self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
+        except:
+            url =app.config['DATABASE_URL']
+            self.conn = psycopg2.connect(url)
+            print('connected to db using url...\n')
+            self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
    
     def create_tables(self):

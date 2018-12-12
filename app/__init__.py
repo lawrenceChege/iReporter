@@ -26,11 +26,8 @@ def create_app(config_name):
     APP.register_blueprint(v1)
     APP.register_blueprint(v2)
     APP.config['JWT_ACCESS_TOKEN_EXPIRES'] = timeout
+    APP.config['JWT_SECRET_KEY'] = '123rfgbrf776yt'
     APP.register_blueprint(e)
     APP.url_map.strict_slashes = False
-    with APP.app_context():
-        db = DbModel()
-        db.init_db()
-        db.create_tables()
-   
+      
     return APP

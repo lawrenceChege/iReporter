@@ -13,18 +13,19 @@ class BaseTestCase(TestCase):
         This class allows for dynamic creation of the database and 
         provides a blank database after every scenario
     """
-
+    
     def setUp(self):
         """
             Setup the flask app for testing. 
             It initializes the app and app context.
         """
         APP = create_app("testing")
-
         self.app = APP.test_client()
+        self.app_context = APP.app_context()
+        self.app_context.push()
         with APP.app_context():
             db = DbModel()
-            db.init_db()
+            db.init_db(APP)
             db.drop_tables('incidents')
             db.drop_tables('users')
         self.token = 0
