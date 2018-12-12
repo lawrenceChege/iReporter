@@ -6,19 +6,19 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-flask-jwt-extended = "*"
 flask = "*"
-flask-restplus = "*"
 gunicorn = "*"
+flask-restplus = "*"
+flask-jwt-extended = "*"
+pylint = "*"
+autopep8 = "*"
+pytest-cov = "*"
 pytest = "*"
+codecov = "*"
 coverage = "*"
 psycopg2-binary = "*"
+coveralls = "*"
 python-dotenv = "*"
-pytest-cov = "*"
-autopep8 = "*"
-pylint = "*"
-codecov = "*"
-pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
