@@ -82,6 +82,17 @@ class TestIncidentsTestCase(BaseTestCase):
                                 headers={'content-type': 'application/json',
                                          'Authorization': token})
         return redflag
+    def patch_status(self, id, data):
+        """
+            post a redflag
+        """
+        self.get_jwt_token()
+        token = self.token
+        redflag = self.app.patch('/api/v2/incidents/'+id+'/status',
+                                data=json.dumps(data),
+                                headers={'content-type': 'application/json',
+                                         'Authorization': token})
+        return redflag
 
     def test_app_works(self):
         response = self.app.get('api/v2')
@@ -319,3 +330,19 @@ class TestIncidentsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], 'Input payload validation failed')
+    
+    def test_modify_status(self):
+        """Test for modifying an incident location """
+        self.post_incident(self.red_flag)
+        response = self.patch_status('1',self.status_Resolved)
+        self.assertEqual(response.status_code, 200)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'], "location successfully updated")
+
+    def test_modify_location_not_status(self):
+
+        self.post_incident(self.red_flag)
+        response = self.patch_status('120', self.status_Rejected)
+        self.assertEqual(response.status_code, 404)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['error'], "Incindent not found")
