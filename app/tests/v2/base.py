@@ -28,64 +28,67 @@ class BaseTestCase(TestCase):
             db.init_db(APP)
             db.drop_tables('incidents')
             db.drop_tables('users')
+            db.create_tables()
         self.token = 0
 
         self.red_flag = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": "falling  building"
+            "comment": "falling  building"
+        }
+        self.redflag_location = {
+            "location": "37.12N, 3.7E"
         }
         self.red_flag2 = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": "falling  building is here"
+            "comment": "falling  building is here"
         }
 
         self.update_redflag = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": "falling construction building"
+            "comment": "falling construction building"
         }
         self.redflag_no_title = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "descrrption": "falling construction building"
+            "comment": "falling construction building"
         }
         self.redflag_invalid_image = {
-            "type": "RedFlag",
-            "title": "",
+            "record_type": "RedFlag",
+            "title": "this is nice",
             "location": "37.12N, 3.7E",
-            "images":9&8,
             "video": "[Image, Image]",
-            "descrrption": "falling constructions center"
+            "comment": "falling constructions center"
         }
         self.redflag_no_comment = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": ""
+            "comment": ""
         }
         self.redflag_invalid_video = {
-            "type": "12345",
+            "record_type": "12345",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": 1234,
-            "description": "falling construction kapanga building"
+            "comment": "falling construction kapanga building"
         }
         self.status_Resolved = {
             "status": "Resolved"

@@ -212,7 +212,7 @@ class Incident(Resource):
         self.model = IncidentsModel()
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
-            return {"status": 404, "error": "Redflag not found"}, 404
+            return {"status": 404, "error": "Incident not found"}, 404
         if self.model.delete_incident(incident_id):
             return {"status": 200, "message": "Incident successfuly deleted"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500

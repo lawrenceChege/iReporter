@@ -106,14 +106,9 @@ class DbModel():
         try:
             self.cur.execute("DROP TABLE IF EXISTS" + ' '+ table)
             self.commit()
-            self.close()
         except (Exception, psycopg2.DatabaseError) as error:
             print (error)
             print('could not drop tables\n')
-        finally:
-            if self.conn is not None:
-                self.close()
-
 
     def commit(self):
         """
