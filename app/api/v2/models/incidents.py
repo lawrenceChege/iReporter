@@ -115,6 +115,16 @@ class IncidentsModel(DbModel):
             print(error)
             return None
 
+    def check_incident_status(self, id):
+        """
+            Checks if status has been changed
+        """
+        incident = self.get_incident_by_id(id)
+        status = incident.get('status').strip()
+        if status != 'pending':
+            return False
+        return True
+
 
     def edit_incident(self, location, images, video, title, comment,incident_id):
         """
