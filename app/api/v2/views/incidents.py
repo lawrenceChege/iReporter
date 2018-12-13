@@ -95,7 +95,7 @@ class Incidents(Resource):
                 "RedFlag_id": self.model.find_incident_id(comment),
             }],
                 "message": "Created incident successfully!"}, 201
-        return {"status": 500, "error": "Oops! something went wrong!"},500
+
 
 
     @API.doc('List all Incidents')
@@ -111,7 +111,7 @@ class Incidents(Resource):
                                 "RedFlags": incidents
                             }],
                             "message": "All incidents found successfully"}, 200
-        return {"status":500, "error": "Oops! something went Wrong!"},500
+
 
 
 class Incident(Resource):
@@ -192,7 +192,7 @@ class Incident(Resource):
 
         if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incident not found"},404
-        
+
 
         if self.model.edit_incident(location, images, video, title, comment, incident_id):
             return {"status": 200,
@@ -202,7 +202,7 @@ class Incident(Resource):
                                 }
                             ],
                             "message": "Incident updated successfully!"},200
-        return {"status": 500, "error": "Oops! Something went wrong!"},500
+
 
     @jwt_required
     @API.doc(params={'id': 'Incident id'})
@@ -216,7 +216,7 @@ class Incident(Resource):
             return {"status": 404, "error": "Incident not found"}, 404
         if self.model.delete_incident(incident_id):
             return {"status": 200, "message": "Incident successfuly deleted"}, 200
-        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
+
 
 
 class Comment(Resource):
@@ -252,7 +252,7 @@ class Comment(Resource):
                         {"id": id}
                     ],
                     "message": "comment successfully updated"}, 200
-        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
+
 
 
 
@@ -281,7 +281,7 @@ class Location(Resource):
             return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_location(location, incident_id):
             return {"status": 200, "message": "location successfully updated"}, 200
-        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
+
 
 class Status(Resource):
     """
@@ -312,4 +312,4 @@ class Status(Resource):
             return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_status(status, incident_id):
             return {"status": 200, "message": "status successfully updated"}, 200
-        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
+
