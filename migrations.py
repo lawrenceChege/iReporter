@@ -1,5 +1,5 @@
 """ This module holds the database migrations """
-import os
+import os, datetime
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import current_app
@@ -50,6 +50,7 @@ class DbModel():
         """
             create tables in the database
         """
+        
         commands = (
             """
                 CREATE TABLE IF NOT EXISTS users(
@@ -103,7 +104,7 @@ class DbModel():
     def drop_tables(self, table):
         """ drop existing tables """
         try: 
-            self.cur.execute("DROP TABLE IF EXISTS"+ table)
+            self.cur.execute("DROP TABLE IF EXISTS" + ' '+ table)
             self.commit()
             self.close()
         except (Exception, psycopg2.DatabaseError) as error:
@@ -134,10 +135,3 @@ class DbModel():
     def findAll(self):
         """ return all items from query"""
         return self.cur.fetchall()
-
-
-
-    
-
-
-    

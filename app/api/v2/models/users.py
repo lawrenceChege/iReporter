@@ -11,6 +11,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from migrations import DbModel
 
 
+
+
 class UserModel(DbModel):
     """
         This class manages the data for the users
@@ -28,6 +30,7 @@ class UserModel(DbModel):
         self.username = username
         self.registered = datetime.datetime.now()
         self.isAdmin = isAdmin
+        self.Admin = self.is_admin()
 
 
     @staticmethod
@@ -69,7 +72,7 @@ class UserModel(DbModel):
 
     def find_user_id(self, username):
         """
-        Find user by id
+        Find user  id
         """
         try:
             self.cur.execute(
@@ -78,6 +81,22 @@ class UserModel(DbModel):
             user_id = self.findOne()
             id = user_id.get('user_id')
             return id
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
+    def find_user_role(self, user):
+        """
+        Find user role
+        """
+        try:
+            self.cur.execute(
+                "SELECT isAdmin FROM users WHERE user_id=%s", (user,)
+                )
+            user_role = self.findOne()
+            print(user_role)
+            isAdmin = user_role.get('isAdmin')
+            return isAdmin
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
@@ -137,4 +156,23 @@ class UserModel(DbModel):
         """
         token = self.generate_jwt_token(username)
         return token
-        
+
+    def is_admin(self):
+        try:
+            user = self.find_by_username('Admin')
+            if user:
+                print(user)
+            else:                
+                data = ('Administrator', 'One', 'main', 'Admin', 'admin@gmail.com',
+                        708686842, generate_password_hash('Admin$123G'), str(datetime.datetime.now()), True, )
+                self.cur.execute(
+                    """
+                        INSERT INTO users (firstname, lastname, othernames, username, email, phoneNumber, password, registered, isAdmin)
+                        VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);
+                    """, data
+                )
+                self.commit()
+                print('success')
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            print('could not save to db') 

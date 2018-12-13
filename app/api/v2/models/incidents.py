@@ -175,6 +175,26 @@ class IncidentsModel(DbModel):
             print(error)
             return None
 
+    def edit_status(self, status, incident_id):
+        """
+            This method modifies the status field of an incident.
+            It takes an id as the parameter.
+            It returns the updated incident.
+        """
+        try:
+            self.cur.execute(
+                """
+                UPDATE incidents
+                SET status = %s
+                WHERE incident_id = %s;
+                """, (status, incident_id)
+                )
+            self.commit()
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
     def upload_image(self, id):
         """
             This method posts an image or images to the database
@@ -192,5 +212,5 @@ class IncidentsModel(DbModel):
             This method gets the logged in user from jwt token.
             It returns the username.
         """
-        username = get_jwt_identity()
-        return username
+        user = get_jwt_identity()
+        return user

@@ -1,19 +1,14 @@
 """ These module deals with redflag methods and routes"""
 import datetime, json
 from flask_restplus import Resource, reqparse, Api
-from flask import request, jsonify,Flask 
+from flask import request, jsonify,Flask
 from flask_jwt_extended import jwt_required
-
 from app.api.v2.models.incidents import IncidentsModel
-
 from app.api.v2.validators.validators import Validate
 
 app =Flask(__name__)
 API = Api(app)
 
-@app.errorhandler(500)
-def servererror(error):
-    return {"error": 'something went wrong'}
 
 
 class Incidents(Resource):
@@ -287,5 +282,33 @@ class Location(Resource):
             return {"status": 200, "message": "location successfully updated"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500
 
-
-    
+class Status(Resource):
+    """
+        this class updates the status
+    """
+    @jwt_required
+    @API.doc(params={'incident_id': 'Incident id', 'status':' status update'})
+    def patch(self, incident_id):
+        """
+            This method modifies the status field of an incident
+        """
+        parser = reqparse.RequestParser(bundle_errors=True)
+        parser.add_argument("status",
+                            type=str,
+                            required = True,
+                            help="status field is optional.")
+        Valid = Validate()
+        self.model = IncidentsModel()
+        args = parser.parse_args()
+        status = args.get("status")
+        user = self.model.current_user()
+        print(user)
+        if user != 1 :
+            return {'status': 401, 'error': 'you do not have permission to do that!'},401
+        if not Valid.valid_string(status.strip()):
+            return {"error" : "location input  is invalid"}, 400
+        if not self.model.get_incident_by_id(incident_id):
+            return {"status": 404, "error": "Incindent not found"}, 404        
+        if self.model.edit_status(status, incident_id):
+            return {"status": 200, "message": "status successfully updated"}, 200
+        return {"status": 500,"message": "Oops! Something went wrong!"}, 500

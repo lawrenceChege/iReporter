@@ -7,7 +7,7 @@ from migrations import DbModel
 config = os.getenv('FLASK_CONFIG')
 
 
-APP = create_app("testing")
+APP = create_app("default")
 with APP.app_context():
         db = DbModel()
         db.init_db(APP)
