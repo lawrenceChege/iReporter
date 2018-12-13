@@ -64,11 +64,16 @@ class IncidentsModel(DbModel):
             This method saves an incident to the database
         """
         try:
-            data =( self.record_type, self.location, self.images, self.video, self.title, self.comment, self.createdBy, self.createdOn,self.modifiedOn )
+            data =( self.record_type, self.location, self.images,
+            self.video, self.title, self.comment, self.createdBy,
+            self.createdOn,self.modifiedOn )
 
             self.cur.execute(
                 """
-                    INSERT INTO incidents (record_type, location, images, video, title, comment, createdBy, createdOn, modifiedOn)
+                    INSERT INTO incidents (
+                        record_type, location, images,
+                        video, title, comment, createdBy,
+                        createdOn, modifiedOn)
                     VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s);
                 """, data
             )
@@ -78,6 +83,7 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             print('could not save to db')
+            return None
 
     def get_all_incidents(self):
         """
@@ -110,13 +116,33 @@ class IncidentsModel(DbModel):
             return None
 
 
-    def edit_incident(self, id):
+    def edit_incident(self, location, images, video, title, comment,incident_id):
         """
             This method can modify one or all the fields of an incident
             It takes the id of the incident as the parameter and,
             It returns the updated incident as a result.
         """
-        pass
+        try:
+            self.cur.execute(
+                """
+                UPDATE incidents
+                SET 
+                location = %s,
+                images = %s,
+                video = %s,
+                title = %s,
+                comment = %s,
+                modifiedOn = %s
+
+                WHERE incident_id = %s;
+                """,(location, images, video, title, comment, self.modifiedOn, incident_id,
+                )
+                )
+            self.commit()
+            return True
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
 
     def delete_incident(self, incident_id):
         """

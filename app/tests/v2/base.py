@@ -43,7 +43,7 @@ class BaseTestCase(TestCase):
             "location": "37.12N, 3.7E"
         }
         self.redflag_comment = {
-            "location": "37.12N, 3.7E"
+            "comment": "something nice"
         }
         self.red_flag2 = {
             "record_type": "RedFlag",
@@ -53,7 +53,7 @@ class BaseTestCase(TestCase):
             "video": "[Image, Image]",
             "comment": "falling  building is here"
         }
-        self.red_flag2 = ("RedFlag", "NCA site auth", "37.12N, 3.7E", "[Image, Image]",)
+        self.red_flag3 = ()
 
 
         self.update_redflag = {
@@ -108,7 +108,6 @@ class BaseTestCase(TestCase):
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
-            "video": 1234,
             "comment": "falling construction kapanga building"
         }
         self.status_Resolved = {

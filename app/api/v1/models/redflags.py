@@ -31,13 +31,13 @@ class IncidentsModel():
                 "createdOn": str(datetime.datetime.now()),
                 "modifiedOn": str(datetime.datetime.now()),
                 "createdBy": str(self.current_user()),
-                "type": args["type"],
-                "title": args["title"],
-                "images": args["images"],
-                "video": args["video"],
-                "location": args["location"],
+                "type": args.get("type"),
+                "title": args.get("title"),
+                "images": args.get("images"),
+                "video": args.get("video"),
+                "location": args.get("location"),
                 "status": "pending",
-                "description": args["description"]
+                "description": args.get("description")
             }
             REDFLAGS.append(REDFLAG)
             return REDFLAG
@@ -63,13 +63,13 @@ class IncidentsModel():
         """
         REDFLAG = self.get_incident_by_id(id)
         if REDFLAG:
-            REDFLAG[0]["title"] = request.json["title"]
-            REDFLAG[0]["type"] = request.json["type"]
+            REDFLAG[0]["title"] = request.json.get("title")
+            REDFLAG[0]["type"] = request.json.get("type")
             REDFLAG[0]["modifiedOn"] = str(datetime.datetime.now())
-            REDFLAG[0]["images"] = request.json["images"]
-            REDFLAG[0]["video"] = request.json["video"]
-            REDFLAG[0]["location"] = request.json["location"]
-            REDFLAG[0]["description"] = request.json["description"]
+            REDFLAG[0]["images"] = request.json.get("images")
+            REDFLAG[0]["video"] = request.json.get("video")
+            REDFLAG[0]["location"] = request.json.get("location")
+            REDFLAG[0]["description"] = request.json.get("description")
             return REDFLAG
         else:
             return None
@@ -95,19 +95,19 @@ class IncidentsModel():
         """
         REDFLAG = self.get_incident_by_id(id)
         if len(REDFLAG) != 0:
-            REDFLAG[0]["description"] = request.json["description"]
+            REDFLAG[0]["description"] = request.json.get("description")
             return REDFLAG
         return None
 
     def edit_location(self, id):
         """
             This method modifies the location field of an incident.
-            It takes an id as the parameter.
-            It returns the updated incident.
+            Params: id.
+            Return self.
         """
         REDFLAG = self.get_incident_by_id(id)
         if len(REDFLAG) != 0:
-            REDFLAG[0]["location"] = request.json["location"]
+            REDFLAG[0]["location"] = request.json.get("location")
             return REDFLAG
         return None
 

@@ -138,7 +138,7 @@ class Incident(Resource):
 
     @API.doc(params={'id': 'Incident id'})
     @jwt_required
-    def put(self, id):
+    def put(self, incident_id):
         """
             This method modifies an incident partially or wholly
         """
@@ -148,10 +148,10 @@ class Incident(Resource):
                             type=str,
                             required=True,
                             help="title field is required.")
-        parser.add_argument("description",
+        parser.add_argument("comment",
                             type=str,
                             required=True,
-                            help="description field is required.")
+                            help="comment field is required.")
         parser.add_argument("IncidentType",
                             type=str,
                             help="Type field is required.")
@@ -171,11 +171,11 @@ class Incident(Resource):
         images = args.get("images")
         video = args.get("video")
         location = args.get("location")
-        description = args.get("description")
+        comment = args.get("comment")
         if not request.json:
-            return jsonify({"error" : "check your request type"})
+            return {"error" : "check your request type"}, 400
 
-        if not Valid.valid_string(title) or not bool(title.stip()):
+        if not Valid.valid_string(title) or not bool(title.strip()):
             return {"error" : "Title is invalid or empty"}, 400
 
         if not Valid.valid_string(images) or not bool(images):
@@ -187,17 +187,18 @@ class Incident(Resource):
         if not Valid.valid_string(location) or not bool(location):
             return {"error" : "location input  is invalid"}, 400
 
-        if not Valid.valid_string(description) or not bool(description.stip()) :
-            return {"error" : "description is invalid or empty"}, 400
+        if not Valid.valid_string(comment) or not bool(comment.strip()) :
+            return {"error" : "comment is invalid or empty"}, 400
 
-        if not self.model.find_incident_id(id):
+        if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incident not found"},404
+        
 
-        if self.model.edit_incident(id):
+        if self.model.edit_incident(location, images, video, title, comment, incident_id):
             return {"status": 200,
                             "data": [
                                 {
-                                    "incident": self.model.edit_incident(id),
+                                    "incident": incident_id,
                                 }
                             ],
                             "message": "Incident updated successfully!"},200
@@ -220,7 +221,7 @@ class Incident(Resource):
 
 class Comment(Resource):
     """
-        this class updates th description
+        this class updates th comment
     """
     @jwt_required
     @API.doc(params={'id': 'Incident id', 'comment':'Update comment'})
