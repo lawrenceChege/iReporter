@@ -192,6 +192,9 @@ class Incident(Resource):
 
         if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incident not found"},404
+        
+        if not self.model.check_incident_status(incident_id):
+            return {'status': 403,"error": "This action is forbidden"}
 
 
         if self.model.edit_incident(location, images, video, title, comment, incident_id):
@@ -239,11 +242,15 @@ class Comment(Resource):
         self.model = IncidentsModel()
         args = parser.parse_args()
         comment = args.get("comment")
+
         if not Valid.valid_string(comment) or not bool(comment.strip()):
             return {"error" : "Comment is invalid or empty"}, 400
 
         if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incindent not found"}, 404
+        
+        if not self.model.check_incident_status(incident_id):
+            return {'status': 403,"error": "This action is forbidden"}
 
         if self.model.edit_incident_comment(comment, incident_id):
             id = self.model.find_incident_id(comment)
@@ -275,10 +282,13 @@ class Location(Resource):
         self.model = IncidentsModel()
         args = parser.parse_args()
         location = args.get("location")
+
         if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not self.model.get_incident_by_id(incident_id):
-            return {"status": 404, "error": "Incindent not found"}, 404
+            return {"status": 404, "error": "Incindent not found"}, 404        
+        if not self.model.check_incident_status(incident_id):
+            return {'status': 403,"error": "This action is forbidden"}
         if self.model.edit_location(location, incident_id):
             return {"status": 200, "message": "location successfully updated"}, 200
 
