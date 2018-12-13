@@ -82,10 +82,8 @@ class UserModel():
             This method logs in the user.
             It takes username and password as parameters and
             It returns jwt token
-        """ 
+        """
         if self.check_password_match():
             token = self.generate_jwt_token()
             return token
         return None
-        
-
