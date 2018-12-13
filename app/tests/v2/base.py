@@ -42,6 +42,9 @@ class BaseTestCase(TestCase):
         self.redflag_location = {
             "location": "37.12N, 3.7E"
         }
+        self.redflag_comment = {
+            "location": "37.12N, 3.7E"
+        }
         self.red_flag2 = {
             "record_type": "RedFlag",
             "title": "NCA site auth",
@@ -50,6 +53,8 @@ class BaseTestCase(TestCase):
             "video": "[Image, Image]",
             "comment": "falling  building is here"
         }
+        self.red_flag2 = ("RedFlag", "NCA site auth", "37.12N, 3.7E", "[Image, Image]",)
+
 
         self.update_redflag = {
             "record_type": "RedFlag",
@@ -67,10 +72,25 @@ class BaseTestCase(TestCase):
             "video": "[Image, Image]",
             "comment": "falling construction building"
         }
+        self.redflag_invalid_type = {
+            "record_type": "",
+            "title": "this is nice",
+            "location": "37.12N, 3.7E",
+            "images": 'jjj',
+            "video": "[Image, Image]",
+            "comment": "falling constructions center"
+        }
         self.redflag_invalid_image = {
             "record_type": "RedFlag",
             "title": "this is nice",
             "location": "37.12N, 3.7E",
+            "video": "[Image, Image]",
+            "comment": "falling constructions center"
+        }
+        self.redflag_invalid_location = {
+            "record_type": "RedFlag",
+            "title": "this is nice",
+            "images": "37.12N, 3.7E",
             "video": "[Image, Image]",
             "comment": "falling constructions center"
         }
@@ -82,6 +102,7 @@ class BaseTestCase(TestCase):
             "video": "[Image, Image]",
             "comment": ""
         }
+       
         self.redflag_invalid_video = {
             "record_type": "12345",
             "title": "NCA site auth",

@@ -55,6 +55,15 @@ class TestIncidentsTestCase(BaseTestCase):
     def test_post_incident(self):
         """Test for posting an incident"""
         # correct request
+        response = self.post_incident(self.red_flag3)
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'], 'check your request type')
+
+    
+    def test_post_incident_not_json(self):
+        """Test for posting an incident"""
+        # correct request
         response = self.post_incident(self.red_flag2)
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.get_data())
@@ -83,6 +92,22 @@ class TestIncidentsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], 'Images link is invalid')
+    
+    def test_new_incident_invalid_location(self):
+        """Test for posting a redflag without a vali location image"""
+        #no body
+        response = self.post_incident(self.redflag_invalid_location)
+        self.assertEqual(response.status_code, 400)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['error'], 'location input  is invalid')
+
+    def test_new_incident_invalid_type(self):
+        """Test for posting a redflag without a valid type"""
+        #no body
+        response = self.post_incident(self.redflag_invalid_type)
+        self.assertEqual(response.status_code, 400)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['error'], 'Type is invalid or empty')
 
     def test_view_all_incidents(self):
         """Test for viewing all incidents"""
@@ -120,6 +145,28 @@ class TestIncidentsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_modify_location_not_found(self):
+
+        self.post_incident(self.red_flag)
+        token = self.token
+        response = self.app.patch('/api/v2/incidents/143/location',
+                                data=json.dumps(self.update_redflag),
+                                headers={'content-type': "application/json",
+                                         'Authorization': token})
+        self.assertEqual(response.status_code, 404)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['error'], "Incindent not found")
+
+    def test_modify_comment(self):
+        """Test for modifying an incident location """
+        self.post_incident(self.red_flag)
+        token = self.token
+        response = self.app.patch('/api/v2/incidents/1/location',
+                                data=json.dumps(self.redflag_comment),
+                                headers={'content-type': "application/json",
+                                         'Authorization': token})
+        self.assertEqual(response.status_code, 200)
+
+    def test_modify_comment_not_found(self):
 
         self.post_incident(self.red_flag)
         token = self.token

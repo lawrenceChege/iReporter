@@ -58,9 +58,9 @@ class Incidents(Resource):
         args = parser.parse_args()
 
         record_type = args.get("record_type")
-        title    = args.get("title")
-        images   = args.get("images")
-        video    = args.get("video")
+        title = args.get("title")
+        images = args.get("images")
+        video = args.get("video")
         location = args.get("location")
         comment  = args.get("comment")
         self.model = IncidentsModel(record_type=record_type,location=location,
@@ -167,10 +167,10 @@ class Incident(Resource):
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        title       = args.get("title")
-        images      = args.get("images")
-        video       = args.get("video")
-        location    = args.get("location")
+        title = args.get("title")
+        images = args.get("images")
+        video = args.get("video")
+        location = args.get("location")
         description = args.get("description")
         if not request.json:
             return jsonify({"error" : "check your request type"})
@@ -274,7 +274,7 @@ class Location(Resource):
         self.model = IncidentsModel()
         args = parser.parse_args()
         location = args.get("location")
-        if not Valid.valid_string(location.strip()):
+        if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incindent not found"}, 404
