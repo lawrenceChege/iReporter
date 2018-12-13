@@ -10,7 +10,7 @@ class DbModel():
     """
 
     def __init__(self):
-        
+
         self.db_host = current_app.config['DB_HOST']
         self.db_username = current_app.config['DB_USER']
         self.db_password = current_app.config['DB_PASSWORD']
@@ -45,12 +45,12 @@ class DbModel():
             print('connected to db using url...\n')
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
 
-   
+
     def create_tables(self):
         """
             create tables in the database
         """
-        
+
         commands = (
             """
                 CREATE TABLE IF NOT EXISTS users(
@@ -83,14 +83,14 @@ class DbModel():
                 )
             """
         )
-        
-               
+
+
         try:
             for command in commands:
-                self.cur.execute(command)                
+                self.cur.execute(command)
                 print('creating table ..\n')
             self.commit()
-            self.close()      
+            self.close()
 
         except (Exception, psycopg2.DatabaseError) as error:
             print (error)
@@ -99,11 +99,11 @@ class DbModel():
             if self.conn is not None:
                 self.conn.close()
 
-    
+
 
     def drop_tables(self, table):
         """ drop existing tables """
-        try: 
+        try:
             self.cur.execute("DROP TABLE IF EXISTS" + ' '+ table)
             self.commit()
             self.close()

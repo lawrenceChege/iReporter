@@ -1,5 +1,5 @@
 """
-This module runs the app and tests 
+This module runs the app and tests
 """
 import os
 from app import create_app

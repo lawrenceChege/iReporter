@@ -75,7 +75,7 @@ class IncidentsModel():
             return None
 
     def delete_incident(self, id):
-        """ 
+        """
             This method removes an incident by id from the database.
             It takes an id of the incident as parameter and,
             It returns the list of incidents.

@@ -18,7 +18,7 @@ class UserModel(DbModel):
         This class manages the data for the users
     """
 
-    def __init__(self, firstname=None, othernames=None, isAdmin=False, 
+    def __init__(self, firstname=None, othernames=None, isAdmin=False,
                  lastname=None, email=None, phoneNumber=None, username=None, password=None):
         super().__init__()
         self.firstname = firstname
@@ -162,7 +162,7 @@ class UserModel(DbModel):
             user = self.find_by_username('Admin')
             if user:
                 print(user)
-            else:                
+            else:
                 data = ('Administrator', 'One', 'main', 'Admin', 'admin@gmail.com',
                         708686842, generate_password_hash('Admin$123G'), str(datetime.datetime.now()), True, )
                 self.cur.execute(
@@ -175,4 +175,4 @@ class UserModel(DbModel):
                 print('success')
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
-            print('could not save to db') 
+            print('could not save to db')

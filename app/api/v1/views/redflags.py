@@ -11,11 +11,6 @@ from app.api.v1.validators.validators import Validate
 app =Flask(__name__)
 API = Api(app)
 
-@app.errorhandler(500)
-def servererror(error):
-    return {"error": 'something went wrong'}
-
-
 class Incidents(Resource):
     """
         This class has methods for posting redflags and getting all redflags posted
@@ -245,7 +240,4 @@ class Location(Resource):
         location_update = self.model.edit_location(id)
         if location_update:
             return {"status": 200, "message": "location successfully updated"}, 200
-        return {"status": 404, "error": "Redflag not found"}, 404
-
-
-    
+        return {"status": 404, "error": "Redflag not found"}, 404    

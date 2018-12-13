@@ -30,9 +30,9 @@ class IncidentsModel(DbModel):
         self.createdBy = self.current_user()
 
 
-   
 
-    
+
+
     def find_incident_by_comment(self, comment):
         """ gets an incident from comment"""
         try:
@@ -45,7 +45,7 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
-        
+
     def find_incident_id(self,comment):
         """ Finds the id of the posted incident"""
         try:
@@ -65,7 +65,7 @@ class IncidentsModel(DbModel):
         """
         try:
             data =( self.record_type, self.location, self.images, self.video, self.title, self.comment, self.createdBy, self.createdOn,self.modifiedOn )
-            
+
             self.cur.execute(
                 """
                     INSERT INTO incidents (record_type, location, images, video, title, comment, createdBy, createdOn, modifiedOn)
@@ -92,7 +92,7 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
-       
+
     def get_incident_by_id(self, id):
         """
             This method retrieves an incident by id from the database.
@@ -119,7 +119,7 @@ class IncidentsModel(DbModel):
         pass
 
     def delete_incident(self, incident_id):
-        """ 
+        """
             This method removes an incident by id from the database.
             It takes an id of the incident as parameter and,
             It returns the list of incidents.
@@ -139,7 +139,7 @@ class IncidentsModel(DbModel):
             This method modifies the description field of an incident.
             It takes an id as parameter and,
             It returns The updated incident as a result.
-            
+
         """
         try:
             self.cur.execute(

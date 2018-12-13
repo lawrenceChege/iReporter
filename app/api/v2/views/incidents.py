@@ -56,14 +56,14 @@ class Incidents(Resource):
 
         Valid = Validate()
         args = parser.parse_args()
-        
+
         record_type = args.get("record_type")
         title    = args.get("title")
         images   = args.get("images")
         video    = args.get("video")
         location = args.get("location")
         comment  = args.get("comment")
-        self.model = IncidentsModel(record_type=record_type,location=location, 
+        self.model = IncidentsModel(record_type=record_type,location=location,
                 images=images, video=video, title=title, comment=comment,)
 
         if not request.json:
@@ -96,11 +96,11 @@ class Incidents(Resource):
             }],
                 "message": "Created incident successfully!"}, 201
         return {"status": 500, "error": "Oops! something went wrong!"},500
-        
+
 
     @API.doc('List all Incidents')
     def get(self):
-        """ 
+        """
             This method retrives all the posted incidents from the database
         """
         self.model = IncidentsModel()
@@ -134,7 +134,7 @@ class Incident(Resource):
                             }
                         ],
                         "message": "Incident successfully retrieved!"}, 200
-    
+
 
     @API.doc(params={'id': 'Incident id'})
     @jwt_required
@@ -206,7 +206,7 @@ class Incident(Resource):
     @jwt_required
     @API.doc(params={'id': 'Incident id'})
     def delete(self, incident_id):
-        """ 
+        """
             This method removes an incident from the db
         """
         self.model = IncidentsModel()
@@ -252,7 +252,7 @@ class Comment(Resource):
                     ],
                     "message": "comment successfully updated"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500
-        
+
 
 
 class Location(Resource):
@@ -277,7 +277,7 @@ class Location(Resource):
         if not Valid.valid_string(location.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not self.model.get_incident_by_id(incident_id):
-            return {"status": 404, "error": "Incindent not found"}, 404        
+            return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_location(location, incident_id):
             return {"status": 200, "message": "location successfully updated"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500
@@ -308,7 +308,7 @@ class Status(Resource):
         if not Valid.valid_string(status.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not self.model.get_incident_by_id(incident_id):
-            return {"status": 404, "error": "Incindent not found"}, 404        
+            return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_status(status, incident_id):
             return {"status": 200, "message": "status successfully updated"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500

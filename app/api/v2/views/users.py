@@ -26,7 +26,7 @@ class Users(Resource):
         """
             This method registers a user to the database.
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",
@@ -70,14 +70,14 @@ class Users(Resource):
             return {"status": 400,  "error": "Username already in use." }, 400
         if users.find_by_email(email):
             return {"status": 400, "error": "Email already in use."}, 400
-        
-        
+
+
         if users.save_to_db():
             return {"status": 201,
                     "data": [
                         {
-                            "id" : users.find_user_id(username)                     
-                        }],              
+                            "id" : users.find_user_id(username)
+                        }],
                         "message": 'User created Succesfully.'
                     }, 201
         return {"status":500, "error": "Oops! something went Wrong!"},500
@@ -93,7 +93,7 @@ class User(Resource):
         """
             This method logs in the user
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",
@@ -121,7 +121,7 @@ class User(Resource):
         if not Valid.valid_password(password) or not bool(password):
             return {
                 "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
-        
+
         if not users.find_by_username(username):
             return {"status": 404, "error": "user not found"}, 404
         if not users.check_password_match(username, password):
@@ -136,4 +136,3 @@ class User(Resource):
                         }],
                         "message": "successful"}, 201
         return {"status":500, "error": "Oops! something went Wrong!"},500
-        
