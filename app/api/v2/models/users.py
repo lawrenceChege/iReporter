@@ -172,7 +172,7 @@ class UserModel(DbModel):
                     """, data
                 )
                 self.commit()
-                print('success')
+                return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             print('could not save to db')

@@ -58,9 +58,9 @@ class Incidents(Resource):
         args = parser.parse_args()
 
         record_type = args.get("record_type")
-        title    = args.get("title")
-        images   = args.get("images")
-        video    = args.get("video")
+        title = args.get("title")
+        images = args.get("images")
+        video = args.get("video")
         location = args.get("location")
         comment  = args.get("comment")
         self.model = IncidentsModel(record_type=record_type,location=location,
@@ -138,7 +138,7 @@ class Incident(Resource):
 
     @API.doc(params={'id': 'Incident id'})
     @jwt_required
-    def put(self, id):
+    def put(self, incident_id):
         """
             This method modifies an incident partially or wholly
         """
@@ -148,10 +148,10 @@ class Incident(Resource):
                             type=str,
                             required=True,
                             help="title field is required.")
-        parser.add_argument("description",
+        parser.add_argument("comment",
                             type=str,
                             required=True,
-                            help="description field is required.")
+                            help="comment field is required.")
         parser.add_argument("IncidentType",
                             type=str,
                             help="Type field is required.")
@@ -167,15 +167,15 @@ class Incident(Resource):
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        title       = args.get("title")
-        images      = args.get("images")
-        video       = args.get("video")
-        location    = args.get("location")
-        description = args.get("description")
+        title = args.get("title")
+        images = args.get("images")
+        video = args.get("video")
+        location = args.get("location")
+        comment = args.get("comment")
         if not request.json:
-            return jsonify({"error" : "check your request type"})
+            return {"error" : "check your request type"}, 400
 
-        if not Valid.valid_string(title) or not bool(title.stip()):
+        if not Valid.valid_string(title) or not bool(title.strip()):
             return {"error" : "Title is invalid or empty"}, 400
 
         if not Valid.valid_string(images) or not bool(images):
@@ -187,17 +187,18 @@ class Incident(Resource):
         if not Valid.valid_string(location) or not bool(location):
             return {"error" : "location input  is invalid"}, 400
 
-        if not Valid.valid_string(description) or not bool(description.stip()) :
-            return {"error" : "description is invalid or empty"}, 400
+        if not Valid.valid_string(comment) or not bool(comment.strip()) :
+            return {"error" : "comment is invalid or empty"}, 400
 
-        if not self.model.find_incident_id(id):
+        if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incident not found"},404
+        
 
-        if self.model.edit_incident(id):
+        if self.model.edit_incident(location, images, video, title, comment, incident_id):
             return {"status": 200,
                             "data": [
                                 {
-                                    "incident": self.model.edit_incident(id),
+                                    "incident": incident_id,
                                 }
                             ],
                             "message": "Incident updated successfully!"},200
@@ -212,7 +213,7 @@ class Incident(Resource):
         self.model = IncidentsModel()
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
-            return {"status": 404, "error": "Redflag not found"}, 404
+            return {"status": 404, "error": "Incident not found"}, 404
         if self.model.delete_incident(incident_id):
             return {"status": 200, "message": "Incident successfuly deleted"}, 200
         return {"status": 500,"message": "Oops! Something went wrong!"}, 500
@@ -220,7 +221,7 @@ class Incident(Resource):
 
 class Comment(Resource):
     """
-        this class updates th description
+        this class updates th comment
     """
     @jwt_required
     @API.doc(params={'id': 'Incident id', 'comment':'Update comment'})
@@ -274,7 +275,7 @@ class Location(Resource):
         self.model = IncidentsModel()
         args = parser.parse_args()
         location = args.get("location")
-        if not Valid.valid_string(location.strip()):
+        if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incindent not found"}, 404

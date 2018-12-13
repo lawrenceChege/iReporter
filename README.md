@@ -97,6 +97,16 @@ It provides a platform where users can report corruption issues to the authoriti
 > to run tests do 
 
 `pytest -v `
+Test | API-endpoint |HTTP-Verb | 
+---------------------| ---------------- | ------ | -
+Users can create new incident |/api/v2/incidents/ | POST | 
+users can view all their incidents | /api/v2/incidents/ | GET |
+users can view a incident | /api/v2/incidents/<int:incident_id>/ | GET |
+users can modify their incident | /api/v2/incidents/<int:incident_id>/ | PUT |
+users can delete a incident | /api/v2/incidents/<int:incident_id>/ | DELETE |
+Users can modify a new location |/api/v2/incidents/<int:incident_id>/location | PATCH |
+users can modify a comment | /api/v2/incidents/<int:incident_id>/comment| GET |
+admin can modify the status | /api/v2/answers/<int:incident_id>/status| PUT |
 ### Author
 
 *Lawrence Chege*
