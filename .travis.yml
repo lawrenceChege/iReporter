@@ -10,15 +10,18 @@ python:
 # You can also install the coverage here to avoid it being in the requirements file
 # It is important to avoid things like coverage, pep8 that are not required to run the app
 install:
-  - pip install -r requirements.txt
   - pipenv install
-  - pip install coverage
-  - pip install codecov
 
 
 # command to run tests
 # This is the script that enables travis to run the tests
 # There are many ways to do dependeing on how you want travis to run and get you coverage
+services:
+  - postgresql
+
+before-script:
+  - psql -c "CREATE DATABASE ireporter;" -U postgres
+  
 script: true
   - nosetests --with-coverage --coverage report
 
