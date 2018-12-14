@@ -15,22 +15,22 @@ It provides a platform where users can report corruption issues to the authoriti
 
 ## Usage
 
-* As a User, you can:
-    * Create an account
-    * Log in into the account
-    * Create a red-flag or intervention
-    * View all his or her interventions/ red-flags
-    * View a specific red-flag or intervention
-    * View the status of a red-flag or intervention
-    * delete a red-flag or intervention
-    * modify an inervention or red-flag
-    * Add an image to an intervention or red-flag
-    * Add a video to an intervention or a red-flag
-    * Add a location or a google mapmarker to a red-flag or an intervention
+> As a User, you can:
+* Create an account
+* Log in into the account
+* Create a red-flag or intervention
+* View all his or her interventions/ red-flags
+* View a specific red-flag or intervention
+* View the status of a red-flag or intervention
+* delete a red-flag or intervention
+* modify an inervention or red-flag
+* Add an image to an intervention or red-flag
+* Add a video to an intervention or a red-flag
+* Add a location or a google mapmarker to a red-flag or an intervention
 
-* As an admin, you can
-    * view all users red-flags and interventions
-    * change the status of all red-flags and interventions
+> As an admin, you can
+* view all users red-flags and interventions
+* change the status of all red-flags and interventions
 
 
 ## Prerequisites

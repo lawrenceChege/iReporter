@@ -52,12 +52,12 @@ class UserModel():
         token = create_access_token(identity=self.username)
         return token
 
-    def find_by_id(self, id):
+    def find_by_id(self, incident_id):
         """
         Find user by id
         """
         for user in self.db:
-            if user["id"] == id:
+            if user["id"] == incident_id:
                 return user
             return None
 

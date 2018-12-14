@@ -4,7 +4,6 @@
 import os
 import datetime
 import psycopg2
-from flask_restplus import reqparse
 from flask import request
 from flask_jwt_extended import create_access_token
 from werkzeug.security import generate_password_hash, check_password_hash

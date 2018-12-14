@@ -1,7 +1,6 @@
 """ This is the base class for all the tests"""
 
 import unittest
-import datetime
 from unittest import TestCase
 from flask import current_app
 from app import create_app
@@ -10,13 +9,13 @@ from migrations import DbModel
 
 class BaseTestCase(TestCase):
     """
-        This class allows for dynamic creation of the database and 
+        This class allows for dynamic creation of the database and
         provides a blank database after every scenario
     """
     
     def setUp(self):
         """
-            Setup the flask app for testing. 
+            Setup the flask app for testing.
             It initializes the app and app context.
         """
         APP = create_app("testing")
