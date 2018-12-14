@@ -1,5 +1,4 @@
 """ This module holds the database migrations """
-import os, datetime
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from flask import current_app

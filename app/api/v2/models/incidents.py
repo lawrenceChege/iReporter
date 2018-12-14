@@ -1,14 +1,11 @@
 """
     This module handles the models for incidents
 """
-import json
 import datetime
 import psycopg2
-from flask import request, jsonify
+from flask import request
 from flask_jwt_extended import get_jwt_identity
 from migrations import DbModel
-from app.api.v2.models.users import UserModel
-
 
 
 class IncidentsModel(DbModel):
@@ -96,7 +93,7 @@ class IncidentsModel(DbModel):
             print(error)
             return None
 
-    def get_incident_by_id(self, id):
+    def get_incident_by_id(self, incident_id):
         """
             This method retrieves an incident by id from the database.
             It takes the id of the incident as parameter and
@@ -104,7 +101,7 @@ class IncidentsModel(DbModel):
         """
         try:
             self.cur.execute(
-                "SELECT * FROM incidents WHERE incident_id=%s", (id,)
+                "SELECT * FROM incidents WHERE incident_id=%s", (incident_id,)
                 )
             incident = self.findOne()
             return incident
@@ -112,11 +109,11 @@ class IncidentsModel(DbModel):
             print(error)
             return None
 
-    def check_incident_status(self, id):
+    def check_incident_status(self, incident_id):
         """
             Checks if status has been changed
         """
-        incident = self.get_incident_by_id(id)
+        incident = self.get_incident_by_id(incident_id)
         status = incident.get('status').strip()
         if status != 'pending':
             return False
@@ -133,7 +130,7 @@ class IncidentsModel(DbModel):
             self.cur.execute(
                 """
                 UPDATE incidents
-                SET 
+                SET
                 location = %s,
                 images = %s,
                 video = %s,
@@ -227,11 +224,11 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
-    
+
     def current_user(self):
         """
             This method gets the logged in user from jwt token.
             It returns the username.
         """
-        user = get_jwt_identity()
-        return user
+        self.user = get_jwt_identity()
+        return self.user
