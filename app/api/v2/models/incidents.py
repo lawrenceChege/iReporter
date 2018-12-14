@@ -40,7 +40,6 @@ class IncidentsModel(DbModel):
                 "SELECT * FROM incidents WHERE comment=%s", (comment,)
                 )
             comment = self.findOne()
-            print(comment)
             return comment
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -53,7 +52,6 @@ class IncidentsModel(DbModel):
                 "SELECT incident_id FROM incidents WHERE comment=%s", (comment,)
                 )
             incident_id = self.findOne().get('incident_id')
-            print(incident_id)
             return incident_id
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -78,7 +76,6 @@ class IncidentsModel(DbModel):
                 """, data
             )
             self.commit()
-            print('success')
             return True
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -230,19 +227,7 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
-
-    def upload_image(self, id):
-        """
-            This method posts an image or images to the database
-        """
-        pass
-
-    def upload_video(self, id):
-        """
-            This method posts a video or videos to the database.
-        """
-        pass
-
+    
     def current_user(self):
         """
             This method gets the logged in user from jwt token.
