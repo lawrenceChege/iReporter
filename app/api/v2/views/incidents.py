@@ -86,6 +86,11 @@ class Incidents(Resource):
 
         if not Valid.valid_string(record_type) or not bool(record_type.strip()) :
             return {"error" : "Type is invalid or empty"}, 400
+        
+        record = Valid.check_record_type(record_type)
+        if record:
+            return {'error': record + ' is not a valid record_type.Use redflag or intervention'},400
+
 
         if self.model.find_incident_by_comment(comment):
             return {"status": 400, "error": "Incident already exists"}, 400
@@ -190,8 +195,15 @@ class Incident(Resource):
         if not Valid.valid_string(comment) or not bool(comment.strip()) :
             return {"error" : "comment is invalid or empty"}, 400
 
-        if not self.model.get_incident_by_id(incident_id):
-            return {"status": 404, "error": "Incident not found"},404
+        incident = self.model.get_incident_by_id(incident_id)
+        if not incident:
+            return {"status": 404, "error": "Incindent not found"}, 404
+        
+        inc = incident.get('createdby')        
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden.",
+            'message': ' You are trying to modify someone else post'}
         
         if not self.model.check_incident_status(incident_id):
             return {'status': 403,"error": "This action is forbidden"}
@@ -217,6 +229,13 @@ class Incident(Resource):
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
             return {"status": 404, "error": "Incident not found"}, 404
+
+        inc = incident.get('createdby')        
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden.",
+            'message': ' You are trying to delete someone else post'}
+
         if self.model.delete_incident(incident_id):
             return {"status": 200, "message": "Incident successfuly deleted"}, 200
 
@@ -246,8 +265,15 @@ class Comment(Resource):
         if not Valid.valid_string(comment) or not bool(comment.strip()):
             return {"error" : "Comment is invalid or empty"}, 400
 
-        if not self.model.get_incident_by_id(incident_id):
+        incident = self.model.get_incident_by_id(incident_id)
+        if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
+        
+        inc = incident.get('createdby')        
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden.",
+            'message': ' You are trying to modify someone else post'}
         
         if not self.model.check_incident_status(incident_id):
             return {'status': 403,"error": "This action is forbidden"}
@@ -285,8 +311,16 @@ class Location(Resource):
 
         if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
-        if not self.model.get_incident_by_id(incident_id):
-            return {"status": 404, "error": "Incindent not found"}, 404        
+        incident = self.model.get_incident_by_id(incident_id)
+        if not incident:
+            return {"status": 404, "error": "Incindent not found"}, 404 
+        
+        inc = incident.get('createdby')        
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden",
+            'message': ' You are trying to modify someone else post'}
+
         if not self.model.check_incident_status(incident_id):
             return {'status': 403,"error": "This action is forbidden"}
         if self.model.edit_location(location, incident_id):
@@ -313,11 +347,14 @@ class Status(Resource):
         args = parser.parse_args()
         status = args.get("status")
         user = self.model.current_user()
-        print(user)
         if user != 1 :
-            return {'status': 401, 'error': 'you do not have permission to do that!'},401
+            return {'status': 403, 'error': 'you do not have permission to do that!'},403
         if not Valid.valid_string(status.strip()):
-            return {"error" : "location input  is invalid"}, 400
+            return {"error" : "status input  is invalid"}, 400
+        state = Valid.check_status(status)
+        if state:
+            return {'status': 400, 
+            'error': state + ' is not a valid status. Use under-investigation, resolved, rejected or pending'},400
         if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_status(status, incident_id):
