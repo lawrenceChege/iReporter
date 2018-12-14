@@ -24,7 +24,7 @@ class UserModel(DbModel):
         self.lastname = lastname
         self.othernames = othernames
         self.email = email
-        self.password = self.generate_pass_hash()
+        self.password = password
         self.phoneNumber = phoneNumber
         self.username = username
         self.registered = datetime.datetime.now()
@@ -32,14 +32,14 @@ class UserModel(DbModel):
         self.Admin = self.is_admin()
 
 
-    @staticmethod
-    def generate_pass_hash():
+    def generate_pass_hash(self):
         """
         encrypt password
         """
 
-        private_key = generate_password_hash(request.json["password"])
-        return private_key
+        private_key = generate_password_hash(request.json.get("password"))
+        self.password = private_key
+        return self.password
 
     def check_password_match(self, username, password):
         """
@@ -83,6 +83,22 @@ class UserModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
+    def find_email_by_id(self, user):
+        """
+        Find user email
+        """
+        try:
+            self.cur.execute(
+                "SELECT email FROM users WHERE user_id=%s", (user,)
+                )
+            user_email = self.findOne()
+            print(user_email)
+            email = user_email.get('email')
+            return email
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
 
     def find_user_role(self, user):
         """
@@ -132,6 +148,7 @@ class UserModel(DbModel):
         """
             This method saves the user to the database.
         """
+        self.generate_pass_hash()
         try:
             data =( self.firstname, self.lastname, self.othernames, self.username, self.email, self.phoneNumber, self.password, self.registered, self.isAdmin, )
             self.cur.execute(

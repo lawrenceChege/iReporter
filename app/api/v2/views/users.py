@@ -6,21 +6,12 @@ from flask import request, Flask, jsonify
 from app.api.v2.models.users import UserModel
 from app.api.v2.validators.validators import Validate
 
-app = Flask(__name__)
-api = Api(app)
-
 
 class Users(Resource):
     """
         This class defines methods for getting all users and signing up
     """
 
-    @api.doc(params={'firstname': 'Enter first name',
-                    'lastname': 'Enter last name',
-                    'email': 'Enter email',
-                    'phoneNumber': 'Enter phone number',
-                    'username': 'Enter a unique username',
-                    'password': 'Enter password'})
     def post(self):
         """
             This method registers a user to the database.
@@ -86,8 +77,7 @@ class User(Resource):
     """
         This class defines mthods for login in
     """
-    @api.doc(params={'Username': 'Enter a unique username',
-                    'password': 'Enter password'})
+
     def post(self):
         """
             This method logs in the user

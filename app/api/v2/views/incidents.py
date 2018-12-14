@@ -4,11 +4,8 @@ from flask_restplus import Resource, reqparse, Api
 from flask import request, jsonify,Flask
 from flask_jwt_extended import jwt_required
 from app.api.v2.models.incidents import IncidentsModel
+from app.api.v2.models.users import UserModel
 from app.api.v2.validators.validators import Validate
-
-app =Flask(__name__)
-API = Api(app)
-
 
 
 class Incidents(Resource):
@@ -17,12 +14,6 @@ class Incidents(Resource):
     """
 
     @jwt_required
-    @API.doc(params={'title': 'The title of the incident',
-                     'type': 'Redflag or Intervention',
-                     'comment': 'The general description of the incident',
-                     'images': 'The link to the image',
-                     'video': 'the link to the video',
-                     'location': 'the location coordinates'})
     def post(self):
         """
             This method  posts an incident to the databse
@@ -101,9 +92,6 @@ class Incidents(Resource):
             }],
                 "message": "Created incident successfully!"}, 201
 
-
-
-    @API.doc('List all Incidents')
     def get(self):
         """
             This method retrives all the posted incidents from the database
@@ -123,7 +111,6 @@ class Incident(Resource):
     """
         This class holds methods for single redflags
     """
-    @API.doc(params={'id': 'Incident id'})
     def get(self, incident_id):
         """
             This method retrieves an incident from the database using its id
@@ -140,8 +127,6 @@ class Incident(Resource):
                         ],
                         "message": "Incident successfully retrieved!"}, 200
 
-
-    @API.doc(params={'id': 'Incident id'})
     @jwt_required
     def put(self, incident_id):
         """
@@ -217,10 +202,7 @@ class Incident(Resource):
                                 }
                             ],
                             "message": "Incident updated successfully!"},200
-
-
     @jwt_required
-    @API.doc(params={'id': 'Incident id'})
     def delete(self, incident_id):
         """
             This method removes an incident from the db
@@ -246,7 +228,6 @@ class Comment(Resource):
         this class updates th comment
     """
     @jwt_required
-    @API.doc(params={'id': 'Incident id', 'comment':'Update comment'})
     def patch(self, incident_id):
         """
             This method modifies the comment part of an incident.
@@ -294,7 +275,6 @@ class Location(Resource):
         this class updates the location
     """
     @jwt_required
-    @API.doc(params={'incident_id': 'Incident id', 'location':' location update'})
     def patch(self, incident_id):
         """
             This method modifies the location field of an incident
@@ -331,7 +311,6 @@ class Status(Resource):
         this class updates the status
     """
     @jwt_required
-    @API.doc(params={'incident_id': 'Incident id', 'status':' status update'})
     def patch(self, incident_id):
         """
             This method modifies the status field of an incident
@@ -343,6 +322,7 @@ class Status(Resource):
                             help="status field is optional.")
         Valid = Validate()
         self.model = IncidentsModel()
+        self.user = UserModel()
         args = parser.parse_args()
         status = args.get("status")
         user = self.model.current_user()
@@ -354,8 +334,11 @@ class Status(Resource):
         if state:
             return {'status': 400,
             'error': state + ' is not a valid status. Use under-investigation, resolved, rejected or pending'},400
-        if not self.model.get_incident_by_id(incident_id):
+        incident = self.model.get_incident_by_id(incident_id)
+        createdby = incident.get('createdby')
+        if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_status(status, incident_id):
+            email = self.user.find_email_by_id(createdby)
+            self.model.send_email(email, status)
             return {"status": 200, "message": "status successfully updated"}, 200
-

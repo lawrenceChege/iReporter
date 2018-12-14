@@ -1,6 +1,7 @@
 """
     This module handles the models for incidents
 """
+import smtplib
 import datetime
 import psycopg2
 from flask import request
@@ -25,9 +26,6 @@ class IncidentsModel(DbModel):
         self.title = title
         self.comment = comment
         self.createdBy = self.current_user()
-
-
-
 
 
     def find_incident_by_comment(self, comment):
@@ -118,7 +116,6 @@ class IncidentsModel(DbModel):
         if status != 'pending':
             return False
         return True
-
 
     def edit_incident(self, location, images, video, title, comment,incident_id):
         """
@@ -224,6 +221,21 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
+    def send_email(self, email, status):
+        """
+            sends an email to a user
+        """
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        # server.starttls()
+        server.ehlo()
+        server.set_debuglevel(1)
+        try:
+            server.login("ireporteradmn@gmail.com", "Qas!@#$%^&*")
+        except:
+            print('SMTPAuthenticationError')
+        msg = 'Your incident status has been changed to {}'.format(status)
+        server.sendmail("ireporteradmn@gmail.com", email, msg)
+        server.quit()
 
     def current_user(self):
         """
