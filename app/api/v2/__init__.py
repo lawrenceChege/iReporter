@@ -21,27 +21,27 @@ API.add_resource(User, '/auth/login/')
 @API.errorhandler
 def default_error_handler(error):
     '''Default error handler'''
-    return {'message': str(error)}, getattr(error, 'code', 500)
+    return {'status': 500,'message': str(error)}, getattr(error, 'code', 500)
 
 
 @API.errorhandler(NoAuthorizationError)
 def handle_Missing_Token_exception(error):
     '''Return a custom message and 401 status code'''
-    return {'message': str(error)}, 401
+    return {'status': 401,'message': str(error)}, 401
 
 @API.errorhandler(MethodNotAllowed)
 def handle_Method_Not_Allowed(error):
     '''Return a custom message and 405 status code'''
-    return {'error': 'Method is not allowed on this url'}, 405
+    return {'status': 405,'error': 'Method is not allowed on this url'}, 405
 
 @API.errorhandler(Forbidden)
 def handle_Forbidden(error):
     '''Return a custom message and 403 status code'''
-    return {'error': 'This door is staff only'}, 403
+    return {'status': 403,'error': 'This door is staff only'}, 403
 
 
 @API.errorhandler(Forbidden)
 def handle_Bad_Request(error):
     '''Return a custom message and 400 status code'''
-    return {'error': 'This is a bad request. Check your data'}, 400
+    return {'status': 400,'error': 'This is a bad request. Check your data'}, 400
     

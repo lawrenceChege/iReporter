@@ -198,18 +198,6 @@ class BaseTestCase(TestCase):
         self.admin_wrong = {"username": "lawrence",
                             "password": "mimi"}
 
-    # def test_app(self):
-    #     """
-    #         This method tests if an app context exists
-    #     """
-    #     self.assertFalse(current_app is None)
-
-    # def test_app_config(self):
-    #     """
-    #         This method tests if the app environment is set to testing
-    #     """
-    #     self.assertTrue(current_app.config['TESTING'])
-
     def tearDown(self):
         """
             This method is called if setUp() succeeds.

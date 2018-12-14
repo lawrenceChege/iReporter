@@ -320,7 +320,7 @@ class TestIncidentsTestCase(BaseTestCase):
                                          'Authorization': token})
         self.assertEqual(response.status_code, 404)
         data = json.loads(response.get_data())
-        self.assertEqual(data['error'], 'Incident not found')
+        self.assertEqual(data['error'], 'Incindent not found')
 
     def test_update_incident_not_json(self):
         """Test for updating an incident"""
@@ -335,14 +335,14 @@ class TestIncidentsTestCase(BaseTestCase):
         """Test for modifying an incident location """
         self.post_incident(self.red_flag)
         response = self.patch_status('1',self.status_Resolved)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 403)
         data = json.loads(response.get_data())
-        self.assertEqual(data['message'], "location successfully updated")
+        self.assertEqual(data['error'], "you do not have permission to do that!")
 
     def test_modify_location_not_status(self):
 
         self.post_incident(self.red_flag)
         response = self.patch_status('120', self.status_Rejected)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 403)
         data = json.loads(response.get_data())
-        self.assertEqual(data['error'], "Incindent not found")
+        self.assertEqual(data['error'], "you do not have permission to do that!")
