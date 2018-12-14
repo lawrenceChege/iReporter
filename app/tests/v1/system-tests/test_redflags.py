@@ -7,7 +7,7 @@ class TestIncidentsTestCase(BaseTestCase):
     """Tests for redflags"""
 
     def signup(self):
-        """ 
+        """
              create a test user 
         """
         response = self.app.post('/api/v1/auth/signup/',

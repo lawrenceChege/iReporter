@@ -7,15 +7,15 @@ class Validate():
     """
 
     def valid_email(self, email):
-        vemail = re.match(
+        self.vemail = re.match(
         r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email)
-        if not vemail:
+        if not self.vemail:
             return None
         return True
 
     def valid_password(self, password):
-        password = re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password)
-        if password is None:
+        self.password = re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password)
+        if self.password is None:
             return None
         return True
     
@@ -23,12 +23,10 @@ class Validate():
         """
             checks if value in data is empty
         """
-        if not isinstance(value, str):
+        self.value = value
+        if not isinstance(self.value, str):
             return None
         return True
-
-    def blank_key(self):
-        pass
 
 
     

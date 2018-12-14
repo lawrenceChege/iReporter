@@ -1,9 +1,9 @@
 from flask import Blueprint
-from werkzeug.exceptions import *
+from werkzeug.exceptions import MethodNotAllowed, Forbidden, BadRequest
 from flask_restplus import Api
 from app.api.v2.views.incidents import Incidents, Incident, Comment, Location, Status
 from app.api.v2.views.users import Users, User
-from flask_jwt_extended.exceptions import *
+from flask_jwt_extended.exceptions import NoAuthorizationError
 
 version_two = Blueprint("v2", __name__, url_prefix="/api/v2")
 API = Api(version_two)
@@ -40,8 +40,7 @@ def handle_Forbidden(error):
     return {'status': 403,'error': 'This door is staff only'}, 403
 
 
-@API.errorhandler(Forbidden)
+@API.errorhandler(BadRequest)
 def handle_Bad_Request(error):
     '''Return a custom message and 400 status code'''
     return {'status': 400,'error': 'This is a bad request. Check your data'}, 400
-    

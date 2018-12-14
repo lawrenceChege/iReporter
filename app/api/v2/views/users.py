@@ -1,7 +1,6 @@
 """
     This module holds the views for the users
 """
-import json
 from flask_restplus import Resource, reqparse, Api
 from flask import request, Flask, jsonify
 from app.api.v2.models.users import UserModel
