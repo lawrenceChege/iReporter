@@ -7,15 +7,15 @@ class Validate():
     """
 
     def valid_email(self, email):
-        vemail = re.match(
+        self.vemail = re.match(
         r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email)
-        if not vemail:
+        if not self.vemail:
             return None
         return True
 
     def valid_password(self, password):
-        password = re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password)
-        if password is None:
+        self.password = re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password)
+        if self.password is None:
             return None
         return True
 
@@ -23,7 +23,8 @@ class Validate():
         """
             checks if value in data is empty
         """
-        if not isinstance(value, str):
+        self.value = value
+        if not isinstance(self.value, str):
             return None
         return True
 
@@ -31,18 +32,18 @@ class Validate():
         """ 
             checks if record type is redflag or intervention
         """
-        incident = record_type.lower().strip()
+        self.incident = record_type.lower().strip()
 
-        if incident == 'redflag' or incident == 'red-flag'or incident == 'red_flag' or incident == 'intervention':
+        if self.incident == 'redflag' or self.incident == 'red-flag'or self.incident == 'red_flag' or self.incident == 'intervention':
             return None
-        return incident
+        return self.incident
 
     def check_status(self, status):
-        """ 
+        """
             checks if status is under-investigation, resolved, rejected or pending
         """
-        incident = status.lower().strip()
+        self.incident = status.lower().strip()
 
-        if incident == 'resolved' or incident == 'rejected'or incident == 'under-investigation' or incident == 'pending':
+        if self.incident == 'resolved' or self.incident == 'rejected'or self.incident == 'under-investigation' or self.incident == 'pending':
             return None
-        return incident
+        return self.incident

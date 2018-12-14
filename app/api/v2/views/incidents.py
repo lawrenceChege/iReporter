@@ -1,5 +1,5 @@
 """ These module deals with redflag methods and routes"""
-import datetime, json
+import datetime
 from flask_restplus import Resource, reqparse, Api
 from flask import request, jsonify,Flask
 from flask_jwt_extended import jwt_required
@@ -279,10 +279,10 @@ class Comment(Resource):
             return {'status': 403,"error": "This action is forbidden"}
 
         if self.model.edit_incident_comment(comment, incident_id):
-            id = self.model.find_incident_id(comment)
+            incident_id = self.model.find_incident_id(comment)
             return {"status": 200,
                     "data": [
-                        {"id": id}
+                        {"id": incident_id}
                     ],
                     "message": "comment successfully updated"}, 200
 
@@ -313,9 +313,8 @@ class Location(Resource):
             return {"error" : "location input  is invalid"}, 400
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
-            return {"status": 404, "error": "Incindent not found"}, 404 
-        
-        inc = incident.get('createdby')        
+            return {"status": 404, "error": "Incindent not found"}, 404
+        inc = incident.get('createdby')
         user = self.model.current_user()
         if user != inc:
             return {'status': 403,"error": "This action is forbidden",
@@ -353,7 +352,7 @@ class Status(Resource):
             return {"error" : "status input  is invalid"}, 400
         state = Valid.check_status(status)
         if state:
-            return {'status': 400, 
+            return {'status': 400,
             'error': state + ' is not a valid status. Use under-investigation, resolved, rejected or pending'},400
         if not self.model.get_incident_by_id(incident_id):
             return {"status": 404, "error": "Incindent not found"}, 404
