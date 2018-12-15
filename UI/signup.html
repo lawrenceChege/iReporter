@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/navbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/buttons.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css">
-    <script src="UI/js/main.js"></script>
+    
 </head>
 
 <body>
@@ -40,11 +40,15 @@
                 <input id="email" class="email" type="email" align="center" placeholder="Email" required>
             </div>
             <div class="form-group">
+                <label class="form-item" for="phoneNumber"> <strong>Phone:</strong> </label><br>
+                <input id="phoneNumber" class="password" type="text" align="center" placeholder="phoneNumber" required>
+            </div>
+            <div class="form-group">
                 <label class="form-item" for="password"> <strong>Password:</strong> </label><br>
                 <input id="password" class="password" type="password" align="center" placeholder="Password" required>
             </div>
 
-            <a class="submit" align="center">Sign Up</a>
+            <a class="submit" onclick="registerUser()" align="center">Sign Up</a>
             <p class="forgot" align="center"><a href="login.html">Forgot Password?</p>
         </form>
         <div>
@@ -55,7 +59,9 @@
     <footer class="footer">
         <p>Designed with <i class="fas fa-heart"></i> by lawrence  </p>
     </footer>
-    <script src="UI/js/fetch.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/fetch.js"></script>
 
 </body>
 
