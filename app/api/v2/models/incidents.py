@@ -2,7 +2,7 @@
     This module handles the models for incidents
 """
 import smtplib
-import datetime
+import time
 import psycopg2
 from flask import request
 from twilio.rest import Client
@@ -18,8 +18,9 @@ class IncidentsModel(DbModel):
     def __init__(self, record_type=None,location=None, status=None,
                 images=None, video=None, title=None, comment=None, createdBy=None):
         super().__init__()
-        self.createdOn = datetime.datetime.now()
-        self.modifiedOn = datetime.datetime.now()
+        self.createdOn = time.strftime('%a, %d %b %Y, %I:%M:%S %p')
+        print(self.createdOn)
+        self.modifiedOn = time.strftime('%a, %d %b %Y, %I:%M:%S %p')
         self.record_type = record_type
         self.location = location
         self.status = status
@@ -233,7 +234,10 @@ class IncidentsModel(DbModel):
         server.ehlo()
         server.set_debuglevel(1)
         server.login("ireporteradmn@gmail.com", "Qas!@#$%^&*")
-        msg = 'Subject: Status update.\n Hello {}. \n Your {} incident status has been changed to {}'.format( username, incident_id,status)
+        msg = """Subject: Status update.\n
+                    Hello {}.\n
+                    Your {} incident status has been changed to {}
+                  """.format( username, incident_id,status)
         server.sendmail("ireporteradmn@gmail.com", email, msg)
         server.quit()
 

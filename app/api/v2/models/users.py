@@ -1,8 +1,7 @@
 """
     This module holds the Model for the Users
 """
-import os
-import datetime
+import time
 import psycopg2
 from flask import request
 from flask_jwt_extended import create_access_token
@@ -27,7 +26,7 @@ class UserModel(DbModel):
         self.password = password
         self.phoneNumber = phoneNumber
         self.username = username
-        self.registered = datetime.datetime.now()
+        self.registered = time.strftime('%a, %d %b %Y, %I:%M:%S %p')
         self.isAdmin = isAdmin
         self.Admin = self.is_admin()
 
@@ -174,10 +173,10 @@ class UserModel(DbModel):
         try:
             user = self.find_by_username('Admin')
             if user:
-                print(user)
+                self.user = user
             else:
                 data = ('Administrator', 'One', 'main', 'Admin', 'admin@gmail.com',
-                        708686842, generate_password_hash('Admin$123G'), str(datetime.datetime.now()), True, )
+                        708686842, generate_password_hash('Admin$123G'), time.strftime('%a, %d %b %Y, %I:%M:%S %p'), True, )
                 self.cur.execute(
                     """
                         INSERT INTO users (firstname, lastname, othernames, username, email, phoneNumber, password, registered, isAdmin)
