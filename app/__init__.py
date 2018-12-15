@@ -4,6 +4,7 @@
 import datetime
 from flask import Flask, Blueprint
 from flask_restplus import Api
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from instance.config import config
 from app.api.v1 import version_one as v1
@@ -22,6 +23,7 @@ def create_app(config_name):
     
     APP = Flask(__name__, instance_relative_config=True)
     APP.config.from_object(config[config_name])
+    CORS(APP)
     jwt = JWTManager(APP)
     APP.register_blueprint(v1)
     APP.register_blueprint(v2)

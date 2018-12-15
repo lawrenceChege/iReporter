@@ -19,6 +19,7 @@ coverage = "*"
 psycopg2-binary = "*"
 coveralls = "*"
 python-dotenv = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.7"
