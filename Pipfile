@@ -20,6 +20,7 @@ psycopg2-binary = "*"
 coveralls = "*"
 python-dotenv = "*"
 flake8 = "*"
+twilio = "*"
 
 [requires]
 python_version = "3.7"

@@ -4,6 +4,7 @@ from flask_restplus import Api
 from app.api.v2.views.incidents import Incidents, Incident, Comment, Location, Status
 from app.api.v2.views.users import Users, User
 from flask_jwt_extended.exceptions import NoAuthorizationError
+from twilio.base.exceptions import TwilioRestException
 
 version_two = Blueprint("v2", __name__, url_prefix="/api/v2")
 API = Api(version_two, catch_all_404s= True)
@@ -44,3 +45,8 @@ def handle_Forbidden(error):
 def handle_Bad_Request(error):
     '''Return a custom message and 400 status code'''
     return {'status': 400,'error': 'This is a bad request. Check your data'}, 400
+
+@API.errorhandler(TwilioRestException)
+def handle_Bad_phone(error):
+    '''Return a custom message and 400 status code'''
+    return {'status': 21608,'message': 'The thing is... This is a free account. No sms to you'}, 21608

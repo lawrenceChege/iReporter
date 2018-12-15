@@ -104,6 +104,7 @@ class Incidents(Resource):
                                 "RedFlags": incidents
                             }],
                             "message": "All incidents found successfully"}, 200
+        return {"message": 'No incidents found'}
 
 
 
@@ -339,6 +340,9 @@ class Status(Resource):
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
         if self.model.edit_status(status, incident_id):
-            email = self.user.find_email_by_id(createdby)
-            self.model.send_email(email, status)
+            user = self.user.find_user_by_id(createdby)
+            email = user.get('email')
+            phone = str(user.get('phonenumber'))
+            self.model.send_email(incident_id, email, status)
+            self.model.send_sms(incident_id, phone, status)
             return {"status": 200, "message": "status successfully updated"}, 200

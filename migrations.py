@@ -15,6 +15,9 @@ class DbModel():
         self.db_password = current_app.config['DB_PASSWORD']
         self.db_name = current_app.config['DB_NAME']
         self.db_url = current_app.config['DATABASE_URL']
+        self.account_sid = current_app.config['ACCOUNT_SID']
+        self.auth_token = current_app.config['AUTH_TOKEN']
+        self.admin_phone = current_app.config['ADMIN_PHONE']
 
         try:
             self.conn = psycopg2.connect(
@@ -43,6 +46,10 @@ class DbModel():
             self.conn = psycopg2.connect(url)
             print('connected to db using url...\n')
             self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
+            
+        self.account_sid = app.config['ACCOUNT_SID']
+        self.auth_token = app.config['AUTH_TOKEN']
+        self.admin_phone = app.config['ADMIN_PHONE']
 
 
     def create_tables(self):

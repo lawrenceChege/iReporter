@@ -83,23 +83,20 @@ class UserModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
-    def find_email_by_id(self, user):
+    def find_user_by_id(self, user):
         """
-        Find user email
+        Find user email and phoneNumber
         """
         try:
             self.cur.execute(
-                "SELECT email FROM users WHERE user_id=%s", (user,)
+                "SELECT * FROM users WHERE user_id=%s", (user,)
                 )
-            user_email = self.findOne()
-            print(user_email)
-            email = user_email.get('email')
-            return email
+            self.user = self.findOne()
+            return self.user
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
-
-
+    
     def find_user_role(self, user):
         """
         Find user role
