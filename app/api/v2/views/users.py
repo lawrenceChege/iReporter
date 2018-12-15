@@ -65,13 +65,13 @@ class Users(Resource):
             return {"status": 400,  "error": "Username already in use." }, 400
         if users.find_by_email(email):
             return {"status": 400, "error": "Email already in use."}, 400
-
-
-        if users.save_to_db():
+        token = users.save_to_db()
+        if token:
             return {"status": 201,
                     "data": [
                         {
-                            "id" : users.find_user_id(username)
+                            "id" : users.find_user_id(username),
+                            "token": "Bearer"+" "+ token
                         }],
                         "message": 'User created Succesfully.'
                     }, 201
