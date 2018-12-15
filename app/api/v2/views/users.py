@@ -1,14 +1,10 @@
 """
     This module holds the views for the users
 """
-import json
 from flask_restplus import Resource, reqparse, Api
 from flask import request, Flask, jsonify
 from app.api.v2.models.users import UserModel
 from app.api.v2.validators.validators import Validate
-
-app = Flask(__name__)
-api = Api(app)
 
 
 class Users(Resource):
@@ -16,17 +12,11 @@ class Users(Resource):
         This class defines methods for getting all users and signing up
     """
 
-    @api.doc(params={'firstname': 'Enter first name',
-                    'lastname': 'Enter last name',
-                    'email': 'Enter email',
-                    'phoneNumber': 'Enter phone number',
-                    'username': 'Enter a unique username',
-                    'password': 'Enter password'})
     def post(self):
         """
             This method registers a user to the database.
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",
@@ -49,7 +39,8 @@ class Users(Resource):
                             help="Lastname field is optional.")
         parser.add_argument("phoneNumber",
                             type=int,
-                            help="Phone number field is optional.")
+                            required = True,
+                            help="Phone number is required")
 
         args = parser.parse_args()
         users = UserModel(**args)
@@ -57,27 +48,31 @@ class Users(Resource):
         username = args.get('username').strip()
         email    = args.get('email').strip()
         password = args.get('password').strip()
+        phoneNumber = str(args.get('phoneNumber')).strip()
         if not request.json:
-            return jsonify({"error" : "check your request type"})
+            return {'status': 400,"error" : "check your request type"},400
         if not email or not Valid.valid_string(username) or not bool(username) :
-            return {"error" : "Username is invalid or empty"}, 400
+            return {'status': 400,"error" : "Username is invalid or empty"}, 400
+        if not Valid.check_phone(phoneNumber):
+            return {'status': 400, 'error': 'phone number is invalid, start at [7] like 712345678'},400
         if not Valid.valid_email(email) or not bool(email):
-            return {"error" : "Email is invalid or empty!"}, 400
+            return {'status': 400,"error" : "Email is invalid or empty!"}, 400
         if not Valid.valid_password(password) or not bool(password):
-            return {"error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
+            return {'status': 400,
+            "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
 
         if users.find_by_username(username):
             return {"status": 400,  "error": "Username already in use." }, 400
         if users.find_by_email(email):
             return {"status": 400, "error": "Email already in use."}, 400
-        
-        
-        if users.save_to_db():
+        token = users.save_to_db()
+        if token:
             return {"status": 201,
                     "data": [
                         {
-                            "id" : users.find_user_id(username)                     
-                        }],              
+                            "id" : users.find_user_id(username),
+                            "token": "Bearer"+" "+ token
+                        }],
                         "message": 'User created Succesfully.'
                     }, 201
         return {"status":500, "error": "Oops! something went Wrong!"},500
@@ -87,13 +82,12 @@ class User(Resource):
     """
         This class defines mthods for login in
     """
-    @api.doc(params={'Username': 'Enter a unique username',
-                    'password': 'Enter password'})
+
     def post(self):
         """
             This method logs in the user
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",
@@ -121,7 +115,7 @@ class User(Resource):
         if not Valid.valid_password(password) or not bool(password):
             return {
                 "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
-        
+
         if not users.find_by_username(username):
             return {"status": 404, "error": "user not found"}, 404
         if not users.check_password_match(username, password):
@@ -136,4 +130,3 @@ class User(Resource):
                         }],
                         "message": "successful"}, 201
         return {"status":500, "error": "Oops! something went Wrong!"},500
-        

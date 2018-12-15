@@ -1,17 +1,9 @@
 """ This is the base class for all the tests"""
 
 import unittest
-import datetime
 from unittest import TestCase
 from flask import current_app
 from app import create_app
-# from flask import Flask
-
-# def create_app():
-#     APP= Flask(__name__, instance_relative_config=True)
-#     return APP
-
-
 
 class BaseTestCase(TestCase):
     """

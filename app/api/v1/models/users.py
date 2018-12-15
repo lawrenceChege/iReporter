@@ -52,12 +52,12 @@ class UserModel():
         token = create_access_token(identity=self.username)
         return token
 
-    def find_by_id(self, id):
+    def find_by_id(self, incident_id):
         """
         Find user by id
         """
         for user in self.db:
-            if user["id"] == id:
+            if user["id"] == incident_id:
                 return user
             return None
 
@@ -82,10 +82,8 @@ class UserModel():
             This method logs in the user.
             It takes username and password as parameters and
             It returns jwt token
-        """ 
+        """
         if self.check_password_match():
             token = self.generate_jwt_token()
             return token
         return None
-        
-

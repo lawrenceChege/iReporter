@@ -1,7 +1,6 @@
 """
     This module holds the views for the users
 """
-import json
 from flask_restplus import Resource, reqparse, Api
 from flask import request, Flask, jsonify
 from app.api.v1.models.users import UserModel
@@ -26,7 +25,7 @@ class Users(Resource):
         """
             This method registers a user to the database.
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",
@@ -51,12 +50,12 @@ class Users(Resource):
                             type=int,
                             help="Phone number field is optional.")
 
-        args = parser.parse_args()
-        user = UserModel(**args)
+        self.args = parser.parse_args()
+        user = UserModel(**self.args)
         Valid = Validate()
-        username = args['username'].strip()
-        email = args['email'].strip()
-        password =args['password'].strip()
+        username = self.args['username'].strip()
+        email = self.args['email'].strip()
+        password = self.args['password'].strip()
         if not request.json:
             return jsonify({"error" : "check your request type"})
         if not email or not Valid.valid_string(username) or not bool(username) :
@@ -73,7 +72,7 @@ class Users(Resource):
                 "data": [
                     {
                         "id": user.id
-                    }],              
+                    }],
                     "message": 'User created Succesfully.'
                 }, 201
 
@@ -88,7 +87,7 @@ class User(Resource):
         """
             This method logs in the user
         """
-                
+
         parser = reqparse.RequestParser(bundle_errors=True)
 
         parser.add_argument("username",

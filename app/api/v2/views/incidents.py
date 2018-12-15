@@ -1,19 +1,11 @@
 """ These module deals with redflag methods and routes"""
-import datetime, json
+import datetime
 from flask_restplus import Resource, reqparse, Api
-from flask import request, jsonify,Flask 
+from flask import request, jsonify,Flask
 from flask_jwt_extended import jwt_required
-
 from app.api.v2.models.incidents import IncidentsModel
-
+from app.api.v2.models.users import UserModel
 from app.api.v2.validators.validators import Validate
-
-app =Flask(__name__)
-API = Api(app)
-
-@app.errorhandler(500)
-def servererror(error):
-    return {"error": 'something went wrong'}
 
 
 class Incidents(Resource):
@@ -22,12 +14,6 @@ class Incidents(Resource):
     """
 
     @jwt_required
-    @API.doc(params={'title': 'The title of the incident',
-                     'type': 'Redflag or Intervention',
-                     'comment': 'The general description of the incident',
-                     'images': 'The link to the image',
-                     'video': 'the link to the video',
-                     'location': 'the location coordinates'})
     def post(self):
         """
             This method  posts an incident to the databse
@@ -61,14 +47,14 @@ class Incidents(Resource):
 
         Valid = Validate()
         args = parser.parse_args()
-        
+
         record_type = args.get("record_type")
-        title    = args.get("title")
-        images   = args.get("images")
-        video    = args.get("video")
+        title = args.get("title")
+        images = args.get("images")
+        video = args.get("video")
         location = args.get("location")
         comment  = args.get("comment")
-        self.model = IncidentsModel(record_type=record_type,location=location, 
+        self.model = IncidentsModel(record_type=record_type,location=location,
                 images=images, video=video, title=title, comment=comment,)
 
         if not request.json:
@@ -91,6 +77,11 @@ class Incidents(Resource):
 
         if not Valid.valid_string(record_type) or not bool(record_type.strip()) :
             return {"error" : "Type is invalid or empty"}, 400
+        
+        record = Valid.check_record_type(record_type)
+        if record:
+            return {'error': record + ' is not a valid record_type.Use redflag or intervention'},400
+
 
         if self.model.find_incident_by_comment(comment):
             return {"status": 400, "error": "Incident already exists"}, 400
@@ -100,12 +91,9 @@ class Incidents(Resource):
                 "RedFlag_id": self.model.find_incident_id(comment),
             }],
                 "message": "Created incident successfully!"}, 201
-        return {"status": 500, "error": "Oops! something went wrong!"},500
-        
 
-    @API.doc('List all Incidents')
     def get(self):
-        """ 
+        """
             This method retrives all the posted incidents from the database
         """
         self.model = IncidentsModel()
@@ -116,14 +104,14 @@ class Incidents(Resource):
                                 "RedFlags": incidents
                             }],
                             "message": "All incidents found successfully"}, 200
-        return {"status":500, "error": "Oops! something went Wrong!"},500
+        return {"status": 200,"message": 'No incidents found'},404
+
 
 
 class Incident(Resource):
     """
         This class holds methods for single redflags
     """
-    @API.doc(params={'id': 'Incident id'})
     def get(self, incident_id):
         """
             This method retrieves an incident from the database using its id
@@ -139,11 +127,9 @@ class Incident(Resource):
                             }
                         ],
                         "message": "Incident successfully retrieved!"}, 200
-    
 
-    @API.doc(params={'id': 'Incident id'})
     @jwt_required
-    def put(self, id):
+    def put(self, incident_id):
         """
             This method modifies an incident partially or wholly
         """
@@ -153,10 +139,10 @@ class Incident(Resource):
                             type=str,
                             required=True,
                             help="title field is required.")
-        parser.add_argument("description",
+        parser.add_argument("comment",
                             type=str,
                             required=True,
-                            help="description field is required.")
+                            help="comment field is required.")
         parser.add_argument("IncidentType",
                             type=str,
                             help="Type field is required.")
@@ -172,15 +158,15 @@ class Incident(Resource):
         Valid = Validate()
         self.model = IncidentsModel()
         args = parser.parse_args()
-        title       = args.get("title")
-        images      = args.get("images")
-        video       = args.get("video")
-        location    = args.get("location")
-        description = args.get("description")
+        title = args.get("title")
+        images = args.get("images")
+        video = args.get("video")
+        location = args.get("location")
+        comment = args.get("comment")
         if not request.json:
-            return jsonify({"error" : "check your request type"})
+            return {"error" : "check your request type"}, 400
 
-        if not Valid.valid_string(title) or not bool(title.stip()):
+        if not Valid.valid_string(title) or not bool(title.strip()):
             return {"error" : "Title is invalid or empty"}, 400
 
         if not Valid.valid_string(images) or not bool(images):
@@ -192,43 +178,62 @@ class Incident(Resource):
         if not Valid.valid_string(location) or not bool(location):
             return {"error" : "location input  is invalid"}, 400
 
-        if not Valid.valid_string(description) or not bool(description.stip()) :
-            return {"error" : "description is invalid or empty"}, 400
+        if not Valid.valid_string(comment) or not bool(comment.strip()) :
+            return {"error" : "comment is invalid or empty"}, 400
 
-        if not self.model.find_incident_id(id):
-            return {"status": 404, "error": "Incident not found"},404
+        incident = self.model.get_incident_by_id(incident_id)
+        if not incident:
+            return {"status": 404, "error": "Incindent not found"}, 404
+        
+        inc = incident.get('createdby')        
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden.",
+            'message': ' You are trying to modify someone else post'}
+        
+        if not self.model.check_incident_status(incident_id):
+            return {'status': 403,"error": "This action is forbidden"}
 
-        if self.model.edit_incident(id):
+
+        if self.model.edit_incident(location, images, video, title, comment, incident_id):
             return {"status": 200,
                             "data": [
                                 {
-                                    "incident": self.model.edit_incident(id),
+                                    "incident": incident_id,
                                 }
                             ],
                             "message": "Incident updated successfully!"},200
-        return {"status": 500, "error": "Oops! Something went wrong!"},500
-
     @jwt_required
-    @API.doc(params={'id': 'Incident id'})
     def delete(self, incident_id):
-        """ 
+        """
             This method removes an incident from the db
         """
         self.model = IncidentsModel()
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
-            return {"status": 404, "error": "Redflag not found"}, 404
+            return {"status": 404, "error": "Incident not found"}, 404
+
+        inc = incident.get('createdby')        
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden.",
+            'message': ' You are trying to delete someone else post'}
+
         if self.model.delete_incident(incident_id):
-            return {"status": 200, "message": "Incident successfuly deleted"}, 200
-        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
+            return {"status": 200,
+                            "data": [
+                                {
+                                    "incident": incident_id,
+                                }
+                            ],
+                             "message": "Incident successfuly deleted"}, 200
 
 
 class Comment(Resource):
     """
-        this class updates th description
+        this class updates th comment
     """
     @jwt_required
-    @API.doc(params={'id': 'Incident id', 'comment':'Update comment'})
     def patch(self, incident_id):
         """
             This method modifies the comment part of an incident.
@@ -243,21 +248,32 @@ class Comment(Resource):
         self.model = IncidentsModel()
         args = parser.parse_args()
         comment = args.get("comment")
+
         if not Valid.valid_string(comment) or not bool(comment.strip()):
             return {"error" : "Comment is invalid or empty"}, 400
 
-        if not self.model.get_incident_by_id(incident_id):
+        incident = self.model.get_incident_by_id(incident_id)
+        if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
+        
+        inc = incident.get('createdby')        
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden.",
+            'message': ' You are trying to modify someone else post'}
+        
+        if not self.model.check_incident_status(incident_id):
+            return {'status': 403,"error": "This action is forbidden"}
 
         if self.model.edit_incident_comment(comment, incident_id):
-            id = self.model.find_incident_id(comment)
+            incident_id = self.model.find_incident_id(comment)
             return {"status": 200,
                     "data": [
-                        {"id": id}
+                        {"id": incident_id}
                     ],
                     "message": "comment successfully updated"}, 200
-        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
-        
+
+
 
 
 class Location(Resource):
@@ -265,7 +281,6 @@ class Location(Resource):
         this class updates the location
     """
     @jwt_required
-    @API.doc(params={'incident_id': 'Incident id', 'location':' location update'})
     def patch(self, incident_id):
         """
             This method modifies the location field of an incident
@@ -279,13 +294,83 @@ class Location(Resource):
         self.model = IncidentsModel()
         args = parser.parse_args()
         location = args.get("location")
-        if not Valid.valid_string(location.strip()):
+
+        if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
-        if not self.model.get_incident_by_id(incident_id):
-            return {"status": 404, "error": "Incindent not found"}, 404        
+        if not Valid.check_loaction(location):
+            return {'status': 400, 'error': 'location input format should be a valid lat n long pair'},400
+        incident = self.model.get_incident_by_id(incident_id)
+        if not incident:
+            return {"status": 404, "error": "Incindent not found"}, 404
+        inc = incident.get('createdby')
+        user = self.model.current_user()
+        if user != inc:
+            return {'status': 403,"error": "This action is forbidden",
+            'message': ' You are trying to modify someone else post'}
+
+        if not self.model.check_incident_status(incident_id):
+            return {'status': 403,"error": "This action is forbidden"}
         if self.model.edit_location(location, incident_id):
-            return {"status": 200, "message": "location successfully updated"}, 200
-        return {"status": 500,"message": "Oops! Something went wrong!"}, 500
+            return {"status": 200,
+                            "data": [
+                                {
+                                    "incident": incident_id,
+                                }
+                            ],
+                            "message": "location successfully updated"}, 200
 
 
-    
+class Status(Resource):
+    """
+        this class updates the status
+    """
+    @jwt_required
+    def patch(self, incident_id):
+        """
+            This method modifies the status field of an incident
+        """
+        parser = reqparse.RequestParser(bundle_errors=True)
+        parser.add_argument("status",
+                            type=str,
+                            required = True,
+                            help="status field is optional.")
+        Valid = Validate()
+        self.model = IncidentsModel()
+        self.user = UserModel()
+        args = parser.parse_args()
+        status = args.get("status")
+        user = self.model.current_user()
+        if user != 1 :
+            return {'status': 403, 'error': 'you do not have permission to do that!'},403
+        if not Valid.valid_string(status.strip()):
+            return {"error" : "status input  is invalid"}, 400
+        state = Valid.check_status(status)
+        if state:
+            return {'status': 400,
+            'error': state + ' is not a valid status. Use under-investigation, resolved, rejected or pending'},400
+        incident = self.model.get_incident_by_id(incident_id)
+        createdby = incident.get('createdby')
+        old_status = incident.get('status')
+        print(status, old_status)
+        if not incident:
+            return {"status": 404, "error": "Incindent not found"}, 404
+        if not self.model.check_status_match(status, old_status):
+            return {'status': 400, 'error': 'status already updated to '+ status}, 400
+        if not self.model.check_status_investigation(status, old_status):
+            return {'status':400, 'error': 'only incidents under investigation can be marked as resolved'}, 400
+        if not self.model.check_status_resolved(status, old_status):
+            return {'status':400, 'error': 'status marked as resolved can only be changed to under-investigation'}, 400
+        if self.model.edit_status(status, incident_id):
+            user = self.user.find_user_by_id(createdby)
+            email = user.get('email')
+            username = user.get('username')
+            phone = str(user.get('phonenumber'))
+            self.model.send_email(incident_id, username, email, status)
+            self.model.send_sms(incident_id, username, phone, status)
+            return {"status": 200,
+                            "data": [
+                                {
+                                    "incident": incident_id,
+                                }
+                            ],
+                            "message": "status successfully updated"}, 200

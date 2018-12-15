@@ -1,7 +1,6 @@
 """ This is the base class for all the tests"""
 
 import unittest
-import datetime
 from unittest import TestCase
 from flask import current_app
 from app import create_app
@@ -10,13 +9,13 @@ from migrations import DbModel
 
 class BaseTestCase(TestCase):
     """
-        This class allows for dynamic creation of the database and 
+        This class allows for dynamic creation of the database and
         provides a blank database after every scenario
     """
     
     def setUp(self):
         """
-            Setup the flask app for testing. 
+            Setup the flask app for testing.
             It initializes the app and app context.
         """
         APP = create_app("testing")
@@ -28,64 +27,90 @@ class BaseTestCase(TestCase):
             db.init_db(APP)
             db.drop_tables('incidents')
             db.drop_tables('users')
+            db.create_tables()
         self.token = 0
 
         self.red_flag = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": "falling  building"
+            "comment": "falling  building"
+        }
+        self.redflag_location = {
+            "location": "-1.263325, 38.429923",
+        }
+        self.redflag_location1 = {
+            "location": "37.12N, 3.7E",
+        }
+        self.redflag_comment = {
+            "comment": "something nice"
         }
         self.red_flag2 = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": "falling  building is here"
+            "comment": "falling  building is here"
         }
+        self.red_flag3 = ()
+
 
         self.update_redflag = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
-            "location": "37.12N, 3.7E",
+            "location": "-1.263325, 38.429923",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": "falling construction building"
+            "comment": "falling construction building"
         }
         self.redflag_no_title = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "descrrption": "falling construction building"
+            "comment": "falling construction building"
+        }
+        self.redflag_invalid_type = {
+            "record_type": "",
+            "title": "this is nice",
+            "location": "37.12N, 3.7E",
+            "images": 'jjj',
+            "video": "[Image, Image]",
+            "comment": "falling constructions center"
         }
         self.redflag_invalid_image = {
-            "type": "RedFlag",
-            "title": "",
+            "record_type": "RedFlag",
+            "title": "this is nice",
             "location": "37.12N, 3.7E",
-            "images":9&8,
             "video": "[Image, Image]",
-            "descrrption": "falling constructions center"
+            "comment": "falling constructions center"
+        }
+        self.redflag_invalid_location = {
+            "record_type": "RedFlag",
+            "title": "this is nice",
+            "images": "37.12N, 3.7E",
+            "video": "[Image, Image]",
+            "comment": "falling constructions center"
         }
         self.redflag_no_comment = {
-            "type": "RedFlag",
+            "record_type": "RedFlag",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
-            "description": ""
+            "comment": ""
         }
+       
         self.redflag_invalid_video = {
-            "type": "12345",
+            "record_type": "12345",
             "title": "NCA site auth",
             "location": "37.12N, 3.7E",
             "images": "[Image, Image]",
-            "video": 1234,
-            "description": "falling construction kapanga building"
+            "comment": "falling construction kapanga building"
         }
         self.status_Resolved = {
             "status": "Resolved"
@@ -97,7 +122,7 @@ class BaseTestCase(TestCase):
             "firstname": "carol",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
-            "phoneNumber": "0708123123",
+            "phoneNumber": "708123123",
             "username": "carolmobic",
             "password": "mae12#embiliA"
         }
@@ -105,11 +130,16 @@ class BaseTestCase(TestCase):
             "firstname": "mwaniki",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
-            "phoneNumber": "0708123123",
+            "phoneNumber": "708123123",
             "username": "carolnice",
             "password": "mae12#embiliA"
         }
         self.person_no_username = {
+            "email": "bluish@gmail.com",
+            "password": "mae12#embili"
+        }
+        self.person_no_phone = {
+            "username": "lawrence",
             "email": "bluish@gmail.com",
             "password": "mae12#embili"
         }
@@ -121,26 +151,35 @@ class BaseTestCase(TestCase):
             "username": "lawrence",
             "email": "mbuchez8@gmail.com",
         }
+        self.person_invalid_phone = {
+            "username": "lawrence",
+            "email": "mbuchez@gnail.com",
+            "phoneNumber": "08123123",
+            "password": "mae12#embili"
+        }
         self.person_invalid_email = {
             "username": "lawrence",
             "email": "mbuchez.com",
+            "phoneNumber": "708123123",
             "password": "mae12#embili"
         }
         self.person_invalid_username = {
             "username": "",
             "email": "mbuchez@gmail.com",
+            "phoneNumber": "708123123",
             "password": "mae12#embili"
         }
         self.person_invalid_password = {
             "username": "mama yao",
             "email": "mbuchez@gmail.com",
+            "phoneNumber": "708123123",
             "password": "maembe"
         }
         self.person_existing_user = {
             "firstname": "carolol",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
-            "phoneNumber": "0708123123",
+            "phoneNumber": "708123123",
             "username": "carolmobic",
             "password": "aswdeAWSE$WE"
         }
@@ -175,25 +214,12 @@ class BaseTestCase(TestCase):
         self.admin_wrong = {"username": "lawrence",
                             "password": "mimi"}
 
-    # def test_app(self):
-    #     """
-    #         This method tests if an app context exists
-    #     """
-    #     self.assertFalse(current_app is None)
-
-    # def test_app_config(self):
-    #     """
-    #         This method tests if the app environment is set to testing
-    #     """
-    #     self.assertTrue(current_app.config['TESTING'])
-
     def tearDown(self):
         """
             This method is called if setUp() succeeds.
             It destroys the app context.
         """
         pass
-
 
 if __name__ == '__main__':
     unittest.main()
