@@ -215,6 +215,14 @@ class TestIncidentsTestCase(BaseTestCase):
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], "location successfully updated")
 
+    def test_modify_bad_location(self):
+        """Test for modifying an incident location """
+        self.post_incident(self.red_flag)
+        response = self.patch_location('1',self.redflag_location1)
+        self.assertEqual(response.status_code, 400)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['error'], "location input format should be a valid lat n long pair")
+
     def test_modify_location_not_found(self):
 
         self.post_incident(self.red_flag)

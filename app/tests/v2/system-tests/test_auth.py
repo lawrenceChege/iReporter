@@ -84,6 +84,24 @@ class TestUsersTestCase(BaseTestCase):
         data = json.loads(response.get_data())
         self.assertEqual(data['error'], 'Username is invalid or empty')
 
+    def test_signup_invalid_phone(self):
+        """
+            test for signup with an invalid phonenumber
+        """
+        response = self.signup(self.person_invalid_phone)
+        self.assertEqual(response.status_code, 400)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['error'], 'phone number is invalid, start at [7] like 712345678')
+
+    def test_signup_missing_phone(self):
+        """
+            test for signup with an invalid username
+        """
+        response = self.signup(self.person_no_phone)
+        self.assertEqual(response.status_code, 400)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'], 'Input payload validation failed')
+
     def test_signup_invalid_email(self):
         """
             test for signup with an invalid email

@@ -154,8 +154,8 @@ class UserModel(DbModel):
                 """, data
             )
             self.commit()
-            print('success')
-            return True
+            self.token = self.generate_jwt_token(self.username)
+            return self.token
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             print('could not save to db')

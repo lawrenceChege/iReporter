@@ -104,7 +104,7 @@ class Incidents(Resource):
                                 "RedFlags": incidents
                             }],
                             "message": "All incidents found successfully"}, 200
-        return {"message": 'No incidents found'}
+        return {"status": 200,"message": 'No incidents found'},404
 
 
 
@@ -220,8 +220,13 @@ class Incident(Resource):
             'message': ' You are trying to delete someone else post'}
 
         if self.model.delete_incident(incident_id):
-            return {"status": 200, "message": "Incident successfuly deleted"}, 200
-
+            return {"status": 200,
+                            "data": [
+                                {
+                                    "incident": incident_id,
+                                }
+                            ],
+                             "message": "Incident successfuly deleted"}, 200
 
 
 class Comment(Resource):
@@ -293,7 +298,7 @@ class Location(Resource):
         if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not Valid.check_loaction(location):
-            return {'status': 400, 'error': 'location input format should be a valid lat n long pair'}
+            return {'status': 400, 'error': 'location input format should be a valid lat n long pair'},400
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
@@ -306,7 +311,13 @@ class Location(Resource):
         if not self.model.check_incident_status(incident_id):
             return {'status': 403,"error": "This action is forbidden"}
         if self.model.edit_location(location, incident_id):
-            return {"status": 200, "message": "location successfully updated"}, 200
+            return {"status": 200,
+                            "data": [
+                                {
+                                    "incident": incident_id,
+                                }
+                            ],
+                            "message": "location successfully updated"}, 200
 
 
 class Status(Resource):
@@ -356,4 +367,10 @@ class Status(Resource):
             phone = str(user.get('phonenumber'))
             self.model.send_email(incident_id, username, email, status)
             self.model.send_sms(incident_id, username, phone, status)
-            return {"status": 200, "message": "status successfully updated"}, 200
+            return {"status": 200,
+                            "data": [
+                                {
+                                    "incident": incident_id,
+                                }
+                            ],
+                            "message": "status successfully updated"}, 200
