@@ -16,6 +16,9 @@ class Config:
     DB_HOST = os.getenv('DB_HOST')
     DB_USER = os.getenv('DB_USER')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
+    ACCOUNT_SID = 'AC5fb68dc450455c042753a812998a0d21'
+    AUTH_TOKEN = '255b0433548f74e4e9e952543c6eb331'
+    ADMIN_PHONE = '+16786162418'
 
 class HerokuConfig(Config):
     """
