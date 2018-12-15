@@ -5,8 +5,10 @@ import smtplib
 import datetime
 import psycopg2
 from flask import request
+from twilio.rest import Client
 from flask_jwt_extended import get_jwt_identity
 from migrations import DbModel
+
 
 
 class IncidentsModel(DbModel):
@@ -26,6 +28,7 @@ class IncidentsModel(DbModel):
         self.title = title
         self.comment = comment
         self.createdBy = self.current_user()
+        self.client = Client(self.account_sid, self.auth_token)
 
 
     def find_incident_by_comment(self, comment):
@@ -221,21 +224,31 @@ class IncidentsModel(DbModel):
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
+
     def send_email(self, email, status):
         """
             sends an email to a user
         """
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        # server.starttls()
         server.ehlo()
         server.set_debuglevel(1)
-        try:
-            server.login("ireporteradmn@gmail.com", "Qas!@#$%^&*")
-        except:
-            print('SMTPAuthenticationError')
+        server.login("ireporteradmn@gmail.com", "Qas!@#$%^&*")
         msg = 'Your incident status has been changed to {}'.format(status)
         server.sendmail("ireporteradmn@gmail.com", email, msg)
         server.quit()
+
+    def send_sms(self, phone, status):
+        """
+            sends an sms notification to user
+        """
+
+        msg = 'Your incident status has been changed to {}'.format(status)
+
+        message = self.client.messages.create(
+            to= '+254'+ phone,
+            from_=self.admin_phone,
+            body=msg)
+
 
     def current_user(self):
         """
