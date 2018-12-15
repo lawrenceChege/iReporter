@@ -13,7 +13,8 @@ const registerUser = () => {
       .then(response => response.json())
       .then(registerData => {
         if(registerData.message === "User created successfully"){
-          window.location.href = "./login.html";
+          window.location.href = "./profile.html";
+          sessionStorage.setItem("token",registerData.token);
         }else{
             document.getElementById('error').innerHTML = registerData.message;
         }
