@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/navbar.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="css/buttons.css" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css">
-    <script src="UI/js/main.js"></script>
+    
 </head>
 
 <body>
@@ -32,27 +32,36 @@
         <form class="sign-form" onsubmit>
             <div class="form-group">
                 <label class="form-item" for="username"> <strong>Username: </strong> </label><br>
-                <input class="username" type="text" align="center" placeholder="Username" required>
+                <input id="username" class="username" type="text" align="center" placeholder="Username" required>
             </div>
             <div class="form-group">
 
                 <label class="form-item" for="email"> <strong>Email:</strong> </label><br>
-                <input class="email" type="email" align="center" placeholder="Email" required>
+                <input id="email" class="email" type="email" align="center" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <label class="form-item" for="phoneNumber"> <strong>Phone:</strong> </label><br>
+                <input id="phoneNumber" class="password" type="text" align="center" placeholder="phoneNumber" required>
             </div>
             <div class="form-group">
                 <label class="form-item" for="password"> <strong>Password:</strong> </label><br>
-                <input class="password" type="password" align="center" placeholder="Password" required>
+                <input id="password" class="password" type="password" align="center" placeholder="Password" required>
             </div>
 
-            <a class="submit" align="center">Sign Up</a>
-            <p class="forgot" align="center"><a href="#">Forgot Password?</p>
+            <a class="submit" onclick="registerUser()" align="center">Sign Up</a>
+            <p class="forgot" align="center"><a href="login.html">Forgot Password?</p>
         </form>
-
+        <div>
+            <p id="error"></p>
+        <div>
 
     </div>
     <footer class="footer">
         <p>Designed with <i class="fas fa-heart"></i> by lawrence  </p>
     </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/fetch.js"></script>
 
 </body>
 
