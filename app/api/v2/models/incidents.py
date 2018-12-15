@@ -225,7 +225,7 @@ class IncidentsModel(DbModel):
             print(error)
             return None
 
-    def send_email(self, email, status):
+    def send_email(self,incident_id, email, status):
         """
             sends an email to a user
         """
@@ -233,16 +233,15 @@ class IncidentsModel(DbModel):
         server.ehlo()
         server.set_debuglevel(1)
         server.login("ireporteradmn@gmail.com", "Qas!@#$%^&*")
-        msg = 'Your incident status has been changed to {}'.format(status)
+        msg = 'Subject: Status update.\n Your {} incident status has been changed to {}'.format( incident_id,status)
         server.sendmail("ireporteradmn@gmail.com", email, msg)
         server.quit()
 
-    def send_sms(self, phone, status):
+    def send_sms(self, incident_id, phone, status):
         """
             sends an sms notification to user
         """
-
-        msg = 'Your incident status has been changed to {}'.format(status)
+        msg = 'Subject: Status update.\n Your {} incident status has been changed to {}'.format( incident_id,status)
 
         message = self.client.messages.create(
             to= '+254'+ phone,

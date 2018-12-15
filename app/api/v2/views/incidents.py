@@ -343,6 +343,6 @@ class Status(Resource):
             user = self.user.find_user_by_id(createdby)
             email = user.get('email')
             phone = str(user.get('phonenumber'))
-            self.model.send_email(email, status)
-            self.model.send_sms(phone, status)
+            self.model.send_email(incident_id, email, status)
+            self.model.send_sms(incident_id, phone, status)
             return {"status": 200, "message": "status successfully updated"}, 200
