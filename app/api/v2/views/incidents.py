@@ -298,7 +298,7 @@ class Location(Resource):
         if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
         if not Valid.check_loaction(location):
-            return {'status': 400, 'error': 'location input format should be a valid lat n long pair'}
+            return {'status': 400, 'error': 'location input format should be a valid lat n long pair'},400
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404

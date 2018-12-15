@@ -39,7 +39,10 @@ class BaseTestCase(TestCase):
             "comment": "falling  building"
         }
         self.redflag_location = {
-            "location": "37.12N, 3.7E"
+            "location": "-1.263325, 38.429923",
+        }
+        self.redflag_location1 = {
+            "location": "37.12N, 3.7E",
         }
         self.redflag_comment = {
             "comment": "something nice"
@@ -58,7 +61,7 @@ class BaseTestCase(TestCase):
         self.update_redflag = {
             "record_type": "RedFlag",
             "title": "NCA site auth",
-            "location": "37.12N, 3.7E",
+            "location": "-1.263325, 38.429923",
             "images": "[Image, Image]",
             "video": "[Image, Image]",
             "comment": "falling construction building"
@@ -119,7 +122,7 @@ class BaseTestCase(TestCase):
             "firstname": "carol",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
-            "phoneNumber": "0708123123",
+            "phoneNumber": "708123123",
             "username": "carolmobic",
             "password": "mae12#embiliA"
         }
@@ -127,11 +130,16 @@ class BaseTestCase(TestCase):
             "firstname": "mwaniki",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
-            "phoneNumber": "0708123123",
+            "phoneNumber": "708123123",
             "username": "carolnice",
             "password": "mae12#embiliA"
         }
         self.person_no_username = {
+            "email": "bluish@gmail.com",
+            "password": "mae12#embili"
+        }
+        self.person_no_phone = {
+            "username": "lawrence",
             "email": "bluish@gmail.com",
             "password": "mae12#embili"
         }
@@ -143,26 +151,35 @@ class BaseTestCase(TestCase):
             "username": "lawrence",
             "email": "mbuchez8@gmail.com",
         }
+        self.person_invalid_phone = {
+            "username": "lawrence",
+            "email": "mbuchez@gnail.com",
+            "phoneNumber": "08123123",
+            "password": "mae12#embili"
+        }
         self.person_invalid_email = {
             "username": "lawrence",
             "email": "mbuchez.com",
+            "phoneNumber": "708123123",
             "password": "mae12#embili"
         }
         self.person_invalid_username = {
             "username": "",
             "email": "mbuchez@gmail.com",
+            "phoneNumber": "708123123",
             "password": "mae12#embili"
         }
         self.person_invalid_password = {
             "username": "mama yao",
             "email": "mbuchez@gmail.com",
+            "phoneNumber": "708123123",
             "password": "maembe"
         }
         self.person_existing_user = {
             "firstname": "carolol",
             "lastname": "mumbi",
             "email": "carolmumbi@gmail.com",
-            "phoneNumber": "0708123123",
+            "phoneNumber": "708123123",
             "username": "carolmobic",
             "password": "aswdeAWSE$WE"
         }
@@ -203,7 +220,6 @@ class BaseTestCase(TestCase):
             It destroys the app context.
         """
         pass
-
 
 if __name__ == '__main__':
     unittest.main()
