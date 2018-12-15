@@ -47,3 +47,21 @@ class Validate():
         if self.incident == 'resolved' or self.incident == 'rejected'or self.incident == 'under-investigation' or self.incident == 'pending':
             return None
         return self.incident
+
+    def check_loaction(self,location):
+        """
+            matches inputs to corect location
+        """
+        self.location = re.match(r"(^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$)", location)
+        if self.location is None:
+            return None
+        return True
+
+    def check_phone(self,phone):
+        """
+            validate phone number
+        """
+        self.phone = re.match(r'^[7]\d{8,8}$', phone)
+        if self.phone is None:
+            return None
+        return True

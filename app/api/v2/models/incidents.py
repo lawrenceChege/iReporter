@@ -2,7 +2,7 @@
     This module handles the models for incidents
 """
 import smtplib
-import datetime
+import time
 import psycopg2
 from flask import request
 from twilio.rest import Client
@@ -18,8 +18,9 @@ class IncidentsModel(DbModel):
     def __init__(self, record_type=None,location=None, status=None,
                 images=None, video=None, title=None, comment=None, createdBy=None):
         super().__init__()
-        self.createdOn = datetime.datetime.now()
-        self.modifiedOn = datetime.datetime.now()
+        self.createdOn = time.strftime('%a, %d %b %Y, %I:%M:%S %p')
+        print(self.createdOn)
+        self.modifiedOn = time.strftime('%a, %d %b %Y, %I:%M:%S %p')
         self.record_type = record_type
         self.location = location
         self.status = status
@@ -225,7 +226,7 @@ class IncidentsModel(DbModel):
             print(error)
             return None
 
-    def send_email(self,incident_id, email, status):
+    def send_email(self,incident_id, username, email, status):
         """
             sends an email to a user
         """
@@ -233,21 +234,55 @@ class IncidentsModel(DbModel):
         server.ehlo()
         server.set_debuglevel(1)
         server.login("ireporteradmn@gmail.com", "Qas!@#$%^&*")
-        msg = 'Subject: Status update.\n Your {} incident status has been changed to {}'.format( incident_id,status)
+        msg = """Subject: Status update.\n
+                    Hello {}.\n
+                    Your {} incident status has been changed to {}
+                  """.format( username, incident_id,status)
         server.sendmail("ireporteradmn@gmail.com", email, msg)
         server.quit()
 
-    def send_sms(self, incident_id, phone, status):
+    def send_sms(self, incident_id, username, phone, status):
         """
             sends an sms notification to user
         """
-        msg = 'Subject: Status update.\n Your {} incident status has been changed to {}'.format( incident_id,status)
+        msg = 'Subject: Status update.\n Hello {}. \n Your {} incident status has been changed to {}'.format( username, incident_id,status)
 
         message = self.client.messages.create(
             to= '+254'+ phone,
             from_=self.admin_phone,
             body=msg)
 
+    def check_status_match(self, status, old_status):
+        """
+            check if status has been updated
+        """
+        self.status = status.strip()
+        self.old_status = old_status.strip()
+        if self.status != self.old_status:
+            return True
+        return None
+
+    def check_status_investigation(self, status, old_status):
+        """
+            only incidents under investigation can be resolved
+        """
+        self.status = status.strip()
+        self.old_status = old_status.strip()
+
+        if self.status == 'resolved' and self.old_status != 'under-investigation':
+            return None
+        return True
+
+    def check_status_resolved(self, status, old_status):
+        """
+            status marked as resolved can only be changed to under investigation
+        """
+        self.status = status.strip()
+        self.old_status = old_status.strip()
+
+        if self.old_status == 'resolved' and self.status != 'under-investigation':
+            return None
+        return True
 
     def current_user(self):
         """

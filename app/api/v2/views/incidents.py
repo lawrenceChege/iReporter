@@ -292,6 +292,8 @@ class Location(Resource):
 
         if not Valid.valid_string(location.strip()) and not bool(location.strip()):
             return {"error" : "location input  is invalid"}, 400
+        if not Valid.check_loaction(location):
+            return {'status': 400, 'error': 'location input format should be a valid lat n long pair'}
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
@@ -337,12 +339,21 @@ class Status(Resource):
             'error': state + ' is not a valid status. Use under-investigation, resolved, rejected or pending'},400
         incident = self.model.get_incident_by_id(incident_id)
         createdby = incident.get('createdby')
+        old_status = incident.get('status')
+        print(status, old_status)
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
+        if not self.model.check_status_match(status, old_status):
+            return {'status': 400, 'error': 'status already updated to '+ status}, 400
+        if not self.model.check_status_investigation(status, old_status):
+            return {'status':400, 'error': 'only incidents under investigation can be marked as resolved'}, 400
+        if not self.model.check_status_resolved(status, old_status):
+            return {'status':400, 'error': 'status marked as resolved can only be changed to under-investigation'}, 400
         if self.model.edit_status(status, incident_id):
             user = self.user.find_user_by_id(createdby)
             email = user.get('email')
+            username = user.get('username')
             phone = str(user.get('phonenumber'))
-            self.model.send_email(incident_id, email, status)
-            self.model.send_sms(incident_id, phone, status)
+            self.model.send_email(incident_id, username, email, status)
+            self.model.send_sms(incident_id, username, phone, status)
             return {"status": 200, "message": "status successfully updated"}, 200

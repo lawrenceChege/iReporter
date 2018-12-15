@@ -39,7 +39,8 @@ class Users(Resource):
                             help="Lastname field is optional.")
         parser.add_argument("phoneNumber",
                             type=int,
-                            help="Phone number field is optional.")
+                            required = True,
+                            help="Phone number is required")
 
         args = parser.parse_args()
         users = UserModel(**args)
@@ -47,14 +48,18 @@ class Users(Resource):
         username = args.get('username').strip()
         email    = args.get('email').strip()
         password = args.get('password').strip()
+        phoneNumber = str(args.get('phoneNumber')).strip()
         if not request.json:
-            return jsonify({"error" : "check your request type"})
+            return {'status': 400,"error" : "check your request type"},400
         if not email or not Valid.valid_string(username) or not bool(username) :
-            return {"error" : "Username is invalid or empty"}, 400
+            return {'status': 400,"error" : "Username is invalid or empty"}, 400
+        if not Valid.check_phone(phoneNumber):
+            return {'status': 400, 'error': 'phone number is invalid, start at [7] like 712345678'},400
         if not Valid.valid_email(email) or not bool(email):
-            return {"error" : "Email is invalid or empty!"}, 400
+            return {'status': 400,"error" : "Email is invalid or empty!"}, 400
         if not Valid.valid_password(password) or not bool(password):
-            return {"error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
+            return {'status': 400,
+            "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
 
         if users.find_by_username(username):
             return {"status": 400,  "error": "Username already in use." }, 400
