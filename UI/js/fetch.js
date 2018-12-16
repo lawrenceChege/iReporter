@@ -44,7 +44,7 @@ const loginUser = () => {
         let user = document.getElementById('username').value;
         sessionStorage.setItem('user', user);
         let token = loginData.data[0].token;
-        sessionStorage.setItem('token', JSON.stringify(token))
+        sessionStorage.setItem('token', token)
         document.getElementById('message').innerHTML = loginData.message;
         window.location = "profile.html";
       } else {
@@ -97,4 +97,33 @@ const getAllIncidents = () => {
         document.getElementById('message').innerHTML = incidentsData.error;
     }
   })
+}
+
+function postIncident() {
+  let token = sessionStorage.getItem('token')
+  t = token.slice(1, -1)
+  fetch('https://ireporti.herokuapp.com/api/v2/incidents/', {
+    method: 'POST',
+    body: JSON.stringify({
+      record_type: document.getElementById('record_type').value,
+      title: document.getElementById('title').value,
+      comment: document.getElementById('comment').value,
+      images: document.getElementById('image').value,
+      video: document.getElementById('video').value,
+      location: document.getElementById('location').value
+    }),
+    headers: {
+      'Authorization': t,
+      'Content-type': 'application/json;'
+    }
+  })
+    .then(response => response.json())
+    .then(incidentData => {
+      if (incidentData.message == "Created incident successfully!") {
+        document.getElementById('message').innerHTML = incidentData.message;
+        getAllIncidents(); 
+      } else {
+        document.getElementById('error').innerHTML = incidentData.error;
+      }
+    })
 }
