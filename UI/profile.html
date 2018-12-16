@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>
 
-<body onload="helloUser()" >
+<body onload="helloUser(); openPage('allflags', this, '#f88282');" >
     <nav class="navbar">
         <span class="navbar-toggle" id="navbar-toggle">
             <i class="fas fa-bars"></i>
@@ -36,8 +36,7 @@
     <button class="button btn-blue" onclick="getAllIncidents(); openPage('allflags', this, '#f88282');" id="defaultOpen">All</button>
     <button class="button btn-red" onclick="openPage('redflags', this, '#041626')">Red flags</button>
     <button class="button btn-green" onclick="openPage('interventions', this, '#f88282')">Interventions</button>
-    <button class="button btn-orange" onclick="openPage('createRedFlag', this, '#f88282')"> New Red flag</button>
-    <button class="button btn-cyan" onclick="openPage('createIntervention', this, '#f88282')"> New Intervention</button>
+    <button class="button btn-cyan" onclick="openPage('createIntervention', this, '#f88282')"> New Incident</button>
     <div class="container">
         <div class="profile-section">
             <div class="profile-card">
@@ -105,39 +104,6 @@
             </div>
             <div class="flags" id="flags" style="order: 5; flex-grow: 5">
                                <ul class="flag-list">
-                    <li class="flag-list-item">
-                        <a href="#" id="id1">
-                            <h4 class="flag-title">Illegal building</h4>
-                            <span>Status: Resolved</span><span><i class="far fa-question-circle" aria-hidden="true"></i></span><br>
-                            <small>Date : 12th June 2018</small>&nbsp;
-                            <a href="editrecord.html"><i class="far fa-edit"></i></a>&nbsp;
-                            <a href="#"><i class="fas fa-trash"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-image"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-video"></i></a>
-                        </a>
-                    </li>
-                    <li class="flag-list-item">
-                        <a href="#" id="id1">
-                            <h4 class="flag-title"> Domestic violence </h4>
-                            <span>Status: Rejected</span> <span><i class="far fa-question-circle" aria-hidden="true"></i></span><br>
-                            <small>Date : 12th June 2018</small>&nbsp;
-                            <a href="editrecord.html"><i class="far fa-edit"></i></a>&nbsp;
-                            <a href="#"><i class="fas fa-trash"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-image"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-video"></i></a>
-                        </a>
-                    </li>
-                    <li class="flag-list-item">
-                        <a href="#" id="id1">
-                            <h4 class="flag-title"> River diversion</h4>
-                            <span>Status: Pending</span><span><i class="far fa-question-circle"></i></span> <br>
-                            <small>Date : 12th June 2018</small>&nbsp;
-                            <a href="editrecord.html"><i class="far fa-edit"></i></a>&nbsp;
-                            <a href="#"><i class="fas fa-trash"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-image"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-video"></i></a>
-                        </a>
-                    </li>
                 </ul>
             </div>
         </section>
@@ -161,98 +127,42 @@
             </div>
             <div class="flags" id="flags" style="order: 5; flex-grow: 5">
                 <ul class="flag-list">
-                    <li class="flag-list-item">
-                        <a href="#" id="id1">
-                            <h4 class="flag-title">Corrupt trafic police</h4>
-                            <span>Status: Resolved</span><span><i class="fa fa-flag" aria-hidden="true"></i></span><br>
-                            <small>Date : 12th June 2018</small>&nbsp;
-                            <a href="editrecord.html"><i class="far fa-edit"></i></a>&nbsp;
-                            <a href="#"><i class="fas fa-trash"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-image"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-video"></i></a>
-                        </a>
-                    </li>
-                    <li class="flag-list-item">
-                        <a href="#" id="id1">
-                            <h4 class="flag-title"> Corrupt lawyer</h4>
-                            <span>Status: Rejected</span> <span><i class="fa fa-flag" aria-hidden="true"></i></span><br>
-                            <small>Date : 12th June 2018</small>&nbsp;
-                            <a href="editrecord.html"><i class="far fa-edit"></i></a>&nbsp;
-                            <a href="#"><i class="fas fa-trash"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-image"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-video"></i></a>
-                        </a>
-                    </li>
-                    <li class="flag-list-item">
-                        <a href="#" id="id1">
-                            <h4 class="flag-title"> Corrupt trafic police</h4>
-                            <span>Status: Pending</span><span><i class="fa fa-flag"></i></span> <br>
-                            <small>Date : 12th June 2018</small>&nbsp;
-                            <a href="editrecord.html"><i class="far fa-edit"></i></a>&nbsp;
-                            <a href="#"><i class="fas fa-trash"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-image"></i></a>&nbsp;
-                            <a href="editrecord.html"><i class="fas fa-video"></i></a>
-                        </a>
-                    </li>
                 </ul>
-            </div>
-        </section>
-        <section class="flex-container" id="createRedFlag">
-            <div class="record-form">
-                <p class="sign" align="center"> Create New Red Flag</p>
-                <form class="flag-form" onsubmit="reload()">
-                    <div class="form-group">
-                        <label class="form-item" for="username"> <strong> Title: </strong> </label><br>
-                        <input class="username" type="text" align="center" placeholder="Enter red flag title" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-item" for="description"> <strong>Description:</strong> </label><br>
-                        <input class="username" type="text" align="center" placeholder="Describe your case" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-item" for="image"> <strong>Image:</strong> </label><br>
-                        <input class="username" type="file" align="center" placeholder="Upload image" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-item" for="video"> <strong>Video:</strong> </label><br>
-                        <input class="username" type="file" align="center" placeholder="Describe your case" required>
-                    </div>
-                    <div class="form-group" id="map">
-                        <label class="form-item" for="map"> <strong>map:</strong> </label><br>
-                        <input class="username" type="text" align="center" placeholder="Enter longitude and latitude "
-                            required>
-                    </div>
-                    <a class="submit" align="center">Submit</a>
-                    <p class="forgot" align="center"><a href="#">New Intervention?</a></p>
-                </form>
             </div>
         </section>
         <section class="flex-container" id="createIntervention">
             <div class="record-form">
-                <p class="sign" align="center"> Create New Intervention</p>
+                <p class="sign" align="center"> Create New Incident</p>
                 <form class="flag-form" onsubmit="reload()">
                     <div class="form-group">
+                            <label class="form-item" for="record type"> <strong> Record Type: </strong> </label><br>
+                            <select name="record_type" id="record_type" class="username">
+                                <option value="intervention">intervention</option>
+                                <option value="red-flag">red-flag</option>
+                            </select>
+                        </div>
+                    <div class="form-group">
                         <label class="form-item" for="username"> <strong> Title: </strong> </label><br>
-                        <input class="username" type="text" align="center" placeholder="Enter red flag title" required>
+                        <input id="title" class="username" type="text" align="center" placeholder="Enter red flag title" required>
                     </div>
                     <div class="form-group">
                         <label class="form-item" for="description"> <strong>Description:</strong> </label><br>
-                        <input class="username" type="text" align="center" placeholder="Describe your case" required>
+                        <input id="comment" class="username" type="text" align="center" placeholder="Describe your case" required>
                     </div>
                     <div class="form-group">
                         <label class="form-item" for="image"> <strong>Image:</strong> </label><br>
-                        <input class="username" type="file" align="center" placeholder="Upload image" accept="image/*">
+                        <input  id="image" class="username" type="text" align="center" placeholder="Enter image link" >
                     </div>
                     <div class="form-group">
                         <label class="form-item" for="video"> <strong>Video:</strong> </label><br>
-                        <input class="username" type="file" align="center" accept="video/*">
+                        <input id="video" class="username" type="text" align="center" placeholder="Enter video link">
                     </div>
                     <div class="form-group" id="map">
-                        <label class="form-item" for="map"> <strong>map:</strong> </label><br>
-                        <input class="username" type="text" align="center" placeholder="Enter longitude and latitude "
+                        <label class="form-item" for="map"> <strong>location:</strong> </label><br>
+                        <input id="location" class="username" type="text" align="center" placeholder="Enter longitude and latitude "
                             required>
                     </div>
-                    <a class="submit" align="center">Submit</a>
+                    <a class="submit" onclick="postIncident()" align="center">Submit</a>
                     <p class="forgot" align="center"><a href="#">New Red Flag</a></p>
                 </form>
 
