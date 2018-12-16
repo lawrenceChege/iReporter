@@ -121,8 +121,7 @@ function postIncident() {
     .then(incidentData => {
       if (incidentData.message == "Created incident successfully!") {
         document.getElementById('message').innerHTML = incidentData.message;
-        getAllIncidents(); 
-      } else {
+        getAllIncidents();  openPage('allflags', this, '#f88282');
         document.getElementById('error').innerHTML = incidentData.error;
       }
     })
