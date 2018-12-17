@@ -215,6 +215,9 @@ class Incident(Resource):
 
         inc = incident.get('createdby')        
         user = self.model.current_user()
+        
+        if not self.model.check_incident_status(incident_id):
+            return {'status': 403,"error": "This action is forbidden."}
         if user != inc:
             return {'status': 403,"error": "This action is forbidden.",
             'message': ' You are trying to delete someone else post'}

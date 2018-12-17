@@ -59,7 +59,7 @@ class Users(Resource):
             return {'status': 400,"error" : "Email is invalid or empty!"}, 400
         if not Valid.valid_password(password) or not bool(password):
             return {'status': 400,
-            "error" : "Passord is should contain atleast 8 characters, a letter, a number and a special character"}, 400
+            "error" : "Passord is should contain atleast 8 characters"}, 400
 
         if users.find_by_username(username):
             return {"status": 400,  "error": "Username already in use." }, 400
