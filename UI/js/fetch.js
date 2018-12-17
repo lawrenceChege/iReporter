@@ -17,11 +17,12 @@ const registerUser = () => {
       if (registerData.message == "User created Succesfully.") {
         let user = sessionStorage.setItem("user",  document.getElementById('username').value);
         let token = sessionStorage.setItem("token", registerData.data[0].token);
-        document.getElementById('message').innerHTML = registerData.message;
+        alert(registerData.message)
         console.log(user, token)
         window.location = "profile.html";
       } else {
-        document.getElementById('error').innerHTML = registerData.error;
+        alert(registerData.error)
+        alert(registerData.message)
       }
     })
 }
@@ -45,10 +46,12 @@ const loginUser = () => {
         sessionStorage.setItem('user', user);
         let token = loginData.data[0].token;
         sessionStorage.setItem('token', token)
-        document.getElementById('message').innerHTML = loginData.message;
+        alert(loginData.message)
         window.location = "profile.html";
       } else {
         document.getElementById('error').innerHTML = loginData.error;
+        alert(loginData.error)
+        alert(loginData.message)
       }
     })
 }
@@ -92,16 +95,18 @@ const getAllIncidents = () => {
                                   '</a>'+
                                   '</li>'
       }
-      document.getElementById('message').innerHTML = incidentsData.message;
+      alert(incidentsData.message)
     }else{
         document.getElementById('message').innerHTML = incidentsData.error;
+        alert(incidentsData.message)
+        alert(incidentsData.error)
     }
   })
 }
 
 function postIncident() {
   let token = sessionStorage.getItem('token')
-  t = token.slice(1, -1)
+  t = token
   fetch('https://ireporti.herokuapp.com/api/v2/incidents/', {
     method: 'POST',
     body: JSON.stringify({
@@ -119,10 +124,13 @@ function postIncident() {
   })
     .then(response => response.json())
     .then(incidentData => {
+      console.log(t)
       if (incidentData.message == "Created incident successfully!") {
-        document.getElementById('message').innerHTML = incidentData.message;
+        alert(incidentData.message)
         getAllIncidents();  openPage('allflags', this, '#f88282');
-        document.getElementById('error').innerHTML = incidentData.error;
+      }else{
+        alert(incidentData.error)
+        alert(incidentData.message)
       }
     })
 }
