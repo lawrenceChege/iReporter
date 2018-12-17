@@ -119,7 +119,7 @@ It provides a platform where users can report corruption issues to the authoriti
 *Tribeles-Team*
 *Endles-Team*
 
-### Links to reources
+### Links to resources
 
 [Github Pages](https://lawrencechege.github.io/iReporter/)
 
