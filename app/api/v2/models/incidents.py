@@ -236,7 +236,7 @@ class IncidentsModel(DbModel):
         server.login("ireporteradmn@gmail.com", "Qas!@#$%^&*")
         msg = """Subject: Status update.\n
                     Hello {}.\n
-                    Your {} incident status has been changed to {}
+                    Your incident with id: {} status has been changed to {}
                   """.format( username, incident_id,status)
         server.sendmail("ireporteradmn@gmail.com", email, msg)
         server.quit()
@@ -245,7 +245,7 @@ class IncidentsModel(DbModel):
         """
             sends an sms notification to user
         """
-        msg = 'Subject: Status update.\n Hello {}. \n Your {} incident status has been changed to {}'.format( username, incident_id,status)
+        msg = 'Subject: Status update.\n Hello {}. \n Your incident with id: {} status has been changed to {}'.format( username, incident_id,status)
 
         message = self.client.messages.create(
             to= '+254'+ phone,
