@@ -104,7 +104,7 @@ class Incidents(Resource):
                                 "RedFlags": incidents
                             }],
                             "message": "All incidents found successfully"}, 200
-        return {"status": 200,"message": 'No incidents found'},404
+        return {"status": 404,"message": 'No incidents found'},404
 
 
 
