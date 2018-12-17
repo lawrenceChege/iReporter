@@ -1,12 +1,10 @@
 # iReporter
-A platform where citizens can report corruption cases or government interventions
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0bcde400dc8421aa972e9954b90bb11)](https://app.codacy.com/app/lawrenceChege/iReporter?utm_source=github.com&utm_medium=referral&utm_content=lawrenceChege/iReporter&utm_campaign=Badge_Grade_Settings)
-[![Coverage Status](https://coveralls.io/repos/github/lawrenceChege/iReporter/badge.svg)](https://coveralls.io/github/lawrenceChege/iReporter)
 [![Build Status](https://travis-ci.org/lawrenceChege/iReporter.svg?branch=develop)](https://travis-ci.org/lawrenceChege/iReporter)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b99e2ea3d09bbd651354/maintainability)](https://codeclimate.com/github/lawrenceChege/iReporter/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d0bcde400dc8421aa972e9954b90bb11)](https://app.codacy.com/app/lawrenceChege/iReporter?utm_source=github.com&utm_medium=referral&utm_content=lawrenceChege/iReporter&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/lawrenceChege/iReporter/branch/challenge-3/graph/badge.svg)](https://codecov.io/gh/lawrenceChege/iReporter)
+
+A platform where citizens can report corruption cases or government interventions
 
 ## what it does
 
@@ -46,8 +44,6 @@ It provides a platform where users can report corruption issues to the authoriti
   * Go to [iReporter](https://github.com/lawrenceChege/iReporter) on github
   * Download the zip file and extract it
   * Right click on the folder and open with terminal on linux or bash
-
-> we will continue from there :-)
 
 **Cloning option**
 
@@ -99,16 +95,16 @@ It provides a platform where users can report corruption issues to the authoriti
 
 `pytest -v `
 
-Test                               | API-endpoint                                 |HTTP-Verb |
------------------------------------| -------------------------------------------- | ------ --|
-Users can create new incident      |/api/v2/incidents/                            | POST     |
-users can view all their incidents | /api/v2/incidents/                           | GET      |
-users can view a incident          | /api/v2/incidents/<int:incident_id>/         | GET      |
-users can modify their incident    | /api/v2/incidents/<int:incident_id>/         | PUT      |
-users can delete a incident        | /api/v2/incidents/<int:incident_id>/         | DELETE   |
-Users can modify a new location    |/api/v2/incidents/<int:incident_id>/location  | PATCH    |
-users can modify a comment         | /api/v2/incidents/<int:incident_id>/comment  | GET      |
-admin can modify the status        | /api/v2/answers/<int:incident_id>/status     | PUT      |
+| Test | API-endpoint |HTTP-Verb |
+| -----| -------------|----------|
+| Users can create new incident      |/api/v2/incidents/                            | POST     |
+| users can view all their incidents | /api/v2/incidents/                           | GET      |
+| users can view a incident          | /api/v2/incidents/<int:incident_id>/         | GET      |
+| users can modify their incident    | /api/v2/incidents/<int:incident_id>/         | PUT      |
+| users can delete a incident        | /api/v2/incidents/<int:incident_id>/         | DELETE   |
+| Users can modify a new location    |/api/v2/incidents/<int:incident_id>/location  | PATCH    |
+| users can modify a comment         | /api/v2/incidents/<int:incident_id>/comment  | GET      |
+| admin can modify the status        | /api/v2/answers/<int:incident_id>/status     | PUT      |
 
 ### Author
 
@@ -121,11 +117,10 @@ admin can modify the status        | /api/v2/answers/<int:incident_id>/status   
 *Bootcamp-cohort35-comrades*
 
 *Tribeles-Team*
+*Endles-Team*
 
-### Support or Contact
+### Links to reources
 
 [Github Pages](https://lawrencechege.github.io/iReporter/)
 
 [Heroku app](https://ireporti.herokuapp.com/)
-
-*"A beautiful shell of a woman is all that is left of her"*
