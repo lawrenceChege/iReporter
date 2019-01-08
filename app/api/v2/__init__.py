@@ -1,7 +1,9 @@
 from flask import Blueprint
 from werkzeug.exceptions import MethodNotAllowed, Forbidden, BadRequest
 from flask_restplus import Api
-from app.api.v2.views.incidents import Incidents, Incident, Comment, Location, Status
+from app.api.v2.views.incidents import (Incidents, Incident, Comment,
+                                         Location, Status, Filter_by_recordtype,
+                                         MyIncidents)
 from app.api.v2.views.users import Users, User
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from twilio.base.exceptions import TwilioRestException
@@ -17,6 +19,8 @@ API.add_resource(Location, '/incidents/<int:incident_id>/location')
 API.add_resource(Status, '/incidents/<int:incident_id>/status')
 API.add_resource(Users, '/auth/signup/')
 API.add_resource(User, '/auth/login/')
+API.add_resource(Filter_by_recordtype, '/incidents/<record_type>/')
+API.add_resource(MyIncidents, '/incidents/me/')
 
 
 @API.errorhandler
