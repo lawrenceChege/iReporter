@@ -13,13 +13,12 @@ from migrations import DbModel
 
 class IncidentsModel(DbModel):
     """
-        This class handles data for the redflags views
+        This class handles data for the incident views
     """
     def __init__(self, record_type=None,location=None, status=None,
-                images=None, video=None, title=None, comment=None, createdBy=None):
+                images=None, video=None, title=None, comment=None):
         super().__init__()
         self.createdOn = time.strftime('%a, %d %b %Y, %I:%M:%S %p')
-        print(self.createdOn)
         self.modifiedOn = time.strftime('%a, %d %b %Y, %I:%M:%S %p')
         self.record_type = record_type
         self.location = location
@@ -247,8 +246,8 @@ class IncidentsModel(DbModel):
         """
         msg = 'Subject: Status update.\n Hello {}. \n Your incident with id: {} status has been changed to {}'.format( username, incident_id,status)
 
-        message = self.client.messages.create(
-            to= '+254'+ phone,
+        self.client.messages.create(
+            to='+254' + phone,
             from_=self.admin_phone,
             body=msg)
 
@@ -283,6 +282,40 @@ class IncidentsModel(DbModel):
         if self.old_status == 'resolved' and self.status != 'under-investigation':
             return None
         return True
+    def find_by_recordtype(self, record_type):
+        """
+            Filter incidents by record type
+        """
+        try:
+            self.cur.execute(
+                """ SELECT * 
+                FROM incidents
+                WHERE 
+                record_type=%s
+                """,(record_type,)
+            )
+            incidents = self.findAll()
+            print(incidents)
+            return incidents
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+    
+    def find_my_incidents(self):
+        try:
+            self.cur.execute(
+                """ SELECT * 
+                FROM incidents
+                WHERE 
+                createdBy=%s
+                """,(self.user,)
+            )
+            incidents = self.findAll()
+            print(self.user)
+            return incidents
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
 
     def current_user(self):
         """
