@@ -68,6 +68,20 @@ class UserModel(DbModel):
             print(error)
             return None
 
+    def get_all_users(self):
+        """
+            get all users
+        """
+        try:
+            self.cur.execute(
+                "SELECT * FROM users"
+            )
+            users = self.findAll()
+            return users
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
     def find_user_id(self, username):
         """
         Find user  id
@@ -105,8 +119,7 @@ class UserModel(DbModel):
                 "SELECT isAdmin FROM users WHERE user_id=%s", (user,)
                 )
             user_role = self.findOne()
-            print(user_role)
-            isAdmin = user_role.get('isAdmin')
+            isAdmin = user_role.get('isadmin')
             return isAdmin
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -136,6 +149,42 @@ class UserModel(DbModel):
                 )
             username = self.findOne()
             return username
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+    
+    def promote_user(self, user_id):
+        """
+            make a user an admin
+        """
+        try:
+            self.cur.execute(
+                """
+                    UPDATE users
+                    SET
+                    isAdmin = %s
+                    WHERE
+                    user_id = %s;
+                """,("True", user_id,)
+            )
+            self.commit()
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+            return None
+
+    def delete_user(self, user_id):
+        """
+            delete a user
+        """
+        try:
+            self.cur.execute(
+                """
+                    DELETE * FROM users
+                    WHERE
+                    user_id = %s;
+                """,(user_id,)
+            )
+            self.commit()
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
             return None
