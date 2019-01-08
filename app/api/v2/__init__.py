@@ -4,7 +4,7 @@ from flask_restplus import Api
 from app.api.v2.views.incidents import (Incidents, Incident, Comment,
                                          Location, Status, Filter_by_recordtype,
                                          MyIncidents)
-from app.api.v2.views.users import Users, User
+from app.api.v2.views.users import Users, User, ViewUsers, ManageUsers
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from twilio.base.exceptions import TwilioRestException
 
@@ -21,6 +21,8 @@ API.add_resource(Users, '/auth/signup/')
 API.add_resource(User, '/auth/login/')
 API.add_resource(Filter_by_recordtype, '/incidents/<record_type>/')
 API.add_resource(MyIncidents, '/incidents/me/')
+API.add_resource(ViewUsers, '/admin/users/')
+API.add_resource(ManageUsers, '/admin/users/<int:user_id>/')
 
 
 @API.errorhandler
