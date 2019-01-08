@@ -185,9 +185,9 @@ class Incident(Resource):
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
         
-        inc = incident.get('createdby')        
+        createdby = incident.get('createdby')        
         user = self.model.current_user()
-        if user != inc:
+        if user != createdby:
             return {'status': 403,"error": "This action is forbidden.",
             'message': ' You are trying to modify someone else post'}
         
@@ -213,12 +213,12 @@ class Incident(Resource):
         if not incident:
             return {"status": 404, "error": "Incident not found"}, 404
 
-        inc = incident.get('createdby')        
+        createdby = incident.get('createdby')        
         user = self.model.current_user()
         
         if not self.model.check_incident_status(incident_id):
             return {'status': 403,"error": "This action is forbidden."}
-        if user != inc:
+        if user != createdby:
             return {'status': 403,"error": "This action is forbidden.",
             'message': ' You are trying to delete someone else post'}
 
@@ -259,9 +259,9 @@ class Comment(Resource):
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
         
-        inc = incident.get('createdby')        
+        createdby = incident.get('createdby')        
         user = self.model.current_user()
-        if user != inc:
+        if user != createdby:
             return {'status': 403,"error": "This action is forbidden.",
             'message': ' You are trying to modify someone else post'}
         
@@ -305,9 +305,9 @@ class Location(Resource):
         incident = self.model.get_incident_by_id(incident_id)
         if not incident:
             return {"status": 404, "error": "Incindent not found"}, 404
-        inc = incident.get('createdby')
+        createdby = incident.get('createdby')
         user = self.model.current_user()
-        if user != inc:
+        if user != createdby:
             return {'status': 403,"error": "This action is forbidden",
             'message': ' You are trying to modify someone else post'}
 
