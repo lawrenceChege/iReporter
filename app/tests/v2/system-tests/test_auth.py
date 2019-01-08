@@ -118,7 +118,7 @@ class TestUsersTestCase(BaseTestCase):
         response = self.signup(self.person_invalid_password)
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
-        self.assertEqual(data['error'], 'Passord is should contain atleast 8 characters')
+        self.assertEqual(data['error'], 'Password is should contain atleast 8 characters')
 
     def test_correct_login(self):
         """

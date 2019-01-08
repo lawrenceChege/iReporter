@@ -88,7 +88,7 @@ class Incidents(Resource):
 
         if self.model.post_incident():
             return {"status": 201, "data": [{
-                "RedFlag_id": self.model.find_incident_id(comment),
+                "incident_id": self.model.find_incident_id(comment),
             }],
                 "message": "Created incident successfully!"}, 201
 
@@ -101,7 +101,7 @@ class Incidents(Resource):
             incidents = self.model.get_all_incidents()
             return {"status": 200,
                             "data": [{
-                                "RedFlags": incidents
+                                "Incidents": incidents
                             }],
                             "message": "All incidents found successfully"}, 200
         return {"status": 404,"message": 'No incidents found'},404
@@ -110,7 +110,7 @@ class Incidents(Resource):
 
 class Incident(Resource):
     """
-        This class holds methods for single redflags
+        This class holds methods for single incidents
     """
     def get(self, incident_id):
         """
@@ -123,7 +123,7 @@ class Incident(Resource):
         return {"status": 200,
                         "data": [
                             {
-                                "redflag": incident,
+                                "incident": incident,
                             }
                         ],
                         "message": "Incident successfully retrieved!"}, 200
@@ -377,3 +377,53 @@ class Status(Resource):
                                 }
                             ],
                             "message": "status successfully updated"}, 200
+
+class Filter_by_recordtype(Resource):
+    """
+        Filter records by by either redflags or incidents
+    """
+    def get(self, record_type):
+        """
+            Gets all incidents by the specified record type
+        """
+        self.model = IncidentsModel()
+        incidents = self.model.find_by_recordtype(record_type)
+        if not incidents:
+            return {
+                "status": 404,
+                "error":"No "+ record_type + "s Found"
+            },404
+        return {
+            "status":200,
+            "data":[
+                {' '+ record_type +'': incidents}
+            ],
+            "message":"All "+ record_type +"s found successfully"
+        }
+
+class MyIncidents(Resource):
+    """
+        Gets current user's Incidents
+    """
+    @jwt_required
+    def get(self):
+        """
+            Fetch current users incidents
+        """
+        self.model = IncidentsModel()
+        incidents = self.model.find_my_incidents()
+        if not incidents:
+            return {
+                "status": 404,
+                "error": "No personal incidents found"
+            },404
+        return {
+            "status" :200,
+            "data": [{
+                "incidents": incidents
+            }],
+            "message": "All my incidents found"
+        }
+
+
+
