@@ -33,7 +33,7 @@
         </ul>
     </nav>
 
-    <button class="button btn-blue" onclick="getAllIncidents(); openPage('allflags', this, '#f88282');" id="defaultOpen">All</button>
+    <button class="button btn-blue" onload="getAllIncidents(); openPage('allflags', this, '#f88282');" id="defaultOpen">All</button>
     <button class="button btn-red" onclick="openPage('redflags', this, '#041626')">Red flags</button>
     <button class="button btn-green" onclick="openPage('interventions', this, '#f88282')">Interventions</button>
     <button class="button btn-cyan" onclick="openPage('createIntervention', this, '#f88282')"> New Incident</button>
@@ -63,21 +63,13 @@
         <strong id="message" class="password"></strong>
 
         <section class="flex-container" id="allflags" >
-            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
-                <label class="title-content" for="rejected">Rejected</label>
-                <p class="flag-number">12</p>
+            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
             </div>
-            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
-                <label for="resolved" class="title-content">Resolved</label>
-                <p class="flag-number">12</p>
+            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved" style="order: 1; flex-grow: 1">
             </div>
-            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
-                <label for="drafts" class="title-content">Drafts</label>
-                <p class="flag-number">12</p>
+            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts" style="order: 4; flex-grow: 1">
             </div>
-            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
-                <label for="pending" class="title-content"> Pending</label>
-                <p class="flag-number">12</p>
+            <div onload="CountPerStatus('pending')" class="pending" id="pending" style="order: 3; flex-grow: 1">
             </div>
             <div class="flags" id="flags" style="order: 5; flex-grow: 5">
                 <ul class="flag-list" id="incident-list"> 

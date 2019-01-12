@@ -74,6 +74,7 @@ const getAllIncidents = () => {
       let incidentslist = document.getElementById('incident-list');
       incidentslist.innerHTML = '';
       for (var i=0; i < incidents.length; i++){
+        let incident_id = incidents[i].incident_id
         let title = incidents[i].title;
         let status = incidents[i].status;
         let record_type = incidents[i].record_type;
@@ -82,7 +83,7 @@ const getAllIncidents = () => {
         let comment = incidents[i].comment;
 
         incidentslist.innerHTML += '<li class="flag-list-item">' +
-                                  '<a href="#" id="id1">' +
+                                  '<a onclick="getOne(incident_id)" id='+incident_id+'>' +
                                   '<h4 class="flag-title"> Title:' + title + '</h4>' +
                                   '<strong>Status: '+status+'</strong>'+
                                   '<strong> Type: ' +record_type+ '</strong><br>'+
@@ -133,4 +134,25 @@ function postIncident() {
         alert(incidentData.message)
       }
     })
+}
+
+function CountPerStatus(status){
+  url = 'https://ireporti.herokuapp.com/api/v2/incidents/'+status
+  fetch(url, {
+    headers: {
+      'Content-type' : 'application/json;'
+    }
+  })
+  .then(response => response.json())
+  .then(StatusData => {
+    if(incidentsData.message === "All incidents found successfully"){
+      let count = StatusData.length
+      document.getElementById(status).innerHTML='<label class="title-content" for='+status+'>'+status+'</label>'+
+                                              '<p class="flag-number">'+count+'</p>'
+    }else{
+      document.getElementById('message').innerHTML = incidentsData.error;
+      alert(StatusData.message)
+      alert(StatusData.error)
+    }
+  })
 }
