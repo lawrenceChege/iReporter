@@ -12,8 +12,8 @@ APP = create_app("default")
 with APP.app_context():
         db = DbModel()
         db.init_db(APP)
-        db.drop_tables("users")
         db.drop_tables("incidents")
+        db.drop_tables("users")
         db.create_tables()
 
 if __name__ == "__main__":
