@@ -63,62 +63,34 @@
         <strong id="message" class="password"></strong>
 
         <section class="flex-container" id="allflags" >
-            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
-            </div>
-            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved" style="order: 1; flex-grow: 1">
-            </div>
-            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts" style="order: 4; flex-grow: 1">
-            </div>
-            <div onload="CountPerStatus('pending')" class="pending" id="pending" style="order: 3; flex-grow: 1">
-            </div>
-            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts"></div>
+            <div onload="CountPerStatus('pending')" class="pending" id="pending"></div>
+            <div class="flags" id="flags">
                 <ul class="flag-list" id="incident-list"> 
                 </ul>
             </div>
         </section>
 
         <section class="flex-container" id="redflags">
-            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
-                <label class="title-content" for="rejected">Rejected</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
-                <label for="resolved" class="title-content">Resolved</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
-                <label for="drafts" class="title-content">Drafts</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
-                <label for="pending" class="title-content"> Pending</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
-                               <ul class="flag-list">
+            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts"></div>
+            <div onload="CountPerStatus('pending')" class="pending" id="pending"></div>
+            <div class="flags" id="flags">
+                <ul class="flag-list" id="incident-list"> 
                 </ul>
             </div>
         </section>
 
         <section class="flex-container" id="interventions">
-            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
-                <label class="title-content" for="rejected">Rejected</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
-                <label for="resolved" class="title-content">Resolved</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
-                <label for="drafts" class="title-content">Drafts</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
-                <label for="pending" class="title-content"> Pending</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
-                <ul class="flag-list">
+            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts"></div>
+            <div onload="CountPerStatus('pending')" class="pending" id="pending"></div>
+            <div class="flags" id="flags">
+                <ul class="flag-list" id="incident-list"> 
                 </ul>
             </div>
         </section>
@@ -127,14 +99,14 @@
                 <p class="sign" align="center"> Create New Incident</p>
                 <form class="flag-form" onsubmit="reload()">
                     <div class="form-group">
-                            <label class="form-item" for="record type"> <strong> Record Type: </strong> </label><br>
-                            <select name="record_type" id="record_type" class="username">
-                                <option value="intervention">intervention</option>
-                                <option value="red-flag">red-flag</option>
-                            </select>
-                        </div>
+                        <label class="form-item" for="record type"> <strong> Record Type: </strong> </label><br>
+                        <select name="record_type" id="record_type" class="username">
+                            <option value="intervention">intervention</option>
+                            <option value="red-flag">red-flag</option>
+                        </select>
+                    </div>
                     <div class="form-group">
-                        <label class="form-item" for="username"> <strong> Title: </strong> </label><br>
+                        <label class="form-item" for="username"><strong> Title: </strong> </label><br>
                         <input id="title" class="username" type="text" align="center" placeholder="Enter red flag title" required>
                     </div>
                     <div class="form-group">
@@ -157,8 +129,49 @@
                     <a class="submit" onclick="postIncident()" align="center">Submit</a>
                     <p class="forgot" align="center"><a href="#">New Red Flag</a></p>
                 </form>
-
-
+            </div>
+        </section>
+        <a id="mymodal">Open Modal</a>
+        <section id="viewIncident" class="viewIncident">
+            <div class="incident">
+                <span class="close">&times;</span>
+                <div class="incidentTitle">
+                    <strong>
+                        <label for="title">Title: </label>
+                    </strong>
+                    <p>A burning house</p>
+                </div>
+                <div class="incidentComment">
+                    <strong>
+                        <label for="comment">Description: </label>
+                    </strong>
+                    <p>This house is burning</p>
+                </div>
+                <div class="incidentStatus">
+                    <strong>
+                        <label for="status">Status: </label>
+                    </strong>
+                    <p>Pending</p>
+                </div>
+                <div class="incidentLocation">
+                    <strong>
+                        <label for="location">Location: </label>
+                    </strong>
+                    <p>14.5, 67.9</p>
+                    <p>map <a href="http://googlemap"></a></p>
+                </div>
+                <div class="incidentUser">
+                    <strong>
+                        <label for="user">Posted By: </label>
+                    </strong>
+                    <p>Carol</p>
+                    <small>
+                        <strong>
+                            <label for="time">Posted at: </label>
+                        </strong>
+                        <p>12 Sep 2018</p>
+                    </small>                    
+                </div>
             </div>
         </section>
     </div>
