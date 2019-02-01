@@ -75,10 +75,10 @@
         </section>
 
         <section class="flex-container" id="redflags">
-            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected"></div>
-            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved"></div>
-            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts"></div>
-            <div onload="CountPerStatus('pending')" class="pending" id="pending"></div>
+            <div onload="CountPerStatus(this.id)" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus(this.id)" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus(this.id)"  class="drafts" id="under-investigation"></div>
+            <div onload="CountPerStatus(this.id)" class="pending" id="pending"></div>
             <div class="flags" id="flags">
                 <ul class="flag-list" id="incident-list"> 
                 </ul>
@@ -86,10 +86,10 @@
         </section>
 
         <section class="flex-container" id="interventions">
-            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected"></div>
-            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved"></div>
-            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts"></div>
-            <div onload="CountPerStatus('pending')" class="pending" id="pending"></div>
+            <div onload="CountPerStatus(this.id)" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus(this.id)" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus(this.id)"  class="drafts" id="under-investigation"></div>
+            <div onload="CountPerStatus(this.id)" class="pending" id="pending"></div>
             <div class="flags" id="flags">
                 <ul class="flag-list" id="incident-list"> 
                 </ul>
@@ -133,47 +133,7 @@
             </div>
         </section>
         <a id="mymodal">Open Modal</a>
-        <section id="viewIncident" class="viewIncident">
-            <div class="incident">
-                <span class="close">&times;</span>
-                <div class="incidentTitle">
-                    <strong>
-                        <label for="title">Title: </label>
-                    </strong>
-                    <p>A burning house</p>
-                </div>
-                <div class="incidentComment">
-                    <strong>
-                        <label for="comment">Description: </label>
-                    </strong>
-                    <p>This house is burning</p>
-                </div>
-                <div class="incidentStatus">
-                    <strong>
-                        <label for="status">Status: </label>
-                    </strong>
-                    <p>Pending</p>
-                </div>
-                <div class="incidentLocation">
-                    <strong>
-                        <label for="location">Location: </label>
-                    </strong>
-                    <p>14.5, 67.9</p>
-                    <p>map <a href="http://googlemap"></a></p>
-                </div>
-                <div class="incidentUser">
-                    <strong>
-                        <label for="user">Posted By: </label>
-                    </strong>
-                    <p>Carol</p>
-                    <small>
-                        <strong>
-                            <label for="time">Posted at: </label>
-                        </strong>
-                        <p>12 Sep 2018</p>
-                    </small>                    
-                </div>
-            </div>
+        <section id="viewIncident" class="viewIncident">            
         </section>
     </div>
     <footer class="footer">
