@@ -69,6 +69,7 @@ const getAllIncidents = () => {
   })
   .then(response => response.json())
   .then(incidentsData => {
+    console.log(incidentsData.message)
     if(incidentsData.message === "All incidents found successfully"){
       let incidents = incidentsData.data[0].RedFlags;
       let incidentslist = document.getElementById('incident-list');
