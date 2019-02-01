@@ -69,20 +69,22 @@ const getAllIncidents = () => {
   })
   .then(response => response.json())
   .then(incidentsData => {
+    console.log(incidentsData.message)
     if(incidentsData.message === "All incidents found successfully"){
-      let incidents = incidentsData.data[0].RedFlags;
+      let incidents = incidentsData.data[0].Incidents;
       let incidentslist = document.getElementById('incident-list');
       incidentslist.innerHTML = '';
       for (var i=0; i < incidents.length; i++){
+        let incident_id = incidents[i].incident_id
         let title = incidents[i].title;
         let status = incidents[i].status;
         let record_type = incidents[i].record_type;
         let created_on = incidents[i].createdon;
         let modifiedOn = incidents[i].modifiedon
-        let comment = incidents[i].comment;
+        // let comment = incidents[i].comment;        
 
         incidentslist.innerHTML += '<li class="flag-list-item">' +
-                                  '<a href="#" id="id1">' +
+                                  '<a onclick="getOne(this.id)" id='+incident_id+'>' +
                                   '<h4 class="flag-title"> Title:' + title + '</h4>' +
                                   '<strong>Status: '+status+'</strong>'+
                                   '<strong> Type: ' +record_type+ '</strong><br>'+
@@ -96,6 +98,7 @@ const getAllIncidents = () => {
                                   '</li>'
       }
       alert(incidentsData.message)
+      
     }else{
         document.getElementById('message').innerHTML = incidentsData.error;
         alert(incidentsData.message)
@@ -103,6 +106,50 @@ const getAllIncidents = () => {
     }
   })
 }
+
+function getOne(incident_id){
+  let url = 'https://ireporti.herokuapp.com/api/v2/incidents/'+incident_id
+  fetch(url,{
+    headers:{
+      'content-type':'application/json'
+    }
+  })
+  .then(response = response.json())
+  .then(Incident =>{
+    console.log(Incident);
+    if (Incident.message ==='Incident successfully retrieved!'){
+      let viewIncident = document.getElementById('viewIncident');
+      let incident = Incident.data.incident
+      viewIncident.innerHTML = '<div class="incident">'+
+                                '<span class="close">&times;</span>'+
+                                '<div class="incidentTitle">'+
+                                '<strong><label for="title">Title: </label></strong>'+
+                                '<p>'+incident.title+'</p></div>'+
+                                '<div class="incidentComment"><strong>'+
+                                '<label for="comment">Description: </label></strong>'+
+                                '<p>'+incident.comment+'</p></div>'+
+                                '<div class="incidentStatus"><strong>'+
+                                '<label for="status">Status: </label></strong>'+
+                                '<p>'+incident.status+'</p></div>'+
+                                '<div class="incidentLocation"><strong>'+
+                                '<label for="location">Location: </label></strong>'+
+                                '<p>'+incident.location+'</p>'+
+                                '<p>map <a href="http://googlemap"></a></p></div>'+
+                                '<div class="incidentUser"><strong>'+
+                                '<label for="user">Posted By: </label></strong>'+
+                                '<p>'+incident.createdby+'</p><small><strong>'+
+                                '<label for="time">Posted at: </label></strong>'+
+                                '<p>'+incident.created_on+'</p></small></div></div>'
+
+    }else{
+      document.getElementById('message').innerHTML = incident.error;
+      alert(incident.message)
+      alert(incident.error)
+  }
+  })
+
+}
+
 
 function postIncident() {
   let token = sessionStorage.getItem('token')
@@ -133,4 +180,25 @@ function postIncident() {
         alert(incidentData.message)
       }
     })
+}
+
+function CountPerStatus(status){
+  url = 'https://ireporti.herokuapp.com/api/v2/incidents/'+status
+  fetch(url, {
+    headers: {
+      'Content-type' : 'application/json;'
+    }
+  })
+  .then(response => response.json())
+  .then(StatusData => {
+    if(incidentsData.message === "All incidents found successfully"){
+      let count = StatusData.length
+      document.getElementById(status).innerHTML='<label class="title-content" for='+status+'>'+status+'</label>'+
+                                              '<p class="flag-number">'+count+'</p>'
+    }else{
+      document.getElementById('message').innerHTML = incidentsData.error;
+      alert(StatusData.message)
+      alert(StatusData.error)
+    }
+  })
 }

@@ -14,13 +14,12 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>
 
-<body onload="helloUser(); openPage('allflags', this, '#f88282');" >
+<body onload="openPage('allflags', this, '#f88282');" >
     <nav class="navbar">
         <span class="navbar-toggle" id="navbar-toggle">
             <i class="fas fa-bars"></i>
         </span>
         <a href="../index.html" class="navbar-brand">iReporter</a>
-        <strong id="user" class="navbar-brand"> Hello </strong>
         <ul class="navbar-right" id="navbar-right">
             <li>
                 <a href="admin-dashboard.html" class="navbar-link">
@@ -47,7 +46,9 @@
                     <div class="user-info">
                         <div id="username">
                             <label for="username"> Username</label>
-                            <p class="username"> Carol</p>
+                            <p class="username" onload="helloUser();">                      
+                                <strong id="user" class="navbar-brand"> Carol</strong>
+                            </p>
                         </div>
                         <div id="bio">
                             <label for="bio"> bio</label>
@@ -63,70 +64,34 @@
         <strong id="message" class="password"></strong>
 
         <section class="flex-container" id="allflags" >
-            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
-                <label class="title-content" for="rejected">Rejected</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
-                <label for="resolved" class="title-content">Resolved</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
-                <label for="drafts" class="title-content">Drafts</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
-                <label for="pending" class="title-content"> Pending</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
+            <div onload="CountPerStatus('rejected')" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus('resolved')" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus('under-investigation')"  class="drafts" id="drafts"></div>
+            <div onload="CountPerStatus('pending')" class="pending" id="pending"></div>
+            <div class="flags" id="flags">
                 <ul class="flag-list" id="incident-list"> 
                 </ul>
             </div>
         </section>
 
         <section class="flex-container" id="redflags">
-            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
-                <label class="title-content" for="rejected">Rejected</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
-                <label for="resolved" class="title-content">Resolved</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
-                <label for="drafts" class="title-content">Drafts</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
-                <label for="pending" class="title-content"> Pending</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
-                               <ul class="flag-list">
+            <div onload="CountPerStatus(this.id)" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus(this.id)" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus(this.id)"  class="drafts" id="under-investigation"></div>
+            <div onload="CountPerStatus(this.id)" class="pending" id="pending"></div>
+            <div class="flags" id="flags">
+                <ul class="flag-list" id="incident-list"> 
                 </ul>
             </div>
         </section>
 
         <section class="flex-container" id="interventions">
-            <div class="rejected" id="rejected" style="order: 2 ; flex-grow: 1">
-                <label class="title-content" for="rejected">Rejected</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="resolved" id="resolved" style="order: 1; flex-grow: 1">
-                <label for="resolved" class="title-content">Resolved</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="drafts" id="drafts" style="order: 4; flex-grow: 1">
-                <label for="drafts" class="title-content">Drafts</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="pending" id="pending" style="order: 3; flex-grow: 1">
-                <label for="pending" class="title-content"> Pending</label>
-                <p class="flag-number">12</p>
-            </div>
-            <div class="flags" id="flags" style="order: 5; flex-grow: 5">
-                <ul class="flag-list">
+            <div onload="CountPerStatus(this.id)" class="rejected" id="rejected"></div>
+            <div onload="CountPerStatus(this.id)" class="resolved" id="resolved"></div>
+            <div onload="CountPerStatus(this.id)"  class="drafts" id="under-investigation"></div>
+            <div onload="CountPerStatus(this.id)" class="pending" id="pending"></div>
+            <div class="flags" id="flags">
+                <ul class="flag-list" id="incident-list"> 
                 </ul>
             </div>
         </section>
@@ -135,14 +100,14 @@
                 <p class="sign" align="center"> Create New Incident</p>
                 <form class="flag-form" onsubmit="reload()">
                     <div class="form-group">
-                            <label class="form-item" for="record type"> <strong> Record Type: </strong> </label><br>
-                            <select name="record_type" id="record_type" class="username">
-                                <option value="intervention">intervention</option>
-                                <option value="red-flag">red-flag</option>
-                            </select>
-                        </div>
+                        <label class="form-item" for="record type"> <strong> Record Type: </strong> </label><br>
+                        <select name="record_type" id="record_type" class="username">
+                            <option value="intervention">intervention</option>
+                            <option value="red-flag">red-flag</option>
+                        </select>
+                    </div>
                     <div class="form-group">
-                        <label class="form-item" for="username"> <strong> Title: </strong> </label><br>
+                        <label class="form-item" for="username"><strong> Title: </strong> </label><br>
                         <input id="title" class="username" type="text" align="center" placeholder="Enter red flag title" required>
                     </div>
                     <div class="form-group">
@@ -165,9 +130,10 @@
                     <a class="submit" onclick="postIncident()" align="center">Submit</a>
                     <p class="forgot" align="center"><a href="#">New Red Flag</a></p>
                 </form>
-
-
             </div>
+        </section>
+        <a id="mymodal">Open Modal</a>
+        <section id="viewIncident" class="viewIncident">            
         </section>
     </div>
     <footer class="footer">

@@ -7,7 +7,7 @@ navBarToggle.addEventListener('click', function () {
 
 function openPage(pageName, elmnt, color) {
   // Hide all elements with class="tabcontent" by default */
-  var i, tabcontent, tablinks;
+  let i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("flex-container");
   for (i = 0; i < tabcontent.length; i++) {
       tabcontent[i].style.display = "none";
@@ -35,12 +35,27 @@ function createNewFlag(){
 function createIntervention(){
   window.location = "createintervention.html"
 }
-function initMap() {
+function initMap(location) {
   // The location of Uluru
-  var uluru = {lat: -25.344, lng: 131.036};
+  let uluru = {location};
   // The map, centered at Uluru
-  var map = new google.maps.Map(
+  let map = new google.maps.Map(
       document.getElementById('map'), {zoom: 4, center: uluru});
   // The marker, positioned at Uluru
-  var marker = new google.maps.Marker({position: uluru, map: map});
+  let marker = new google.maps.Marker({position: uluru, map: map});
+}
+// the incident modal
+let modal = document.getElementById('viewIncident');
+let btn = document.getElementById("mymodal");
+let span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+span.onclick = function() {
+  modal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
