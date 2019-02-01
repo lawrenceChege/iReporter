@@ -108,18 +108,18 @@ const getAllIncidents = () => {
 }
 
 function getOne(incident_id){
-  let url = 'https://ireporti.herokuapp.com/api/v2/incidents/'+incident_id
+  let url = 'https://ireporti.herokuapp.com/api/v2/incidents/'+incident_id+'/'
   fetch(url,{
     headers:{
       'content-type':'application/json'
     }
   })
-  .then(response = response.json())
+  .then(response => response.json())
   .then(Incident =>{
-    console.log(Incident);
     if (Incident.message ==='Incident successfully retrieved!'){
       let viewIncident = document.getElementById('viewIncident');
-      let incident = Incident.data.incident
+      let incident = Incident.data[0].incident;
+      console.log(incident.title);
       viewIncident.innerHTML = '<div class="incident">'+
                                 '<span class="close">&times;</span>'+
                                 '<div class="incidentTitle">'+
