@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,7 +13,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.5.0/css/all.css">
 </head>
 
-<body onload="openPage('allflags', this, '#f88282');" >
+<body onload="openPage('allflags', this, '#f88282'); getAllIncidents()" >
     <nav class="navbar">
         <span class="navbar-toggle" id="navbar-toggle">
             <i class="fas fa-bars"></i>
@@ -132,8 +131,23 @@
                 </form>
             </div>
         </section>
-        <a id="mymodal">Open Modal</a>
-        <section id="viewIncident" class="viewIncident">            
+        <section id="viewIncident" class="flex-containers" >
+            <div id="viewIncident">
+                <div class="incidents">
+                    <strong><label for="title">Title: </label></strong>
+                    <p id="title"> </p>
+                    <strong><label for="comment">Description: </label></strong>
+                    <p id="comment"></p>
+                    <strong><label for="status">Status: </label></strong>
+                    <p id="status"></p>                
+                    <strong><label for="location">Location: </label></strong>
+                    <p id="location"></p>
+                    <strong><label for="user">Posted By: </label></strong>
+                    <p id="user"></p>                
+                    <strong><label for="time">Posted at: </label></strong>
+                    <p id="time"></p>                
+                </div>
+            </div>
         </section>
     </div>
     <footer class="footer">

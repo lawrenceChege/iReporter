@@ -81,10 +81,9 @@ const getAllIncidents = () => {
         let record_type = incidents[i].record_type;
         let created_on = incidents[i].createdon;
         let modifiedOn = incidents[i].modifiedon
-        // let comment = incidents[i].comment;        
 
         incidentslist.innerHTML += '<li class="flag-list-item">' +
-                                  '<a onclick="getOne(this.id)" id='+incident_id+'>' +
+                                  '<a onclick="getOne(this.id);" class="view" id="'+incident_id+'">' +
                                   '<h4 class="flag-title"> Title:' + title + '</h4>' +
                                   '<strong>Status: '+status+'</strong>'+
                                   '<strong> Type: ' +record_type+ '</strong><br>'+
@@ -117,30 +116,23 @@ function getOne(incident_id){
   .then(response => response.json())
   .then(Incident =>{
     if (Incident.message ==='Incident successfully retrieved!'){
-      let viewIncident = document.getElementById('viewIncident');
       let incident = Incident.data[0].incident;
+      let title = document.getElementById("title");
+      let comment = document.getElementById("comment");
+      let status = document.getElementById("status");
+      let user = document.getElementById("user");
+      let time = document.getElementById("time");
+      let location = document.getElementById("location");
+     
       console.log(incident.title);
-      viewIncident.innerHTML = '<div class="incident">'+
-                                '<span class="close">&times;</span>'+
-                                '<div class="incidentTitle">'+
-                                '<strong><label for="title">Title: </label></strong>'+
-                                '<p>'+incident.title+'</p></div>'+
-                                '<div class="incidentComment"><strong>'+
-                                '<label for="comment">Description: </label></strong>'+
-                                '<p>'+incident.comment+'</p></div>'+
-                                '<div class="incidentStatus"><strong>'+
-                                '<label for="status">Status: </label></strong>'+
-                                '<p>'+incident.status+'</p></div>'+
-                                '<div class="incidentLocation"><strong>'+
-                                '<label for="location">Location: </label></strong>'+
-                                '<p>'+incident.location+'</p>'+
-                                '<p>map <a href="http://googlemap"></a></p></div>'+
-                                '<div class="incidentUser"><strong>'+
-                                '<label for="user">Posted By: </label></strong>'+
-                                '<p>'+incident.createdby+'</p><small><strong>'+
-                                '<label for="time">Posted at: </label></strong>'+
-                                '<p>'+incident.created_on+'</p></small></div></div>'
-
+      console.log(incident.comment);
+      title.innerHTML = incident.title;
+      comment.innerHTML = incident.comment;
+      status.innerHTML = incident.status;
+      user.innerHTML = incident.createdby;
+      location.innerHTML = incident.location;
+      time.innerHTML = incident.created_on;
+      openPage('viewIncident', this, '#f88282')
     }else{
       document.getElementById('message').innerHTML = incident.error;
       alert(incident.message)
