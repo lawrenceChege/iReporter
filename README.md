@@ -123,4 +123,4 @@ It provides a platform where users can report corruption issues to the authoriti
 
 [Github Pages](https://lawrencechege.github.io/iReporter/)
 
-[Heroku app](https://ireporti.herokuapp.com/)
+[Heroku app](https://ireporti.herokuapp.com/api/v2)
