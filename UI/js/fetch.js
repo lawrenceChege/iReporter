@@ -158,6 +158,7 @@ function postIncident() {
     }),
     headers: {
       'Authorization': t,
+      
       'Content-type': 'application/json;'
     }
   })
